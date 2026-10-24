@@ -20,7 +20,7 @@ Después, una sola vez: `ssh-copy-id -i ~/.ssh/id_ed25519.pub x2`, que pide la c
 | Reconocimiento facial (`nclub-rostro`) | podman | FaceRecognition Lite con las caras de Supabase o de su copia local |
 | Voz a texto (`nclub-voz`) | podman | Whisper `base` en la CPU del Orin: unos 2 s por frase con el Orin libre, 17–21 s con los procesos del robot corriendo (2026-10-24) |
 | PIBOT (`PIBOT/runtime/robot-runtime.mjs`) | Node, en `~/pibot_nclub/node` | corre el flujo publicado cuando alguien llega; sirve la página en `http://<robot>:8000` |
-| Puente (`pibot/puente.py --real`) | ROS del robot, con `entorno.sh` | habla, gestos y marcha con MC; cámara de la cabeza, micrófono y QR |
+| Puente (`pibot/puente.py --real`) | ROS del robot, con `entorno.sh` | habla, gestos y marcha con MC; cámara de la cabeza y micrófono |
 
 Los servicios de caras y de voz solo escuchan en el propio robot (`127.0.0.1`). PIBOT escucha en la red, para que se abra desde un celular en la Wi-Fi del robot.
 
@@ -93,7 +93,7 @@ Después borra `~/pibot_nclub`. No toca nada de otros equipos.
    - cuando alguien se acerca a la cámara, el robot lo recibe solo;
    - las aprobaciones de ingreso se deciden ahí;
    - si el robot no entiende una respuesta, se puede tocar la opción o escribir el código por el visitante.
-4. Los códigos se pueden dictar («fiesta veintisiete») o mostrar como QR a la cámara. El carné del personal, también como QR.
+4. Como en la simulación, el visitante responde hablando: los códigos se dictan («fiesta veintisiete»). Si el robot no entiende, alguien toca la opción o escribe el código en la página.
 
 ## Estado (2026-10-24)
 
