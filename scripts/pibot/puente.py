@@ -107,7 +107,7 @@ class Puente:
                 # En el robot real no se ofrece levantarlo desde PIBOT: se levanta con el control y con gente al lado
                 capacidades = ['interpret', 'places', 'pose'] + ([] if self.real else ['stand_up'])
                 if self.sentidos and self.sentidos.rostro_url:
-                    capacidades += ['identify', 'arrivals', 'scan_code']
+                    capacidades += ['identify', 'arrivals']
                 if self.sentidos and self.sentidos.voz_url:
                     capacidades.append('listen')
                 respuesta.update(capabilities=capacidades, llm=self.interprete is not None, real=self.real)
@@ -136,8 +136,6 @@ class Puente:
                 respuesta.update(self._sentido('identificar'))
             elif cmd == 'listen':
                 respuesta['text'] = self._sentido('escuchar', timeout=float(msg.get('timeout', 8)), contexto=str(msg.get('context', '')))
-            elif cmd == 'scan_code':
-                respuesta['text'] = self._sentido('leer_qr', timeout=float(msg.get('timeout', 10)))
             elif cmd == 'stop_listening':
                 self._sentido('dejar')
             elif cmd == 'wait_arrival':

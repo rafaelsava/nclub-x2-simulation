@@ -18,11 +18,6 @@ import urllib.request
 
 from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy, qos_profile_sensor_data
 from rclpy.serialization import deserialize_message
-try:
-    import cv2
-    import numpy as np
-except ImportError:  # sin OpenCV no se leen códigos QR, el resto funciona
-    cv2 = None
 from sensor_msgs.msg import CompressedImage
 
 from aimdk_msgs.msg import AudioVadStateType, ProcessedAudioOutput
@@ -50,7 +45,7 @@ class Sentidos:
         self._oyendo, self._oyendo_desde = None, 0.0
         self._cambio = threading.Condition()
         self.callado_desde = 0.0  # cuándo terminó de hablar el robot: lo que se oye antes es su propia voz
-        self._dejar = threading.Event()  # para dejar de escuchar o de buscar un QR cuando ya llegó la respuesta por otro lado
+        self._dejar = threading.Event()  # para dejar de escuchar cuando alguien ya respondió por el visitante en PIBOT
         if rostro_url:
             # Sin deserializar: la cámara manda ~30 fotos de 340 KB por segundo y solo se usan unas pocas; convertir
             # cada una ocupaba un tercio de un núcleo del Orin (2026-10-24) y Whisper se volvía 10 veces más lento
@@ -92,25 +87,8 @@ class Sentidos:
                 time.sleep(pausa)
         return mejor
 
-    def leer_qr(self, timeout=10.0):
-        """Texto del primer código QR que muestre alguien a la cámara ('' si no aparece a tiempo)."""
-        if cv2 is None:
-            raise RuntimeError('el puente no tiene OpenCV para leer códigos QR')
-        lector, fin, visto = cv2.QRCodeDetector(), time.monotonic() + timeout, 0.0
-        self._dejar.clear()
-        while time.monotonic() < fin and not self._dejar.is_set():
-            foto = self.foto() if self._foto_t > visto else None  # cada foto se mira una sola vez
-            if foto is not None:
-                visto = self._foto_t
-                img = cv2.imdecode(np.frombuffer(foto, np.uint8), cv2.IMREAD_GRAYSCALE)
-                texto = lector.detectAndDecode(img)[0] if img is not None else ''
-                if texto:
-                    return texto.strip()
-            time.sleep(0.15)
-        return ''
-
     def dejar(self):
-        """Corta la escucha o la búsqueda de QR que esté en curso."""
+        """Corta la escucha que esté en curso."""
         self._dejar.set()
         with self._cambio:
             self._cambio.notify_all()
