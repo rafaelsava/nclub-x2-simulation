@@ -4,11 +4,11 @@ El mismo puente de PIBOT mueve al robot real en vez del de MuJoCo. El PC (con el
 
 En modo real, el puente cambia cuatro cosas:
 - **Voz:** el robot dice las frases por su parlante (`PlayTts`).
-- **Velocidad:** camina a 0.2 m/s, la mínima de MC.
+- **Cómo camina:** primero **gira en el sitio** hacia el lugar y después avanza recto a 0.2 m/s, la mínima de MC (`scripts/pibot/guia_real.py`). Se detiene solo, y dice por qué, si gira al revés de lo pedido, si no avanza hacia donde cree mirar, si la posición salta o si se aleja del lugar. `python3 scripts/pibot/prueba_guia_real.py` lo prueba sin robot.
 - **Levantarse:** nunca se levanta solo, y PIBOT no muestra el botón "Levantar robot".
 - **Lugares:** usa `scripts/pibot/destinos_real.json`, no los del lobby de MuJoCo.
 
-> Esto no se ha probado todavía en el robot: solo en la simulación. Hagan la primera prueba despacio y con el control remoto en la mano.
+> Probado en el robot el 2026-10-24: voz, cámara, saludo y micrófono funcionaron; guiar caminando no. La orientación ya está corregida (con el control coincidió con lo caminado en ±5°), pero la ley de entonces giraba siempre avanzando: con el lugar detrás, se alejaba y el freno la paraba. La guía nueva gira en el sitio; todavía no se ha probado en el robot. Sigan "Probar la caminata" con el control remoto en la mano.
 
 ## Antes de ir al robot
 
@@ -57,7 +57,7 @@ En modo real, el puente cambia cuatro cosas:
    ```
    Si dice que no llega la odometría, revisen el paso 1.
 2. En PIBOT, arriba a la derecha, elijan "AgiBot X2 en MuJoCo". Al conectarse cambia a **AgiBot X2 real**, y el mapa en vivo muestra la posición real.
-3. **Lugares del robot real:** la odometría empieza en (0, 0), donde se prendió el robot, y ahí queda **Recepción**: el puesto al que vuelve.
+3. **Lugares del robot real:** el puente usa la posición del robot en el mapa del SLAM (`/slam/lidar_odom`) si el robot está relocalizado en un mapa; si no, la odometría de las piernas (`/aima/mc/leg_odometry`), que **no es estable**: el 2026-10-24 saltó unos 50 m y otra vez 10 m en pocos minutos, y no empieza en (0, 0). El puente avisa en su registro cuando la posición salta. Con la de las piernas, marquen los lugares **justo antes de probar** y vuelvan a marcarlos si el puente avisa un salto. **Recepción** es el puesto al que vuelve.
    - Con el control, lleven el robot hasta cada sitio.
    - En "Lugares", creen el lugar y pulsen **Aquí está el robot**.
    - Al final, **Guardar en el robot**. Se guarda en `destinos_real.json`; los de MuJoCo no se tocan.
@@ -68,9 +68,17 @@ En modo real, el puente cambia cuatro cosas:
 
    El robot vuelve solo a Recepción unos segundos después de terminar.
 
+## Probar la caminata (con dos personas, una con el control y otra junto al robot)
+
+1. Camino libre de 3 m y nadie delante. Con el control en la mano: si lo mueven, el control manda y PIBOT se ignora.
+2. Marquen **Recepción** donde está el robot y un lugar **a 1 m al frente**. Guíen ahí: debe avanzar recto.
+3. Marquen un lugar **a 1 m a la izquierda** del robot. Debe girar en el sitio hacia la izquierda (unos 4 s) y avanzar. Si gira a la derecha, el puente lo detiene en 2.5 s con «gira al revés de lo pedido»: avísenlo, no reintenten.
+4. Un lugar **a 2 m detrás** del robot: media vuelta en el sitio (unos 8 s) y avanza. Es el caso que falló el 24.
+5. Al volver a Recepción hace lo mismo. Revisen el registro del puente: cada parada dice el motivo.
+
 ## Lo que falta probar en el robot
 
 - **Voz:** si `PlayTts` responde pero no se oye, puede que haya que desactivar el sistema de interacción de fábrica (sección 8.1 de la documentación del SDK).
 - **Gestos:** son los movimientos predefinidos de MC, que la simulación no ejecuta.
-- **Odometría:** se desvía con el tiempo. Si los lugares dejan de coincidir, lleven el robot a Recepción, reinícienlo y vuelvan a marcar los lugares.
+- **Odometría:** la de las piernas salta; ver el paso 3. Lo estable es la del mapa: crear un mapa del lugar y relocalizar el robot (SDK 5.5.2, ejemplos `slam.py` y `relocate.py`). Con mapa también se puede usar la navegación del propio robot (PNC, SDK 5.5.3, ejemplo `navigation.py`), que esquiva obstáculos y es lo que el SDK recomienda para llegar a un punto; falta conectarla al puente.
 - **Cámara:** el reconocimiento facial sigue usando la cámara del portátil. Usar la de la cabeza del robot es un paso aparte.

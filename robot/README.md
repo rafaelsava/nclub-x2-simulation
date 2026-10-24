@@ -5,7 +5,7 @@ Todo corre en el **Orin** del robot (computador de desarrollo, `10.0.200.41` por
 | Pieza | Dónde corre | Qué hace |
 | --- | --- | --- |
 | Reconocimiento facial (`nclub-rostro`) | podman | FaceRecognition Lite con las caras de Supabase o de su copia local |
-| Voz a texto (`nclub-voz`) | podman | Whisper `base`: unos 2 s por frase en la CPU del Orin |
+| Voz a texto (`nclub-voz`) | podman | Whisper `base` en la CPU del Orin: unos 2 s por frase con el Orin libre, 17–21 s con los procesos del robot corriendo (2026-10-24) |
 | PIBOT (`PIBOT/runtime/robot-runtime.mjs`) | Node, en `~/nclub/node` | corre el flujo publicado cuando alguien llega; sirve la página en `http://<robot>:8000` |
 | Puente (`pibot/puente.py --real`) | ROS del robot, con `entorno.sh` | habla, gestos y marcha con MC; cámara de la cabeza, micrófono y QR |
 
@@ -64,10 +64,23 @@ Se revierte con el valor `'normal'`. Esto cambia la voz del robot para cualquier
    - si el robot no entiende una respuesta, se puede tocar la opción o escribir el código por el visitante.
 4. Los códigos se pueden dictar («fiesta siete K dos») o mostrar como QR a la cámara.
 
-## Pendiente
+## Estado (2026-10-24)
 
-- **Probar con el robot de pie:** el micrófono en `only_voice`, la voz `PlayTts` y la marcha. Hasta ahora todo se probó en la simulación, más la cámara y Whisper en el Orin.
-- **Navegación:** la marcha es en línea recta y no esquiva obstáculos. El robot trae navegación con mapa (PNC sobre SLAM) que sí los esquiva; falta conectarla.
-- **Odometría:** el puente usa la de las piernas (`/aima/mc/leg_odometry`) o la del SLAM. Los lugares se marcan en PIBOT con "Aquí está el robot".
-- **LLM:** no está instalado todavía (la RAM es justa y el robot no tiene internet). Sin él, se entienden las respuestas que nombran la opción; con dudas, responde una persona desde PIBOT.
-- **Supabase:** hoy solo una persona tiene sus tres plantillas visibles para la cuenta del robot.
+El 24 de octubre, al terminar las pruebas, se borró del Orin todo lo de este proyecto (el respaldo quedó en el portátil). Para volver a probar hay que instalar de nuevo, con los pasos de arriba.
+
+**Probado en el robot real:**
+- Voz con `PlayTts`: necesita internet; sin él responde `offline_cache_miss`.
+- Reconocimiento facial con la cámara de la cabeza: reconoció a las 3 personas de Supabase, con la calibración de demo (umbral bajado a mano, sin validar).
+- Saludar con la mano.
+- Escuchar en modo `only_voice` con Whisper: entiende, pero tarda de 17 a 21 s por frase porque la CPU del Orin está ocupada con los procesos del robot. Además, el micrófono captó pocas frases.
+
+**Pendiente:**
+- **Guiar caminando.** La primera versión se alejaba al girar. `guia_real.py` gira en el sitio y frena si algo va mal, pero todavía no se probó en el robot. Plan de prueba en `real/README.md`.
+- **Lugares.** La odometría de las piernas salta: hay que marcar los lugares en cada sesión. La solución es hacer un mapa, relocalizar al robot y usar `/slam/lidar_odom`; después, conectar la navegación del robot (PNC), que esquiva obstáculos.
+- **Oír más rápido y mejor:**
+  - Whisper en la GPU;
+  - que el puente le pase a Whisper las pistas de códigos y opciones, como hace la página en la simulación;
+  - elegir bien el micrófono.
+- **Lenguaje natural.** El LLM no está en el robot, así que entiende las opciones y las frases del club, pero no lenguaje libre. Hay dos caminos: el modelo 1.5b en el Orin, o el del portátil por la Wi-Fi (el puente acepta cualquier URL con `--llm`).
+- **Voz sin internet.** `nclub-voz` ya trae Piper (`/hablar`; las ruedas para ARM existen). Falta que el puente reproduzca esa voz por el parlante del robot cuando `PlayTts` falle.
+- **Varias caras.** Si hay varias personas, no decide. Habría que atender a la cara más grande.

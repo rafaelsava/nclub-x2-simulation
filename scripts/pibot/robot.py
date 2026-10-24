@@ -8,6 +8,8 @@ import math
 import threading
 import time
 
+from guia_real import GuiaReal
+
 try:
     import rclpy
     from rclpy.executors import SingleThreadedExecutor
@@ -31,9 +33,15 @@ def _normalizar(angulo):
     return math.atan2(math.sin(angulo), math.cos(angulo))
 
 
-# Odometría: la simulación la publica en /aima/hal/odom/state; el X2 real, la de las piernas de MC y la del SLAM
+# Odometría: la simulación la publica en /aima/hal/odom/state. En el X2 real, en orden de preferencia:
+# - /slam/lidar_odom: el robot en el mapa del SLAM (marco 'map', torso_link). Solo publica después de relocalizar el
+#   robot en un mapa (SDK 5.5.2); sus coordenadas no cambian al reiniciar, así que los lugares marcados duran.
+# - /aima/mc/leg_odometry: la de las piernas de MC. Siempre publica, pero arranca donde se prendió el robot y el
+#   2026-10-24 saltó ~50 m y ~10 m en pocos minutos: los lugares hay que marcarlos de nuevo en cada sesión.
 ODOMETRIA_SIM = ['/aima/hal/odom/state']
-ODOMETRIA_REAL = ['/aima/mc/leg_odometry', '/slam/localization/odometry']
+ODOMETRIA_REAL = ['/slam/lidar_odom', '/aima/mc/leg_odometry']
+ESPERA_ODOMETRIA = 3.0  # s al arrancar para ver qué odometrías publican y quedarse con la mejor
+SALTO_ODOMETRIA = 0.5   # m entre dos mensajes seguidos: un salto, no un paso
 MAX_DISTANCIA_REAL = 6.0  # m: más lejos que esto, el robot real no camina (lugar mal marcado o salto de odometría)
 
 
@@ -56,7 +64,9 @@ class RobotMC:
         self.velocidad_avance = velocidad
         self.nombre = nombre
         self.real = real
-        self.odometria = None  # el tópico del que llegan las posiciones (el primero que publique)
+        self.odometria = None  # el tópico del que llegan las posiciones (no se mezclan marcos de referencia)
+        self._vistas = set()   # odometrías que han publicado mientras se elige
+        self._desde = None     # cuándo empezó a escuchar las odometrías
         self.fuente = f'node.{nombre}'
         self._velocidad = (0.0, 0.0, 0.0)
         self._moviendo = False
@@ -77,6 +87,7 @@ class RobotMC:
         self._tts = node.create_client(PlayTts, '/aimdk_5Fmsgs/srv/PlayTts')  # voz del robot (no existe en la simulación)
         self._velocity_pub = node.create_publisher(McLocomotionVelocity, '/aima/mc/locomotion/velocity', 10)
         # La odometría se publica como best effort; con la QoS por defecto (reliable) no llega nada
+        self._desde = time.monotonic()
         for topico in (ODOMETRIA_REAL if self.real else ODOMETRIA_SIM):
             node.create_subscription(Odometry, topico, lambda m, t=topico: self._on_odom(m, t), qos_profile_sensor_data)
         node.create_timer(0.02, self._publicar_velocidad)
@@ -131,12 +142,20 @@ class RobotMC:
         return self._set_fuente(McInputAction.INPUTACTION_ENABLE)
 
     def _on_odom(self, msg, topico):
-        if self.odometria is None:  # se queda con el primero que publique, para no mezclar marcos de referencia
-            self.odometria = topico
-            print(f'odometría: {topico}', flush=True)
+        if self.odometria is None:
+            # En la simulación hay una sola. En el real se espera unos segundos y gana la preferida de las que
+            # publican; después no se cambia, para no mezclar marcos de referencia (los lugares quedarían mal)
+            self._vistas.add(topico)
+            lista = ODOMETRIA_REAL if self.real else ODOMETRIA_SIM
+            if topico == lista[0] or time.monotonic() - self._desde >= ESPERA_ODOMETRIA:
+                self.odometria = min(self._vistas, key=lista.index)
+                print(f'odometría: {self.odometria}', flush=True)
         if topico != self.odometria:
             return
         p, q = msg.pose.pose.position, msg.pose.pose.orientation
+        if self._pose and math.hypot(p.x - self._pose[0], p.y - self._pose[1]) > SALTO_ODOMETRIA:
+            print(f'la odometría saltó {math.hypot(p.x - self._pose[0], p.y - self._pose[1]):.1f} m: '
+                  'los lugares marcados antes pueden haber quedado corridos', flush=True)
         if self.real and topico == '/aima/mc/leg_odometry':
             # Esta odometría es la del sensor del pecho (lidar_imu_chest_front), montado con su eje x hacia arriba
             # (cabeceo de -88°): ahí el ángulo de Euler no sirve. Adelante es su eje z al revés (medido con el
@@ -306,27 +325,50 @@ class RobotMC:
         self._parar.set()
 
     def _ir(self, x, y, tolerancia, timeout):
-        cerca = [math.inf]  # lo más cerca que ha estado del destino
+        if self.real:
+            return self._ir_real(x, y, tolerancia, timeout)
 
         def guia(px, py, yaw):
-            d = math.hypot(x - px, y - py)
-            if d < tolerancia:
+            if math.hypot(x - px, y - py) < tolerancia:
                 return None
-            # Freno del robot real: si se aleja 30 cm de lo más cerca que estuvo, algo anda mal (la orientación,
-            # un empujón): se detiene en vez de seguir caminando (2026-10-24 se fue 2.5 m para otro lado)
-            if self.real and d > cerca[0] + 0.3:
-                print(f'  se está alejando del destino ({d:.1f} m): me detengo', flush=True)
-                return False
-            cerca[0] = min(cerca[0], d)
             return math.atan2(y - py, x - px)
-        if self.real and self._pose:
-            distancia = math.hypot(x - self._pose[0], y - self._pose[1])
-            # Un lugar muy lejos casi siempre es un lugar mal marcado (la odometría del robot real a veces salta)
-            if distancia > MAX_DISTANCIA_REAL:
-                print(f'  el lugar queda a {distancia:.0f} m: no camino; márquelo de nuevo en PIBOT', flush=True)
-                return False
-            timeout = min(timeout, 15.0 + 3 * distancia / 0.2)  # y no más de lo que tardaría a 0.2 m/s, con holgura
         return self._conducir(guia, timeout)
+
+    def _ir_real(self, x, y, tolerancia, timeout):
+        """En el robot real: gira en el sitio hacia el destino y camina recto, con los frenos de GuiaReal."""
+        if self._pose is None:
+            print('  no llega la posición del robot: no camino', flush=True)
+            return False
+        if not self.de_pie():
+            return False
+        distancia = math.hypot(x - self._pose[0], y - self._pose[1])
+        # Un lugar muy lejos casi siempre es un lugar mal marcado (la odometría del robot real a veces salta)
+        if distancia > MAX_DISTANCIA_REAL:
+            print(f'  el lugar queda a {distancia:.0f} m: no camino; márquelo de nuevo en PIBOT', flush=True)
+            return False
+        # No más de lo que tardaría a 0.2 m/s, con holgura, más una media vuelta
+        timeout = min(timeout, 25.0 + 3 * distancia / 0.2)
+        guia = GuiaReal(x, y, tolerancia, self.velocidad_avance)
+        inicio = time.monotonic()
+        self._moviendo = True
+        try:
+            while time.monotonic() - inicio < timeout:
+                if self._parar.is_set():
+                    return False
+                px, py, _, yaw = self._pose
+                orden = guia.paso(time.monotonic() - inicio, px, py, yaw)
+                if orden.fin:
+                    if orden.motivo:
+                        print(f'  {orden.motivo}: me detengo', flush=True)
+                    return orden.fin == 'llegó'
+                self._velocidad = (orden.avance, 0.0, orden.giro)
+                time.sleep(0.1)
+            print('  se acabó el tiempo para llegar: me detengo', flush=True)
+            return False
+        finally:
+            self._velocidad = (0.0, 0.0, 0.0)
+            time.sleep(0.3)  # unos comandos en cero para que MC frene antes de soltar el control
+            self._moviendo = False
 
     def _conducir(self, rumbo_deseado, timeout, velocidad=None):
         """Camina corrigiendo el rumbo. rumbo_deseado(x, y, yaw) da el ángulo a seguir, o None al llegar."""
