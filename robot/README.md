@@ -1,12 +1,25 @@
 # Recepción N Club dentro del AgiBot X2
 
-Todo corre en el **Orin** del robot (computador de desarrollo, `10.0.200.41` por el cable de SSH, `192.168.88.184` en su Wi-Fi), dentro de `~/nclub`. No se instala nada en el sistema del robot ni se toca lo de otros equipos.
+Todo corre en el **Orin** del robot (computador de desarrollo, `10.0.200.41` por el cable de SSH, `192.168.88.184` en su Wi-Fi), dentro de `~/pibot_nclub`.
+
+> **El robot es compartido.** `~/nclub` es de otro equipo, que tiene su propio agente en este Orin: no instalar ahí ni tocar sus archivos. Y no encender el puente (`./nclub.sh puente`) mientras otro equipo esté usando el robot, porque los dos sistemas mandarían el mismo cuerpo, la cámara y el micrófono.
+
+Para entrar sin contraseña, en `~/.ssh/config` del portátil:
+
+```
+Host x2
+    HostName 10.0.200.41
+    User agi
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+Después, una sola vez: `ssh-copy-id -i ~/.ssh/id_ed25519.pub x2`, que pide la clave del robot. No se instala nada en el sistema del robot ni se toca lo de otros equipos.
 
 | Pieza | Dónde corre | Qué hace |
 | --- | --- | --- |
 | Reconocimiento facial (`nclub-rostro`) | podman | FaceRecognition Lite con las caras de Supabase o de su copia local |
 | Voz a texto (`nclub-voz`) | podman | Whisper `base` en la CPU del Orin: unos 2 s por frase con el Orin libre, 17–21 s con los procesos del robot corriendo (2026-10-24) |
-| PIBOT (`PIBOT/runtime/robot-runtime.mjs`) | Node, en `~/nclub/node` | corre el flujo publicado cuando alguien llega; sirve la página en `http://<robot>:8000` |
+| PIBOT (`PIBOT/runtime/robot-runtime.mjs`) | Node, en `~/pibot_nclub/node` | corre el flujo publicado cuando alguien llega; sirve la página en `http://<robot>:8000` |
 | Puente (`pibot/puente.py --real`) | ROS del robot, con `entorno.sh` | habla, gestos y marcha con MC; cámara de la cabeza, micrófono y QR |
 
 Los servicios de caras y de voz solo escuchan en el propio robot (`127.0.0.1`). PIBOT escucha en la red, para que se abra desde un celular en la Wi-Fi del robot.
@@ -15,7 +28,7 @@ Los servicios de caras y de voz solo escuchan en el propio robot (`127.0.0.1`). 
 
 La guía del SDK (4.4, *Develop in a Container*) pide correr todo en contenedores podman sobre `l4t-base`, bajando de repositorios en China. En este robot hubo que adaptar tres cosas:
 - **Sin internet en el robot:** el Orin no tiene, y el portátil está en un hotspot lento. Las imágenes se construyen en el portátil para ARM y se cargan con `podman load` por el cable.
-- **El puente corre directo en el Orin:** usa el ROS del robot y los mensajes del SDK ya compilados para ARM (`~/nclub/aimdk_msgs`, copiados del SDK del robot; coinciden 121 de 121 con los nuestros). La v1.1.0 lo permite (modo *Quick Start*), pero hay que pasarlo a contenedor antes de la v1.2.0.
+- **El puente corre directo en el Orin:** usa el ROS del robot y los mensajes del SDK ya compilados para ARM (`~/pibot_nclub/aimdk_msgs`, copiados del SDK del robot; coinciden 121 de 121 con los nuestros). La v1.1.0 lo permite (modo *Quick Start*), pero hay que pasarlo a contenedor antes de la v1.2.0.
 - **Sin límite de CPU:** podman sin root no tiene el controlador de CPU en este Orin, así que Whisper se limita a 3 hilos.
 
 ## Instalar o actualizar (desde el portátil, por el cable)
@@ -23,24 +36,24 @@ La guía del SDK (4.4, *Develop in a Container*) pide correr todo en contenedore
 ```bash
 docker buildx build --platform linux/arm64 -t nclub-rostro:arm64 --load scripts/rostro
 docker buildx build --platform linux/arm64 -t nclub-voz:arm64 --load scripts/voz
-docker save nclub-rostro:arm64 | gzip -1 | ssh agi@10.0.200.41 podman load
-docker save nclub-voz:arm64 | gzip -1 | ssh agi@10.0.200.41 podman load
-rsync -a scripts/pibot scripts/rostro scripts/voz robot/nclub.sh agi@10.0.200.41:nclub/   # sin .env ni datos/orl
-rsync -a ../PIBOT/ agi@10.0.200.41:nclub/PIBOT/
-rsync -a ../FaceRecognition_lite/src/ agi@10.0.200.41:nclub/face_lite/src/
+docker save nclub-rostro:arm64 | gzip -1 | ssh x2 podman load
+docker save nclub-voz:arm64 | gzip -1 | ssh x2 podman load
+rsync -a scripts/pibot scripts/rostro scripts/voz robot/nclub.sh x2:pibot_nclub/   # sin .env ni datos/orl
+rsync -a ../PIBOT/ x2:pibot_nclub/PIBOT/
+rsync -a ../FaceRecognition_lite/src/ x2:pibot_nclub/face_lite/src/
 ```
 
 Si el robot no tiene internet, las caras van en una copia local. Se baja en el portátil y se pasa al robot (son datos biométricos: el archivo queda con permisos 600):
 
 ```bash
 docker run --rm --env-file scripts/rostro/.env -v ../FaceRecognition_lite:/face:ro -v $PWD/scripts/rostro:/rostro x2-rostro python servicio.py --exportar datos/galeria.json
-rsync -a scripts/rostro/datos/galeria.json agi@10.0.200.41:nclub/rostro/datos/
+rsync -a scripts/rostro/datos/galeria.json x2:pibot_nclub/rostro/datos/
 ```
 
 ## Encender (en el Orin)
 
 ```bash
-cd ~/nclub
+cd ~/pibot_nclub
 ./nclub.sh servicios   # caras, voz y PIBOT: no mueven el robot
 ./nclub.sh puente      # pide confirmación: desde aquí un flujo puede hacer caminar al robot
 ./nclub.sh estado
@@ -74,8 +87,22 @@ El 24 de octubre, al terminar las pruebas, se borró del Orin todo lo de este pr
 - Saludar con la mano.
 - Escuchar en modo `only_voice` con Whisper: entiende, pero tarda de 17 a 21 s por frase porque la CPU del Orin está ocupada con los procesos del robot. Además, el micrófono captó pocas frases.
 
+**Probado el 24 en la tarde, en otro robot compartido** (se borró todo al terminar):
+- **Instalación:** en `~/pibot_nclub`, con `entorno.sh`, `aimdk_msgs` del SDK, Node 22 y las dos imágenes. Funcionó tal como está arriba.
+- **Caras:** la copia de Supabase, bajada en el portátil (6 personas), sin la contraseña en el robot. La categoría la decide la lista de miembros del club, no la de Supabase. Con varias personas delante, atiende a la cara más grande.
+- **Micrófono:** sin `only_voice`, Lumi contesta y se queda con el audio, y a PIBOT no le llega nada. Con `only_voice` y «Hello, lumi» una sola vez, llegan las frases.
+- **Whisper:** sin los reintentos con temperatura, y con las pistas de opciones y códigos, tarda unos 2.3 s por frase (antes, a veces 42 s).
+- **Lenguaje natural:** el LLM del portátil por un túnel (`ssh -N -R 127.0.0.1:8095:127.0.0.1:8095 x2`, con `NCLUB_LLM=http://127.0.0.1:8095/v1`).
+- **Caminar** (`pibot/caminar_real.py`, sin el puente encendido):
+  - recto, a 0.2 m/s, va bien;
+  - el giro en el sitio no lo hace: MC no se mueve;
+  - girando a 0.1 m/s arranca y se detiene;
+  - a 0.2 m/s gira en un arco de unos 0.33 m, pero si el punto está más cerca que eso, da vueltas a su alrededor sin llegar.
+
+  Por eso el puente queda por defecto sin caminar.
+
 **Pendiente:**
-- **Guiar caminando.** La primera versión se alejaba al girar. `guia_real.py` gira en el sitio y frena si algo va mal, pero todavía no se probó en el robot. Plan de prueba en `real/README.md`.
+- **Guiar caminando.** Con lo de arriba: al girar avanzando, dejar de girar (o dar el lugar por alcanzado) cuando el punto quede dentro del arco. La primera versión se alejaba al girar. `guia_real.py` gira en el sitio y frena si algo va mal, pero todavía no se probó en el robot. Plan de prueba en `real/README.md`.
 - **Lugares.** La odometría de las piernas salta: hay que marcar los lugares en cada sesión. La solución es hacer un mapa, relocalizar al robot y usar `/slam/lidar_odom`; después, conectar la navegación del robot (PNC), que esquiva obstáculos.
 - **Oír más rápido y mejor:**
   - Whisper en la GPU;

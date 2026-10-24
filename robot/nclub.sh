@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# Recepción N Club en el AgiBot X2: corre en el Orin (computador de desarrollo), todo dentro de ~/nclub.
+# Recepción N Club en el AgiBot X2: corre en el Orin (computador de desarrollo), todo dentro de ~/pibot_nclub
+# (no en ~/nclub: es de otro equipo).
 #   ./nclub.sh servicios   reconocimiento facial y voz a texto (podman) y PIBOT (http://<robot>:8000). No mueven el robot.
 #   (Sin límite de CPU: en este Orin podman sin root no tiene el controlador de CPU; Whisper usa 3 hilos.)
-#   ./nclub.sh puente      el puente con MC, la cámara y el micrófono: desde aquí un flujo puede hacer caminar al robot
+#   ./nclub.sh puente      el puente con MC, la cámara y el micrófono. Por defecto no camina (al guiar, solo lo dice);
+#                          con NCLUB_CAMINAR=1 un flujo puede hacer caminar al robot
 #   ./nclub.sh estado      qué está corriendo
 #   ./nclub.sh detener     apaga todo lo de N Club (nada de otros equipos)
 set -uo pipefail
@@ -28,7 +30,8 @@ servicios() {
   if ! vivo pibot; then
     PORT=8000 HOST=0.0.0.0 PIBOT_DATA="$D/datos_pibot" nohup "$D/node/bin/node" "$D/PIBOT/runtime/robot-runtime.mjs" \
       > "$D/logs/pibot.log" 2>&1 & echo $! > "$D/run/pibot.pid"
-    echo "PIBOT: encendido en http://$(hostname -I | tr ' ' '\n' | grep -m1 '^192\.168\.'):8000 (red Wi-Fi del robot)"
+    # Las direcciones a las que se puede entrar: la Wi-Fi y el cable de desarrollo (no las redes internas del robot)
+    echo "PIBOT: encendido en $(hostname -I | tr ' ' '\n' | grep -v -E '^(10\.0\.1\.|10\.11\.|127\.)' | grep . | sed 's#.*#http://&:8000#' | tr '\n' ' ')"
   fi
 }
 
@@ -43,8 +46,10 @@ AVISO
   [[ "$r" == "si" || "$r" == "sí" ]] || { echo "No se arrancó."; return; }
   # El LLM solo si se indica (NCLUB_LLM=http://127.0.0.1:<puerto>/v1): en el robot puede haber servidores de otros equipos
   local llm=(); [[ -n "${NCLUB_LLM:-}" ]] && llm=(--llm "$NCLUB_LLM")
+  # Caminar solo si se pide: en el X2 real el giro todavía no es confiable (2026-10-24)
+  local caminar=(--sin-caminar); [[ "${NCLUB_CAMINAR:-0}" == 1 ]] && caminar=()
   ( set +u; source "$D/entorno.sh" && cd "$D/pibot" && exec python3 puente.py --real --rostro http://127.0.0.1:8096 \
-      --voz http://127.0.0.1:8097 "${llm[@]}" ) > "$D/logs/puente.log" 2>&1 & echo $! > "$D/run/puente.pid"
+      --voz http://127.0.0.1:8097 "${llm[@]}" "${caminar[@]}" ) > "$D/logs/puente.log" 2>&1 & echo $! > "$D/run/puente.pid"
   sleep 4; tail -5 "$D/logs/puente.log"
 }
 

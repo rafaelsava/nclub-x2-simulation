@@ -62,8 +62,9 @@ def _destinos_legibles(datos):
 
 
 class Puente:
-    def __init__(self, robot, destinos, interprete=None, levantar_solo=False, real=False, sentidos=None):
+    def __init__(self, robot, destinos, interprete=None, levantar_solo=False, real=False, sentidos=None, sin_caminar=False):
         self.robot = robot
+        self.sin_caminar = sin_caminar  # el robot atiende el flujo completo, pero al guiar no se mueve
         self.sentidos = sentidos  # cámara de la cabeza y micrófono del robot real (None en la simulación)
         self._ultima_llegada, self._visto, self._se_fue = 0.0, 0.0, True
         self.real = real  # el X2 de verdad: con voz, sin levantarse solo
@@ -134,7 +135,7 @@ class Puente:
             elif cmd == 'identify':
                 respuesta.update(self._sentido('identificar'))
             elif cmd == 'listen':
-                respuesta['text'] = self._sentido('escuchar', timeout=float(msg.get('timeout', 8)))
+                respuesta['text'] = self._sentido('escuchar', timeout=float(msg.get('timeout', 8)), contexto=str(msg.get('context', '')))
             elif cmd == 'scan_code':
                 respuesta['text'] = self._sentido('leer_qr', timeout=float(msg.get('timeout', 10)))
             elif cmd == 'stop_listening':
@@ -295,6 +296,9 @@ class Puente:
                 en_el_suelo_desde = None
 
     def _guiar(self, destino):
+        if self.sin_caminar:  # el flujo sigue igual: el robot dice a dónde ir, pero no camina ni busca el lugar
+            print(f'guía a: {destino} (sin caminar)', flush=True)
+            return
         ruta = self.ruta(destino)
         if self._en_el_suelo():
             raise RuntimeError('el robot está en el suelo y no puede guiar (en la simulación: ./x2 pie lo levanta)')
@@ -430,6 +434,8 @@ def main():
     parser.add_argument('--voz', metavar='URL', help='voz a texto con el micrófono del robot, p. ej. http://127.0.0.1:8097')
     parser.add_argument('--camara', default=None, help='tópico de la cámara (CompressedImage)')
     parser.add_argument('--microfono', default=None, help='tópico del micrófono (ProcessedAudioOutput)')
+    parser.add_argument('--sin-caminar', action='store_true',
+                        help='atiende todo el flujo (habla, escucha, reconoce, gesticula) pero al guiar no camina')
     parser.add_argument('--real', action='store_true',
                         help='el X2 de verdad: habla por su parlante, camina a 0.2 m/s, no se levanta solo y usa destinos_real.json')
     args = parser.parse_args()
@@ -473,8 +479,10 @@ def main():
                 'Revisa el cable al puerto de desarrollo, la IP 10.0.1.2 y ROS_DOMAIN_ID (ver README).' if args.real
                 else '¿Están corriendo ./x2 sim y ./x2 mc?'), flush=True)
     WebSocket.puente = Puente(robot, json.loads(DESTINOS.read_text(encoding='utf-8')), interprete, args.levantar_solo,
-                              args.real, sentidos)
-    if args.real:
+                              args.real, sentidos, args.sin_caminar)
+    if args.sin_caminar:
+        print('SIN CAMINAR: el robot habla, escucha, reconoce y gesticula, pero al guiar no se mueve.', flush=True)
+    elif args.real:
         print(f'ROBOT REAL: camina a {velocidad} m/s en línea recta y no esquiva obstáculos. Ten el control remoto en la mano: '
               'si lo mueves, manda el control y se ignora a PIBOT; para detenerlo de inmediato, el manual indica '
               'torque cero (L1 + R1 + Create), y el robot se desploma: alguien debe sostenerlo del asa.', flush=True)

@@ -29,6 +29,8 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+import cv2
+import numpy as np
 from face_lite import Calibration, FaceEngine, Gallery
 
 MODELOS = Path(os.environ.get('FACE_MODELS', 'modelos'))
@@ -131,6 +133,10 @@ class Reconocedor:
         if galeria is None:
             return {'status': 'not_ready', 'person': None, 'reason': self.estado.get('error')}
         r = self.motor.identify(foto, galeria, self.politica)
+        if r['status'] == 'multiple_faces':  # varias personas frente al robot: se atiende a la más cercana
+            cara = self._cara_mas_cercana(foto)
+            if cara is not None:
+                r = self.motor.identify(cara, galeria, self.politica)
         p = personas.get(r.get('person_id')) if r['status'] == 'identified' else None
         persona = p and {'person_id': r['person_id'], 'first_name': p.get('first_name'), 'last_name': p.get('last_name'),
                          'name': ' '.join(x for x in (p.get('first_name'), p.get('last_name')) if x),
@@ -143,7 +149,33 @@ class Reconocedor:
     def detectar(self, foto):
         """Solo mira si hay alguien cerca (una cara de tamaño útil); no compara con nadie ni guarda nada."""
         r = self.motor.extract(foto)
+        if r['status'] == 'multiple_faces':
+            cara = self._cara_mas_cercana(foto)
+            r = self.motor.extract(cara) if cara is not None else r
         return {'cerca': r['status'] == 'ok', 'status': r['status']}
+
+    def _cara_mas_cercana(self, foto):
+        """Con varias caras en la foto, la más grande (la persona más cercana al robot), recortada con margen.
+
+        FaceRecognition Lite rechaza una foto con varias caras; aquí se elige una antes de dársela. Usa el mismo
+        detector (YuNet) del motor y devuelve la imagen BGR recortada, o None si no se puede.
+        """
+        try:
+            bgr = self.motor._load(foto)
+        except Exception:
+            return None
+        h, w = bgr.shape[:2]
+        escala = min(1.0, self.motor.config.detector_max_side / max(h, w))
+        chica = cv2.resize(bgr, (max(1, round(w * escala)), max(1, round(h * escala))))
+        with self.motor._lock:
+            self.motor._detector.setInputSize((chica.shape[1], chica.shape[0]))
+            _, caras = self.motor._detector.detect(chica)
+        if caras is None or len(caras) < 2:
+            return None
+        x, y, cw, ch = caras[int(np.argmax(caras[:, 2] * caras[:, 3]))][:4] / escala
+        m = 0.5  # margen alrededor de la cara, para que el detector la vuelva a encontrar sola
+        x0, y0, x1, y1 = int(max(0, x - m * cw)), int(max(0, y - m * ch)), int(min(w, x + cw * (1 + m))), int(min(h, y + ch * (1 + m)))
+        return bgr[y0:y1, x0:x1].copy()
 
     def resumen(self):
         hace = round(time.time() - self.estado['sincronizado']) if self.estado.get('sincronizado') else None

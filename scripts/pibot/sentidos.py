@@ -13,6 +13,7 @@ import json
 import threading
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy, qos_profile_sensor_data
@@ -136,7 +137,7 @@ class Sentidos:
                 self._oyendo = None
                 self._cambio.notify_all()
 
-    def escuchar(self, timeout=8.0):
+    def escuchar(self, timeout=8.0, contexto=''):
         """Lo próximo que diga alguien, en texto ('' si nadie habla a tiempo). Ignora lo que el robot oyó de sí mismo."""
         if not self.voz_url:
             raise RuntimeError('el puente no tiene voz a texto (--voz)')
@@ -158,4 +159,6 @@ class Sentidos:
         inicio, termino, pcm = frase
         if termino - inicio < 0.3 or len(pcm) < 16000 * 2 * 0.3:
             return ''  # un ruido corto, no una frase
-        return _post(f'{self.voz_url}/transcribir', pcm, timeout=30.0).get('texto', '').strip()
+        # contexto: lo que se espera oír (las opciones, los códigos del club), para que Whisper lo escriba igual
+        consulta = f'?contexto={urllib.parse.quote(contexto[:600])}' if contexto else ''
+        return _post(f'{self.voz_url}/transcribir{consulta}', pcm, timeout=30.0).get('texto', '').strip()

@@ -19,6 +19,7 @@ import functools
 import io
 import json
 import os
+import threading
 import time
 import urllib.parse
 import wave
@@ -58,12 +59,20 @@ if os.path.isfile(PIPER):
         print('sin Piper instalado: el servicio solo escucha', flush=True)
 
 
+# Una frase a la vez: dos en paralelo se reparten la CPU del Orin y las dos llegan tarde
+_whisper = threading.Lock()
+
+
 def transcribir(pcm, contexto=''):
     audio = np.frombuffer(pcm, dtype='<i2').astype(np.float32) / 32768.0
     t0 = time.perf_counter()
-    partes, _ = modelo.transcribe(audio, language='es', beam_size=1, vad_filter=False,
-                                  condition_on_previous_text=False, initial_prompt=f'{CONTEXTO} {contexto}'.strip())
-    texto = ' '.join(p.text.strip() for p in partes).strip()
+    # temperature=0: sin los reintentos con más azar que Whisper hace cuando duda (en el Orin llegaron a tardar 42 s);
+    # max_new_tokens: las respuestas del visitante son cortas, y así una frase confusa no se alarga
+    with _whisper:
+        partes, _ = modelo.transcribe(audio, language='es', beam_size=1, vad_filter=False, temperature=0.0,
+                                      max_new_tokens=40, without_timestamps=True, condition_on_previous_text=False,
+                                      initial_prompt=f'{CONTEXTO} {contexto}'.strip())
+        texto = ' '.join(p.text.strip() for p in partes).strip()
     ms = round((time.perf_counter() - t0) * 1000)
     print(f'transcribir: {len(audio) / 16000:.1f} s de audio en {ms} ms', flush=True)  # sin el texto: es lo que dijo alguien
     return {'texto': texto, 'ms': ms, 'segundos': round(len(audio) / 16000, 2)}
