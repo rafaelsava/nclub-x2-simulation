@@ -20,7 +20,7 @@ ROSTRO_CONTAINER=x2-rostro
 ROSTRO_PORT=8096
 ROSTRO_DIR="${ROOT_DIR}/scripts/rostro"
 # Voz a texto (faster-whisper) para lo que oye el micrófono del robot
-VOZ_IMAGE=x2-voz:latest
+VOZ_IMAGE=x2-voz:2  # 2: con Piper, para que el robot hable en la simulación
 VOZ_CONTAINER=x2-voz
 VOZ_PORT=8097
 VOZ_DIR="${ROOT_DIR}/scripts/voz"
@@ -292,6 +292,15 @@ cmd_voz() {
   # small por defecto; base es más rápido y algo menos preciso (./x2 voz base)
   local modelo="${1:-small}"
   docker image inspect "${VOZ_IMAGE}" >/dev/null 2>&1 || docker build -t "${VOZ_IMAGE}" "${VOZ_DIR}"
+  # La voz con la que habla el robot en la simulación (Piper, 63 MB, una sola vez)
+  local piper="${VOZ_DIR}/modelos/piper" base="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/es/es_MX/claude/high"
+  if [[ ! -f "${piper}/es_MX-claude-high.onnx" ]]; then
+    echo "Bajando la voz del robot (Piper es_MX-claude-high)…"
+    mkdir -p "${piper}"
+    curl -fsSL --retry 5 -o "${piper}/es_MX-claude-high.onnx.json" "${base}/es_MX-claude-high.onnx.json"
+    curl -fSL --retry 5 -o "${piper}/es_MX-claude-high.onnx.part" "${base}/es_MX-claude-high.onnx"
+    mv "${piper}/es_MX-claude-high.onnx.part" "${piper}/es_MX-claude-high.onnx"
+  fi
   docker rm -f "${VOZ_CONTAINER}" >/dev/null 2>&1 || true
   # Como el LLM: CPU limitada y poca prioridad, para no quitarle tiempo a MC
   docker run -d --name "${VOZ_CONTAINER}" --user "$(id -u):$(id -g)" -e HOME=/tmp --cpus 4 --cpu-shares 256 \
@@ -345,7 +354,8 @@ PIBOT (la plataforma: editor de flujos sin código, en la carpeta PIBOT/):
   llm-down       Detiene el LLM
   rostro         Reconocimiento facial real (cámara del portátil en PIBOT + personas de Supabase)
   rostro-down    Detiene el reconocimiento facial
-  voz [small|base] Voz a texto (Whisper) para lo que oye el micrófono del robot
+  voz [small|base] La voz del robot: Whisper entiende lo que oye y Piper le da voz. En la simulación, PIBOT
+                 lo usa con el micrófono y el parlante del portátil ("Voz" y "Micrófono" en el robot)
 
 Robot X2 real (PC por cable al puerto de desarrollo, IP 10.0.1.2; sin ./x2 sim ni ./x2 mc; ver real/README.md):
   real-check     Revisa la red y le pregunta su modo a MC (no mueve el robot)

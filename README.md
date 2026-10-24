@@ -45,10 +45,11 @@ Cada comando va en su propia terminal y en este orden:
 ./x2 llm     # opcional: LLM local para lenguaje natural
 ./x2 pibot   # terminal 3: puente para PIBOT (en PIBOT/: python3 -m http.server 8000)
 ./x2 rostro  # opcional: reconocimiento facial real (cámara del portátil + personas de Supabase)
+./x2 voz     # opcional: hablar con el robot (micrófono y parlante del portátil, Whisper + Piper)
 ./x2 down    # al terminar
 ```
 
-Con `./x2 llm` corriendo antes de `./x2 pibot`, PIBOT entiende respuestas con palabras propias. Los modelos quedan en `modelos/` (2–3 GB, no subirlos a git). Más detalles en `scripts/pibot/README.md`.
+Con `./x2 llm` corriendo antes de `./x2 pibot`, PIBOT entiende respuestas con palabras propias. Con `./x2 voz`, en PIBOT se activan **Voz** y **Micrófono** arriba del robot: el robot habla por el parlante del portátil y escucha lo que se le responde. La primera vez se bajan Whisper `small` (480 MB) y la voz de Piper (63 MB). Los modelos quedan en `modelos/` (2–3 GB, no subirlos a git). Más detalles en `scripts/pibot/README.md`.
 
 Para probar solo el movimiento, sin PIBOT: `./x2 demo` camina, gira y se detiene.
 
@@ -59,7 +60,7 @@ Para probar solo el movimiento, sin PIBOT: `./x2 demo` camina, gira y se detiene
 Va en `scripts/`, que se monta en el contenedor como `/workspace/scripts`:
 
 - **`robot/`**: la recepción corriendo dentro del X2 (Orin): `nclub.sh` y cómo instalar, encender y usar; ver su `README.md`.
-- **`scripts/voz/`**: voz a texto (Whisper) para lo que oye el micrófono del robot (`./x2 voz`).
+- **`scripts/voz/`**: la voz del robot (`./x2 voz`): Whisper entiende lo que oye y Piper le da voz (`/hablar`). En el robot real, el puente le manda lo que oye el micrófono del X2. En la simulación, PIBOT le manda lo que oye el micrófono del portátil y reproduce la voz del robot.
 - **`real/`**: cómo probar con el X2 real (cable, IP fija 10.0.1.2, `./x2 real-check` y `./x2 pibot-real`); ver su `README.md`.
 - **`scripts/rostro/`**: el reconocimiento facial real: FaceRecognition Lite (de Fermín, en `../FaceRecognition_lite`) con las personas registradas en Supabase, como servicio local para PIBOT. Se corre con `./x2 rostro`; ver su `README.md`.
 - **`scripts/pibot/`**: el puente que permite que los flujos de PIBOT muevan al X2 en MuJoCo, junto con el control del robot (`robot.py`) y el lenguaje natural (`lenguaje.py`, `evaluar_lenguaje.py`). Se corre con `./x2 pibot`; ver su `README.md`.
