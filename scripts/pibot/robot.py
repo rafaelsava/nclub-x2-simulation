@@ -109,6 +109,8 @@ class RobotMC:
         self._velocidad = (0.0, 0.0, 0.0)
         self._moviendo = False
         self._set_fuente(McInputAction.INPUTACTION_DISABLE)
+        if self.voz_propia:
+            self.voz_propia.soltar()
         self._executor.shutdown()
         self._spin_thread.join(timeout=2.0)
         self._node.destroy_node()

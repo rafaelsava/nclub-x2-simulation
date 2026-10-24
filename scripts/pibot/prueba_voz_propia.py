@@ -14,7 +14,7 @@ import rclpy
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 
-from aimdk_msgs.msg import AudioPlayback, CommonState
+from aimdk_msgs.msg import AudioPlayback, CommonState, FocusResponse
 from aimdk_msgs.srv import AbandonAudioFocus, RequestAudioFocus
 from voz_propia import FRECUENCIA, VozPropia
 
@@ -30,6 +30,10 @@ class Parlante(Node):
         self.create_service(RequestAudioFocus, '/aimdk_5Fmsgs/srv/RequestAudioFocus', self._pedir)
         self.create_service(AbandonAudioFocus, '/aimdk_5Fmsgs/srv/AbandonAudioFocus', self._soltar)
         self.create_subscription(AudioPlayback, '/aima/hal/audio/playback', self._sonar, 50)
+        self.aviso = self.create_publisher(FocusResponse, '/aima/hal/audio/focus_response', 10)
+
+    def quitar_foco(self, paquete):  # como cuando el robot da el parlante a una alerta suya
+        self.aviso.publish(FocusResponse(pkg_name=paquete, focus_gain=False))
 
     def _pedir(self, req, res):
         self.eventos.append(('pedir', req.focus_requester.pkg_name, time.monotonic()))
@@ -89,6 +93,17 @@ comprobar(len(parlante.fichas) == 1, 'una sola ficha por frase')
 comprobar(segundos <= dura <= segundos + 1.5, f'volvió cuando terminó de sonar ({dura:.1f} s)')
 ritmo = parlante.llegadas[-1] - parlante.llegadas[0]
 comprobar(segundos - 1.0 <= ritmo <= segundos, f'mandó el audio al ritmo en que suena ({ritmo:.1f} s)')
+# El robot le quita el parlante a mitad de la frase: deja de mandar audio y lo suelta igual
+parlante.eventos.clear(); parlante.audio.clear(); parlante.llegadas.clear()
+frase = 'Le pongo al día mientras caminamos. Hoy hay un grupo grande a la hora del almuerzo en el restaurante.'
+total = len(voz.sintetizar(frase))
+threading.Timer(1.2, parlante.quitar_foco, args=(voz.paquete,)).start()
+t0 = time.monotonic()
+voz.decir(frase)
+dura = time.monotonic() - t0
+time.sleep(0.3)
+comprobar(0 < len(parlante.audio) < total and dura < 2.5, f'si pierde el foco, deja de mandar audio enseguida ({dura:.1f} s, {len(parlante.audio)} de {total} bytes)')
+comprobar([e[0] for e in parlante.eventos] == ['pedir', 'soltar'], 'y suelta el foco igual')
 print('todos correctos' if not fallas else f'{fallas} fallas')
 rclpy.shutdown()
 sys.exit(1 if fallas else 0)

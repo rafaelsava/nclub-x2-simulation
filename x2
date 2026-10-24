@@ -416,7 +416,7 @@ cmd_robot_limpiar() {
     rsync -a "${h}:${ROBOT_DIR}/logs" "${h}:${ROBOT_DIR}/datos_pibot" "${destino}/" 2>/dev/null && echo "registros guardados en ${destino}"
     robot_ssh "${h}" "cd ~/${ROBOT_DIR} && ./nclub.sh limpiar"
   fi
-  robot_ssh "${h}" "rm -rf ~/${ROBOT_DIR} && echo '~/${ROBOT_DIR}: borrado'"
+  robot_ssh "${h}" "rm -rf ~/${ROBOT_DIR:?} && echo '~/${ROBOT_DIR}: borrado'"
   echo "Si no van a volver, quiten también la llave de este portátil del ~/.ssh/authorized_keys del robot."
 }
 

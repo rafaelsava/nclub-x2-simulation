@@ -51,13 +51,22 @@ modelo = WhisperModel(LOCAL if os.path.isfile(os.path.join(LOCAL, 'model.bin')) 
                       compute_type='int8', cpu_threads=HILOS, download_root='modelos')
 print(f'Whisper {MODELO} listo en {time.perf_counter() - inicio:.1f} s', flush=True)
 
-# La voz para hablar es opcional: el robot real usa la suya y no necesita Piper
+# La voz para hablar: la de la simulación y, en el robot real, la que reemplaza a la de fábrica (acento inglés)
 voz = None
 if os.path.isfile(PIPER):
     try:
+        import onnxruntime
         from piper import PiperVoice
-        voz = PiperVoice.load(PIPER)
-        print(f'voz del robot: {os.path.basename(PIPER)}', flush=True)
+        from piper.config import PiperConfig
+        # Con los mismos hilos que Whisper: PiperVoice.load usa todos los núcleos, y en el Orin le quitaría la CPU al
+        # SLAM y a la percepción del robot mientras genera cada frase
+        opciones = onnxruntime.SessionOptions()
+        opciones.intra_op_num_threads, opciones.inter_op_num_threads = HILOS, 1
+        with open(f'{PIPER}.json', encoding='utf-8') as f:
+            config = PiperConfig.from_dict(json.load(f))
+        voz = PiperVoice(config=config, session=onnxruntime.InferenceSession(
+            PIPER, sess_options=opciones, providers=['CPUExecutionProvider']))
+        print(f'voz del robot: {os.path.basename(PIPER)} ({HILOS} hilos)', flush=True)
     except ImportError:
         print('sin Piper instalado: el servicio solo escucha', flush=True)
 

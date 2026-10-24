@@ -101,6 +101,8 @@ La voz de fábrica del X2 (`PlayTts`, generada en la nube de AgiBot) solo trae c
 
 Por eso el puente del robot habla, por defecto, con **la voz de la simulación**: Piper en español (`es_MX-claude-high`), en el servicio de voz del Orin. `pibot/voz_propia.py` manda cada frase al parlante por el tópico `/aima/hal/audio/playback`, como el ejemplo oficial `play_audio_stream.py`: pide el foco de audio, publica el PCM a 16 kHz al ritmo en que suena y suelta el foco. No hace falta poner archivos en el PC3.
 - Si el servicio no tiene Piper o el robot no da el foco, esa frase sale con la voz de fábrica.
+- Si el robot le da el parlante a otro a mitad de una frase (una alerta suya), deja de mandar audio enseguida. Al cerrar el puente, siempre suelta el foco.
+- Piper usa los mismos hilos que Whisper (`VOZ_HILOS`, 3 en el Orin), para no quitarle la CPU al SLAM ni a la percepción del robot.
 - `NCLUB_VOZ=fabrica ./nclub.sh puente` vuelve a la voz de fábrica.
 - `pibot/prueba_voz_propia.py` lo prueba sin robot, contra un parlante imitado.
 - En el portátil, Piper tarda de 0.2 a 0.6 s por frase; en el Orin, más. Todavía no se ha probado en el robot.
