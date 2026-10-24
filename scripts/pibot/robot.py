@@ -187,7 +187,12 @@ class RobotMC:
 
     def _vigilar_modo(self):
         while rclpy.ok():
-            self._modo = self._leer_modo()
+            try:
+                self._modo = self._leer_modo()
+            except Exception:  # al cerrar, ROS se apaga a mitad de una consulta: no es un error
+                if not rclpy.ok():
+                    return
+                raise
             time.sleep(1.0)
 
     def _pedir_modo(self, modo):

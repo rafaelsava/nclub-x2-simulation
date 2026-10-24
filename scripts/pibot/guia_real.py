@@ -32,6 +32,8 @@ class Orden:
 class GuiaReal:
     GIRO = 0.4          # rad/s al girar en el sitio (MC acepta hasta 1.0 en velocidad baja)
     GIRO_ARCO = 0.6     # rad/s si MC no gira en el sitio y hay que girar avanzando
+    AVANCE_ARCO = 0.2   # m/s al girar avanzando (arco de ~0.33 m): en el X2 real, con 0.1 empieza a girar y se queda quieto
+    GIRO_MINIMO = math.radians(15)  # a los PRUEBA_GIRO s girando en el sitio tiene que haber girado al menos esto
     ALINEADO = math.radians(20)    # con menos error que esto, camina
     REALINEAR = math.radians(50)   # si caminando el error pasa de esto, se detiene a girar otra vez
     GIRO_CAMINANDO = 0.4           # corrección máxima mientras camina
@@ -100,13 +102,15 @@ class GuiaReal:
             girado = normalizar(yaw - yaw0) * sentido
             if girado < -math.radians(10):
                 return self._freno(f'gira al revés de lo pedido ({math.degrees(girado):.0f}° en {t - t0:.1f} s)')
-            if girado < math.radians(5):
+            # El primer paso mueve el rumbo unos grados aunque no gire (2026-10-24, X2 real: +6° y nada más): por eso
+            # se pide un giro claro. En ese robot el giro puro no lo movió; avanzando un poco, sí gira.
+            if girado < (math.radians(5) if self.arco else self.GIRO_MINIMO):
                 if self.arco:
                     return self._freno('no logra girar')
                 self.arco, self._giro = True, None  # MC no gira quieto: se intenta girando mientras avanza
-                return Orden(self.avance, sentido * self.GIRO_ARCO)
+                return Orden(self.AVANCE_ARCO, sentido * self.GIRO_ARCO)
         if t - t0 > self.MAX_GIRO:
             return self._freno('no termina de girar')
         if d > self._d_giro + (0.6 if self.arco else 0.3):
             return self._freno(f'se desplaza al girar ({d:.1f} m del destino)')
-        return Orden(self.avance, sentido * self.GIRO_ARCO) if self.arco else Orden(0.0, sentido * self.GIRO)
+        return Orden(self.AVANCE_ARCO, sentido * self.GIRO_ARCO) if self.arco else Orden(0.0, sentido * self.GIRO)
