@@ -25,6 +25,7 @@ import socketserver
 import struct
 import threading
 import time
+import urllib.request
 import unicodedata
 from pathlib import Path
 
@@ -432,6 +433,9 @@ def main():
     parser.add_argument('--voz', metavar='URL', help='voz a texto con el micrófono del robot, p. ej. http://127.0.0.1:8097')
     parser.add_argument('--camara', default=None, help='tópico de la cámara (CompressedImage)')
     parser.add_argument('--microfono', default=None, help='tópico del micrófono (ProcessedAudioOutput)')
+    parser.add_argument('--voz-propia', action='store_true',
+                        help='en el robot real, hablar con la voz en español de Piper (la de la simulación, del servicio --voz) '
+                             'por su parlante, en vez de la de fábrica, que solo trae chino e inglés')
     parser.add_argument('--sin-caminar', action='store_true',
                         help='atiende todo el flujo (habla, escucha, reconoce, gesticula) pero al guiar no camina')
     parser.add_argument('--real', action='store_true',
@@ -467,6 +471,19 @@ def main():
         sentidos = Sentidos(robot._node, args.rostro, args.voz, args.camara or CAMARA, args.microfono or MICROFONO)
         print('Sentidos: ' + ', '.join(s for s, on in (('cámara de la cabeza', args.rostro), ('micrófono', args.voz)) if on),
               flush=True)
+    if args.voz_propia:
+        if not (args.real and args.voz):
+            parser.error('--voz-propia es para el robot real (--real) y necesita el servicio de voz (--voz)')
+        try:
+            with urllib.request.urlopen(f'{args.voz.rstrip("/")}/estado', timeout=5) as r:
+                habla = json.load(r).get('habla')
+        except (OSError, ValueError):
+            habla = False
+        if habla:
+            robot.usar_voz_propia(args.voz)
+            print('Voz: la de Piper en español (la de la simulación) por el parlante del robot', flush=True)
+        else:  # el robot sigue hablando, con su voz de fábrica
+            print('Voz: el servicio de voz no tiene Piper; el robot habla con su voz de fábrica (acento inglés)', flush=True)
     if not args.sin_robot:  # sin odometría no hay robot: mejor decirlo ahora que cuando PIBOT lo mande a caminar
         for _ in range(80):
             if robot.estado().get('x') is not None:  # en el real no hay altura: basta con que llegue la posición

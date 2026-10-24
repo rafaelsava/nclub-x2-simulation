@@ -95,6 +95,16 @@ Después borra `~/pibot_nclub`. No toca nada de otros equipos.
    - si el robot no entiende una respuesta, se puede tocar la opción o escribir el código por el visitante.
 4. Como en la simulación, el visitante responde hablando: los códigos se dictan («fiesta veintisiete»). Si el robot no entiende, alguien toca la opción o escribe el código en la página.
 
+### La voz en español
+
+La voz de fábrica del X2 (`PlayTts`, generada en la nube de AgiBot) solo trae chino e inglés: el asistente reporta `zh,en`, y el idioma del robot (`GetRobotLanguage`) estaba en `en`. Por eso lee nuestras frases en español con acento inglés.
+
+Por eso el puente del robot habla, por defecto, con **la voz de la simulación**: Piper en español (`es_MX-claude-high`), en el servicio de voz del Orin. `pibot/voz_propia.py` manda cada frase al parlante por el tópico `/aima/hal/audio/playback`, como el ejemplo oficial `play_audio_stream.py`: pide el foco de audio, publica el PCM a 16 kHz al ritmo en que suena y suelta el foco. No hace falta poner archivos en el PC3.
+- Si el servicio no tiene Piper o el robot no da el foco, esa frase sale con la voz de fábrica.
+- `NCLUB_VOZ=fabrica ./nclub.sh puente` vuelve a la voz de fábrica.
+- `pibot/prueba_voz_propia.py` lo prueba sin robot, contra un parlante imitado.
+- En el portátil, Piper tarda de 0.2 a 0.6 s por frase; en el Orin, más. Todavía no se ha probado en el robot.
+
 ## Estado (2026-10-24)
 
 El 24 de octubre, al terminar las pruebas, se borró del Orin todo lo de este proyecto (el respaldo quedó en el portátil). Para volver a probar hay que instalar de nuevo, con los pasos de arriba.

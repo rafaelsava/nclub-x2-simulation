@@ -363,7 +363,7 @@ cmd_robot_instalar() {
   echo "Copiando el código, el SDK y los modelos (sin credenciales ni caras)..."
   rsync -a --exclude __pycache__ --exclude destinos_real.json "${ROOT_DIR}/scripts/pibot" "${h}:${ROBOT_DIR}/"
   rsync -a --exclude .env --exclude datos/galeria.json --exclude datos/orl/ --exclude __pycache__ "${ROSTRO_DIR}/" "${h}:${ROBOT_DIR}/rostro/"
-  rsync -a --exclude pruebas --exclude modelos/faster-whisper-small --exclude 'modelos/models--*' --exclude modelos/piper \
+  rsync -a --exclude pruebas --exclude modelos/faster-whisper-small --exclude 'modelos/models--*' \
     --exclude __pycache__ "${VOZ_DIR}/" "${h}:${ROBOT_DIR}/voz/"
   rsync -a "${ROOT_DIR}/robot/nclub.sh" "${ROOT_DIR}/robot/entorno.sh" "${h}:${ROBOT_DIR}/"
   rsync -a --delete "${sdk}/" "${h}:${ROBOT_DIR}/aimdk_msgs/"

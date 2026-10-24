@@ -4,7 +4,8 @@
 #   ./nclub.sh servicios   reconocimiento facial y voz a texto (podman) y PIBOT (http://<robot>:8000). No mueven el robot.
 #   (Sin límite de CPU: en este Orin podman sin root no tiene el controlador de CPU; Whisper usa 3 hilos.)
 #   Whisper escucha como en la madrugada del 2026-10-24, sin pistas de opciones ni códigos; VOZ_PISTAS=1 las activa.
-#   ./nclub.sh puente      el puente con MC, la cámara y el micrófono. Por defecto no camina (al guiar, solo lo dice);
+#   ./nclub.sh puente      el puente con MC, la cámara y el micrófono. Habla con la voz en español de Piper (NCLUB_VOZ=fabrica:
+#                          la de fábrica). Por defecto no camina (al guiar, solo lo dice);
 #                          con NCLUB_CAMINAR=1 un flujo puede hacer caminar al robot
 #   ./nclub.sh asistente propio|normal   el asistente de voz de fábrica (Lumi): «propio» lo calla (only_voice) para que
 #                          el micrófono le llegue a PIBOT; después hay que decir «Hello, lumi» una vez. «normal» lo devuelve
@@ -57,8 +58,11 @@ AVISO
   local llm=(); [[ -n "${NCLUB_LLM:-}" ]] && llm=(--llm "$NCLUB_LLM")
   # Caminar solo si se pide: en el X2 real el giro todavía no es confiable (2026-10-24)
   local caminar=(--sin-caminar); [[ "${NCLUB_CAMINAR:-0}" == 1 ]] && caminar=()
+  # Habla con la voz en español de Piper (la de la simulación): la de fábrica solo trae chino e inglés.
+  # NCLUB_VOZ=fabrica vuelve a la voz de fábrica
+  local voz=(--voz-propia); [[ "${NCLUB_VOZ:-propia}" == fabrica ]] && voz=()
   ( set +u; source "$D/entorno.sh" && cd "$D/pibot" && exec python3 puente.py --real --rostro http://127.0.0.1:8096 \
-      --voz http://127.0.0.1:8097 "${llm[@]}" "${caminar[@]}" ) > "$D/logs/puente.log" 2>&1 & echo $! > "$D/run/puente.pid"
+      --voz http://127.0.0.1:8097 "${llm[@]}" "${caminar[@]}" "${voz[@]}" ) > "$D/logs/puente.log" 2>&1 & echo $! > "$D/run/puente.pid"
   sleep 4; tail -5 "$D/logs/puente.log"
 }
 
@@ -132,5 +136,5 @@ case "${1:-estado}" in
   llegadas) llegadas "${2:-}" ;;
   demo) demo "${2:-}" ;;
   limpiar) limpiar ;;
-  *) sed -n 2,17p "$D/nclub.sh" ;;
+  *) sed -n 2,18p "$D/nclub.sh" ;;
 esac

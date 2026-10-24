@@ -74,6 +74,7 @@ class RobotMC:
         self._inclinacion = 0.0
         self._pose = None
         self._modo = None
+        self.voz_propia = None  # VozPropia: hablar con Piper en vez de la voz de fábrica (solo el robot real)
 
     def iniciar(self):
         # Ctrl+C y SIGTERM los maneja app.py; si rclpy los toma, apaga ROS pero el programa sigue vivo
@@ -263,11 +264,24 @@ class RobotMC:
                     break  # el intento terminó en el suelo (a veces cae del otro lado): se reintenta desde ahí
         return bool(self._pose and self._pose[2] > 0.55)
 
+    def usar_voz_propia(self, voz_url):
+        """Desde ahora habla con la voz en español de Piper (la de la simulación) por el parlante del robot."""
+        from voz_propia import VozPropia
+        self.voz_propia = VozPropia(self._node, voz_url, self._call)
+
     def hablar(self, texto):
-        """Dice el texto por el parlante del robot (PlayTts, como en el ejemplo oficial).
+        """Dice el texto por el parlante del robot: con la voz de Piper si se pidió (usar_voz_propia) y, si no se
+        puede, con la de fábrica (PlayTts, como en el ejemplo oficial).
 
         Devuelve cuántos segundos estima el robot que tarda en decirlo, o None si no hay voz (en la simulación).
         """
+        if self.voz_propia:
+            try:
+                if self.voz_propia.decir(texto):
+                    return 0.05  # ya terminó de sonar
+                print('voz propia: el robot no dio el foco de audio; hablo con la voz de fábrica', flush=True)
+            except Exception as e:  # sin servicio de voz, sin Piper o sin el tópico de audio
+                print(f'voz propia: {e}; hablo con la voz de fábrica', flush=True)
         if not self._tts.wait_for_service(timeout_sec=1.0):
             return None
         req = PlayTts.Request()
