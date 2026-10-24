@@ -31,6 +31,9 @@ from faster_whisper import WhisperModel
 MODELO = os.environ.get('VOZ_MODELO', 'small')
 PUERTO = int(os.environ.get('PUERTO', '8097'))
 HILOS = int(os.environ.get('VOZ_HILOS', '4'))
+# VOZ_PISTAS=0: sin las opciones y códigos de cada pregunta en el prompt, como en la madrugada del 2026-10-24, cuando la
+# voz funcionó bien en el robot. Con el modelo base del Orin, las pistas son sospechosas de las frases de 42 s de la tarde
+PISTAS = os.environ.get('VOZ_PISTAS', '1') != '0'
 # Palabras de la recepción del club: Whisper las reconoce mejor si se las anuncian
 CONTEXTO = os.environ.get('VOZ_CONTEXTO', 'Recepción del club: salón VIP, restaurante, gimnasio, spa, terraza, '
                                           'zona social, vestier, código de acceso, cédula.')
@@ -124,7 +127,7 @@ class Manejador(BaseHTTPRequestHandler):
         if ruta == '/transcribir':
             if not 0 < largo <= MAX_AUDIO or largo % 2:
                 return self._responder(400, {'error': 'se espera PCM de 16 bit, hasta 30 s'})
-            contexto = urllib.parse.parse_qs(consulta).get('contexto', [''])[0][:600]
+            contexto = urllib.parse.parse_qs(consulta).get('contexto', [''])[0][:600] if PISTAS else ''
             return self._responder(200, transcribir(self.rfile.read(largo), contexto))
         if ruta == '/hablar':
             if voz is None:

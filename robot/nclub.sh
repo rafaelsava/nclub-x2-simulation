@@ -3,6 +3,7 @@
 # (no en ~/nclub: es de otro equipo).
 #   ./nclub.sh servicios   reconocimiento facial y voz a texto (podman) y PIBOT (http://<robot>:8000). No mueven el robot.
 #   (Sin límite de CPU: en este Orin podman sin root no tiene el controlador de CPU; Whisper usa 3 hilos.)
+#   Whisper escucha como en la madrugada del 2026-10-24, sin pistas de opciones ni códigos; VOZ_PISTAS=1 las activa.
 #   ./nclub.sh puente      el puente con MC, la cámara y el micrófono. Por defecto no camina (al guiar, solo lo dice);
 #                          con NCLUB_CAMINAR=1 un flujo puede hacer caminar al robot
 #   ./nclub.sh asistente propio|normal   el asistente de voz de fábrica (Lumi): «propio» lo calla (only_voice) para que
@@ -32,7 +33,7 @@ servicios() {
   fi
   if podman image exists nclub-voz:arm64 && { ! podman container exists nclub-voz || [[ "$(podman inspect -f '{{.State.Running}}' nclub-voz)" != true ]]; }; then
     podman rm -f nclub-voz >/dev/null 2>&1
-    podman run -d --init --name nclub-voz --network host -e HOST=127.0.0.1 -e VOZ_HILOS=3 -e VOZ_MODELO="${VOZ_MODELO:-base}" \
+    podman run -d --init --name nclub-voz --network host -e HOST=127.0.0.1 -e VOZ_HILOS=3 -e VOZ_MODELO="${VOZ_MODELO:-base}" -e VOZ_PISTAS="${VOZ_PISTAS:-0}" \
       -v "$D/voz:/voz" nclub-voz:arm64 python voz.py >/dev/null && echo "voz a texto: encendida"
   fi
   if ! vivo pibot; then
@@ -131,5 +132,5 @@ case "${1:-estado}" in
   llegadas) llegadas "${2:-}" ;;
   demo) demo "${2:-}" ;;
   limpiar) limpiar ;;
-  *) sed -n 2,17p "$0" ;;
+  *) sed -n 2,17p "$D/nclub.sh" ;;
 esac
