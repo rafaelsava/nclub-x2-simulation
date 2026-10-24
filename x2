@@ -268,8 +268,10 @@ cmd_rostro() {
   fi
   docker rm -f "${ROSTRO_CONTAINER}" >/dev/null 2>&1 || true
   # 2 CPU como máximo y poca prioridad: el control de movimiento (MC) va primero
+  # La misma calibración que el robot (robot/nclub.sh): la de la demostración, si existe; si no, la de ORL
+  local calibracion=(); [[ -f "${ROSTRO_DIR}/calibracion-demo.json" ]] && calibracion=(-e FACE_CALIBRATION=calibracion-demo.json)
   docker run -d --name "${ROSTRO_CONTAINER}" --user "$(id -u):$(id -g)" --cpus 2 --cpu-shares 256 \
-    -p "127.0.0.1:${ROSTRO_PORT}:${ROSTRO_PORT}" --env-file "${ROSTRO_DIR}/.env" \
+    -p "127.0.0.1:${ROSTRO_PORT}:${ROSTRO_PORT}" --env-file "${ROSTRO_DIR}/.env" "${calibracion[@]}" \
     -v "${FACE_LITE_DIR}:/face:ro" -v "${ROSTRO_DIR}:/rostro" "${ROSTRO_IMAGE}" python servicio.py >/dev/null
   echo -n "Cargando el reconocimiento facial"
   for _ in $(seq 1 30); do
