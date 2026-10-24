@@ -1,0 +1,17 @@
+{
+  "_nota": "Lugares a los que el robot puede guiar, con los mismos nombres que usan los flujos de PIBOT. Coordenadas en metros (odometría): el robot espera en 'puesto' mirando a la entrada (+x). Después de cambiarlos: ./x2 escena (redibuja MuJoCo).",
+
+  "puesto": {"nombre": "Recepción", "x": 0.0, "y": 0.0},
+
+  "destinos": [
+    {"nombre": "Recepción",           "x": 0.0,  "y": 0.0,  "color": [0.42, 0.46, 0.44]},
+    {"nombre": "Salón VIP",           "x": -2.9, "y": 2.4,  "color": [0.56, 0.17, 0.23], "ambiente": "vip"},
+    {"nombre": "Zona social",         "x": -1.2, "y": 3.3,  "color": [0.31, 0.54, 0.37], "ambiente": "social"},
+    {"nombre": "Terraza",             "x": -3.5, "y": 0.9,  "color": [0.16, 0.55, 0.53], "ambiente": "terraza"},
+    {"nombre": "Restaurante",         "x": -3.4, "y": -0.9, "color": [0.77, 0.28, 0.18], "ambiente": "restaurante"},
+    {"nombre": "Gimnasio",            "x": -2.5, "y": -2.5, "color": [0.20, 0.38, 0.72], "ambiente": "gimnasio"},
+    {"nombre": "Spa",                 "x": -1.2, "y": -3.3, "color": [0.71, 0.31, 0.49], "ambiente": "spa"},
+    {"nombre": "Acceso de servicio",  "x": 0.6,  "y": -3.4, "color": [0.78, 0.38, 0.12], "ambiente": "servicio"},
+    {"nombre": "Vestier de personal", "x": 1.7,  "y": -3.0, "color": [0.43, 0.31, 0.72], "ambiente": "vestier", "alias": ["vestier"]}
+  ]
+}

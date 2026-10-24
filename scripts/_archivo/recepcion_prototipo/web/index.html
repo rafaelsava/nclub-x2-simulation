@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N Club · Recepción X2</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; --muted: #6b7280; --line: #e5e7eb;
+    --screen: #0f172a; --screen-text: #e2e8f0; --accent: #2563eb;
+    --ok: #15803d; --ok-bg: #dcfce7; --warn: #b45309; --warn-bg: #fef3c7; --bad: #b91c1c; --bad-bg: #fee2e2;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  header { display: flex; align-items: baseline; gap: 12px; padding: 14px 20px; background: var(--card); border-bottom: 1px solid var(--line); }
+  header h1 { margin: 0; font-size: 18px; }
+  header span { color: var(--muted); font-size: 14px; }
+  main { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.1fr); gap: 16px; padding: 16px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .card h2 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+
+  /* Pantalla del robot */
+  .screen { background: var(--screen); color: var(--screen-text); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 16px; min-height: 420px; }
+  .screen h2 { align-self: flex-start; color: #94a3b8; margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  .face { font-size: 110px; line-height: 1; width: 180px; height: 180px; display: grid; place-items: center; border-radius: 50%; background: #1e293b; }
+  .gesture { font-size: 15px; padding: 4px 12px; border-radius: 999px; background: #334155; color: #e2e8f0; margin-top: -6px; }
+  .speech { font-size: 22px; text-align: center; min-height: 66px; max-width: 520px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .options button, .code button { font: inherit; font-size: 17px; padding: 10px 18px; border-radius: 999px; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+  .options button:hover, .code button:hover { filter: brightness(1.1); }
+  .code { display: flex; gap: 8px; }
+  .code input { font: inherit; font-size: 17px; padding: 9px 14px; border-radius: 999px; border: 1px solid #334155; background: #1e293b; color: #fff; width: 200px; text-transform: uppercase; }
+  .free input { width: 320px; max-width: 60vw; text-transform: none; }
+  .screen-foot { margin-top: auto; align-self: stretch; display: flex; justify-content: space-between; color: #94a3b8; font-size: 13px; }
+
+  /* Panel */
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  select, .btn { font: inherit; font-size: 14px; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--line); background: #fff; color: var(--text); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; cursor: pointer; }
+  .btn.small { padding: 3px 8px; font-size: 12px; cursor: pointer; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  .badge.miembro { background: var(--ok-bg); color: var(--ok); }
+  .badge.no_miembro { background: #e5e7eb; color: #374151; }
+  .badge.incierto { background: var(--warn-bg); color: var(--warn); }
+  .muted { color: var(--muted); font-size: 13px; }
+  .alerts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+  .alerts li { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 6px; background: #f9fafb; border-left: 3px solid #9ca3af; }
+  .alerts li.urgente { background: var(--bad-bg); border-left-color: var(--bad); }
+  .alerts li.atendida { opacity: .5; }
+  .alerts li span { flex: 1; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .log { margin: 0; max-height: 180px; overflow: auto; font: 12px/1.5 ui-monospace, monospace; color: #374151; white-space: pre-wrap; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+  svg text { font-size: 10px; fill: #374151; }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: 13px; }
+  .legend b { display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>N Club · Recepción con AgiBot X2</h1>
+  <span>Demo en simulación</span>
+</header>
+
+<main>
+  <section class="col">
+    <div class="screen">
+      <h2>Pantalla del robot</h2>
+      <div class="face" id="face">🙂</div>
+      <div class="gesture" id="gesture" hidden></div>
+      <div class="speech" id="speech"></div>
+      <div class="options" id="options"></div>
+      <form class="code free" id="free" hidden>
+        <input id="freeInput" autocomplete="off" placeholder="O responda con sus palabras…">
+        <button type="submit">Responder</button>
+      </form>
+      <form class="code" id="code" hidden>
+        <input id="codeInput" autocomplete="off" placeholder="Código">
+        <button type="submit">Enviar</button>
+      </form>
+      <div class="screen-foot">
+        <span id="step">Esperando visitantes</span>
+        <label><input type="checkbox" id="voice" checked> Voz</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Qué es real y qué es simulado</h2>
+      <div class="legend">
+        <div><b>Real</b>Flujos y confirmación de la categoría, control de movimiento oficial del X2 (MC), física del robot (MuJoCo), comprensión del lenguaje con un LLM local (si está activado).</div>
+        <div><b>Simulado</b>Reconocimiento facial (botón "Llega", hasta conectar el modelo del equipo), base de datos del club (club.json), voz y pantalla del robot (este navegador), gestos (el MC de la simulación no los ejecuta; se muestran en pantalla).</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="col">
+    <div class="card">
+      <h2>Simular llegada</h2>
+      <div class="row">
+        <select id="visitor"></select>
+        <label class="muted"><input type="checkbox" id="doubtful"> Reconocimiento dudoso</label>
+        <button class="btn primary" id="arrive">Llega a la entrada</button>
+      </div>
+      <p class="muted" id="queue"></p>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h2>Reconocimiento facial</h2>
+        <dl class="kv" id="recognition"><dt>Estado</dt><dd>—</dd></dl>
+      </div>
+      <div class="card">
+        <h2>Robot</h2>
+        <dl class="kv" id="robot"><dt>Modo</dt><dd>—</dd></dl>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h2>Mapa del club</h2>
+        <svg id="map" viewBox="0 0 280 270" width="100%" role="img" aria-label="Mapa de zonas y posición del robot"></svg>
+      </div>
+      <div class="card">
+        <h2>Avisos a recepción</h2>
+        <ul class="alerts" id="alerts"><li><span class="muted">Sin avisos</span></li></ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Registro de visitantes</h2>
+      <table>
+        <thead><tr><th>Hora</th><th>Reconocimiento</th><th>Categoría</th><th>Cómo se confirmó</th><th>Resultado</th><th>s</th></tr></thead>
+        <tbody id="log"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Eventos</h2>
+      <pre class="log" id="events"></pre>
+    </div>
+  </section>
+</main>
+
+<script>
+const FACES = { neutral: '🙂', feliz: '😄', pensando: '🤔', confundido: '😕', caminando: '🚶' };
+const GESTURES = { saludar: '👋 Saluda con la mano', dar_la_mano: '🤝 Ofrece la mano', levantar: '✋ Levanta la mano', beso: '😘 Lanza un beso' };
+let lastGesture = null;
+let gestureTimer = null;
+const ZONE_COLORS = { vip: '#d4a017', socios: '#2563eb', invitados: '#16a34a', personal: '#7c3aed', servicio: '#ea580c', puesto: '#6b7280' };
+const $ = (id) => document.getElementById(id);
+let lastMessage = null;
+let zones = {};
+
+async function post(path, body) {
+  const res = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  return res.json();
+}
+
+function speak(text) {
+  if (!$('voice').checked || !('speechSynthesis' in window) || !text) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  const voice = speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith('es'));
+  if (voice) u.voice = voice;
+  u.lang = voice ? voice.lang : 'es-ES';
+  speechSynthesis.speak(u);
+}
+
+function setKv(el, pairs) {
+  el.replaceChildren(...pairs.flatMap(([k, v]) => {
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd');
+    if (v instanceof Node) dd.append(v); else dd.textContent = v ?? '—';
+    return [dt, dd];
+  }));
+}
+
+// Mapa: la entrada (+x) queda arriba y +y a la izquierda, como si se viera el club desde arriba
+const MAP = { cx: 130, cy: 100, scale: 28 };
+const toMap = (x, y) => [MAP.cx - y * MAP.scale, MAP.cy - x * MAP.scale];
+
+function drawMap(robot) {
+  const svg = $('map');
+  const ns = 'http://www.w3.org/2000/svg';
+  const items = [];
+  const entrance = toMap(3, 0);
+  const door = document.createElementNS(ns, 'rect');
+  Object.entries({ x: entrance[0] - 30, y: entrance[1] - 3, width: 60, height: 6, fill: '#9ca3af' }).forEach(([k, v]) => door.setAttribute(k, v));
+  const doorLabel = document.createElementNS(ns, 'text');
+  doorLabel.setAttribute('x', entrance[0]); doorLabel.setAttribute('y', entrance[1] - 6); doorLabel.setAttribute('text-anchor', 'middle');
+  doorLabel.textContent = 'Entrada';
+  items.push(door, doorLabel);
+  for (const [id, z] of Object.entries(zones)) {
+    const [sx, sy] = toMap(z.x, z.y);
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', sx); c.setAttribute('cy', sy); c.setAttribute('r', id === 'puesto' ? 6 : 15);
+    c.setAttribute('fill', ZONE_COLORS[id] || '#9ca3af'); c.setAttribute('fill-opacity', id === 'puesto' ? 0.4 : 0.25);
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', sx); t.setAttribute('y', sy + (id === 'puesto' ? 16 : 26)); t.setAttribute('text-anchor', 'middle');
+    t.textContent = id === 'puesto' ? 'Puesto' : z.nombre;
+    items.push(c, t);
+  }
+  if (robot && robot.x != null) {
+    const [rx, ry] = toMap(robot.x, robot.y);
+    const g = document.createElementNS(ns, 'g');
+    // El robot mira hacia su orientación: 0° es hacia la entrada (arriba en el mapa)
+    g.setAttribute('transform', `translate(${rx} ${ry}) rotate(${-robot.orientacion})`);
+    const body = document.createElementNS(ns, 'circle');
+    body.setAttribute('r', 7); body.setAttribute('fill', '#111827');
+    const nose = document.createElementNS(ns, 'path');
+    nose.setAttribute('d', 'M -4 -5 L 0 -13 L 4 -5 Z'); nose.setAttribute('fill', '#111827');
+    g.append(body, nose);
+    items.push(g);
+  }
+  svg.replaceChildren(...items);
+}
+
+function render(s) {
+  const p = s.pantalla;
+  $('face').textContent = FACES[p.cara] || FACES.neutral;
+  $('speech').textContent = p.texto;
+  $('step').textContent = s.paso;
+  if (lastMessage !== null && p.id_mensaje !== lastMessage) speak(p.texto);
+  lastMessage = p.id_mensaje;
+  if (lastGesture !== null && p.id_gesto !== lastGesture && p.gesto) {
+    const g = $('gesture');
+    g.textContent = `Gesto: ${GESTURES[p.gesto] || p.gesto}`;
+    g.hidden = false;
+    clearTimeout(gestureTimer);
+    gestureTimer = setTimeout(() => { g.hidden = true; }, 4000);
+  }
+  lastGesture = p.id_gesto;
+
+  const options = $('options');
+  const current = [...options.children].map((b) => b.textContent).join('|');
+  if (current !== p.opciones.join('|')) {
+    options.replaceChildren(...p.opciones.map((o) => {
+      const b = document.createElement('button');
+      b.textContent = o;
+      b.onclick = () => post('/api/respuesta', { valor: o });
+      return b;
+    }));
+  }
+  const free = $('free');
+  const showFree = s.lenguaje_natural && p.opciones.length > 0;
+  if (free.hidden === showFree) {
+    free.hidden = !showFree;
+    if (showFree) $('freeInput').value = '';
+  }
+  if (s.lenguaje_natural) $('codeInput').placeholder = 'Código, o dígalo con palabras';
+  const code = $('code');
+  if (code.hidden === p.pide_codigo) {
+    code.hidden = !p.pide_codigo;
+    if (p.pide_codigo) { $('codeInput').value = ''; $('codeInput').focus(); }
+  }
+
+  const r = s.reconocimiento;
+  if (r) {
+    const badge = document.createElement('span');
+    badge.className = `badge ${r.estado}`;
+    badge.textContent = r.estado.replace('_', ' ');
+    setKv($('recognition'), [['Estado', badge], ['Persona', r.persona_id || 'sin coincidencia'],
+      ['Confianza', r.confianza != null ? r.confianza.toFixed(2) : '—'], ['Fuente', r.fuente], ['Hora', r.hora]]);
+  }
+
+  const robot = s.robot || {};
+  setKv($('robot'), [['Modo', robot.modo], ['Posición', robot.x != null ? `x ${robot.x} · y ${robot.y} m` : '—'],
+    ['Orientación', robot.orientacion != null ? `${robot.orientacion}°` : '—'], ['Altura pelvis', robot.altura != null ? `${robot.altura} m` : '—']]);
+  drawMap(robot);
+
+  $('queue').textContent = s.llegadas_en_espera ? `${s.llegadas_en_espera} visitante(s) esperando turno` : '';
+
+  const alerts = s.alertas.slice().reverse();
+  $('alerts').replaceChildren(...(alerts.length ? alerts.map((a) => {
+    const li = document.createElement('li');
+    li.className = [a.urgente ? 'urgente' : '', a.atendida ? 'atendida' : ''].join(' ');
+    const text = document.createElement('span');
+    text.textContent = `${a.hora} · ${a.texto}`;
+    li.append(text);
+    if (!a.atendida) {
+      const b = document.createElement('button');
+      b.className = 'btn small'; b.textContent = 'Atendido';
+      b.onclick = () => post('/api/alerta', { id: a.id });
+      li.append(b);
+    }
+    return li;
+  }) : [Object.assign(document.createElement('li'), { innerHTML: '<span class="muted">Sin avisos</span>' })]));
+
+  $('log').replaceChildren(...s.registro.slice().reverse().map((e) => {
+    const tr = document.createElement('tr');
+    [e.hora, e.reconocimiento, e.categoria, e.confirmacion, e.resultado, e.duracion_s].forEach((v) => {
+      const td = document.createElement('td'); td.textContent = v; tr.append(td);
+    });
+    return tr;
+  }));
+
+  const events = $('events');
+  const atBottom = events.scrollHeight - events.scrollTop - events.clientHeight < 20;
+  events.textContent = s.eventos.join('\n');
+  if (atBottom) events.scrollTop = events.scrollHeight;
+}
+
+async function poll() {
+  try {
+    const res = await fetch('/api/estado');
+    render(await res.json());
+  } catch (e) {
+    $('step').textContent = 'Sin conexión con la recepción (¿sigue corriendo ./x2 recepcion?)';
+  }
+  setTimeout(poll, 400);
+}
+
+$('arrive').onclick = () => post('/api/llegada', { visitante: $('visitor').value, dudoso: $('doubtful').checked });
+$('code').onsubmit = (e) => { e.preventDefault(); post('/api/respuesta', { valor: $('codeInput').value }); };
+$('free').onsubmit = (e) => {
+  e.preventDefault();
+  const valor = $('freeInput').value.trim();
+  if (valor) post('/api/respuesta', { valor });
+  $('freeInput').value = '';
+};
+
+fetch('/api/panel').then((r) => r.json()).then((d) => {
+  zones = d.zonas;
+  $('visitor').replaceChildren(...d.visitantes.map((v) => Object.assign(document.createElement('option'), { value: v.id, textContent: v.etiqueta })));
+  poll();
+});
+</script>
+</body>
+</html>

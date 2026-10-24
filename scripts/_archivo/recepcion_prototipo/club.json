@@ -1,0 +1,36 @@
+{
+  "_nota": "Datos ficticios de N Club para la demo. 'personas' simula la app del club: quienes subieron fotos y su relación con el club.",
+
+  "_zonas": "Mismas coordenadas que scripts/pibot/destinos.json, que es lo que se dibuja en MuJoCo.",
+  "zonas": {
+    "puesto":    {"nombre": "Recepción",            "x": 0.0,  "y": 0.0},
+    "vip":       {"nombre": "Salón VIP",            "x": -2.9, "y": 2.4,  "indicaciones": "El Salón VIP está al fondo, a la izquierda."},
+    "socios":    {"nombre": "Zona social",          "x": -1.2, "y": 3.3,  "indicaciones": "La zona social está a la izquierda; el restaurante y el gimnasio, al fondo."},
+    "invitados": {"nombre": "Zona social",          "x": -1.2, "y": 3.3,  "indicaciones": "La zona social está a la izquierda."},
+    "personal":  {"nombre": "Vestier de personal",  "x": 1.7,  "y": -3.0, "indicaciones": "El vestier de personal está a la derecha, junto a la entrada."},
+    "servicio":  {"nombre": "Acceso de servicio",   "x": 0.6,  "y": -3.4, "indicaciones": "El acceso de servicio está a la derecha."}
+  },
+
+  "personas": [
+    {"id": "p01", "nombre": "Ana Gómez",    "categoria": "vip",      "preferencias": "Le reservamos su mesa de siempre, junto a la ventana."},
+    {"id": "p02", "nombre": "Carlos Ruiz",  "categoria": "regular"},
+    {"id": "p03", "nombre": "Laura Pérez",  "categoria": "personal", "area": "la cocina"}
+  ],
+
+  "invitaciones": [
+    {"codigo": "INV-4821", "invitado": "Sofía Martínez", "anfitrion": "p01"}
+  ],
+
+  "ordenes_servicio": [
+    {"codigo": "OS-1077", "trabajador": "Jorge Díaz", "empresa": "ClimaTec", "trabajo": "mantenimiento del aire acondicionado", "responsable": "el jefe de mantenimiento"}
+  ],
+
+  "visitantes_simulados": [
+    {"id": "ana",     "etiqueta": "Ana Gómez (miembro VIP)",            "persona_id": "p01"},
+    {"id": "carlos",  "etiqueta": "Carlos Ruiz (miembro regular)",      "persona_id": "p02"},
+    {"id": "laura",   "etiqueta": "Laura Pérez (personal del club)",    "persona_id": "p03"},
+    {"id": "sofia",   "etiqueta": "Sofía Martínez (invitada, código INV-4821)", "persona_id": null},
+    {"id": "jorge",   "etiqueta": "Jorge Díaz (trabajador externo, código OS-1077)", "persona_id": null},
+    {"id": "extrano", "etiqueta": "Persona desconocida",                "persona_id": null}
+  ]
+}

@@ -1,0 +1,1012 @@
+<mujoco model="zhiyuan scene">
+  <include file="x2.xml"/>
+
+  <statistic center="0 0 0.6" extent="1.3"/>
+
+  <visual>
+    <headlight diffuse="0.5 0.5 0.5" ambient="0.2 0.2 0.2" specular="0.9 0.9 0.9"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="200" elevation="-20"/>
+  </visual>
+
+  <!-- inicio texturas (generado por scripts/pibot/escena.py; no editar a mano) -->
+  <visual>
+    <headlight diffuse="0.32 0.32 0.31" ambient="0.25 0.24 0.23" specular="0.15 0.15 0.15"/>
+    <rgba haze="0.84 0.87 0.9 1"/>
+  </visual>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.5 0.68 0.88" rgb2="0.9 0.91 0.9" width="512" height="3072"/>
+    <texture name="marmol" type="2d" file="nclub/marmol.png"/>
+    <texture name="madera" type="2d" file="nclub/madera.png"/>
+    <texture name="listones" type="2d" file="nclub/listones.png"/>
+    <texture name="tablas" type="2d" file="nclub/tablas.png"/>
+    <texture name="tela" type="2d" file="nclub/tela.png"/>
+    <texture name="cuero" type="2d" file="nclub/cuero.png"/>
+    <texture name="piedra" type="2d" file="nclub/piedra.png"/>
+    <texture name="concreto" type="2d" file="nclub/concreto.png"/>
+    <texture name="caucho" type="2d" file="nclub/caucho.png"/>
+    <texture name="cesped" type="2d" file="nclub/cesped.png"/>
+    <texture name="seto" type="2d" file="nclub/seto.png"/>
+    <texture name="adoquin" type="2d" file="nclub/adoquin.png"/>
+    <texture name="pared" type="2d" file="nclub/pared.png"/>
+    <texture name="carton" type="2d" file="nclub/carton.png"/>
+    <texture name="peligro" type="2d" file="nclub/peligro.png"/>
+    <texture name="casillero" type="2d" file="nclub/casillero.png"/>
+    <texture name="alfombra_persa" type="2d" file="nclub/alfombra_persa.png"/>
+    <texture name="alfombra_moderna" type="2d" file="nclub/alfombra_moderna.png"/>
+    <texture name="logo" type="2d" file="nclub/logo.png"/>
+    <texture name="medallon" type="2d" file="nclub/medallon.png"/>
+    <texture name="puesto" type="2d" file="nclub/puesto.png"/>
+    <texture name="cuadro_atardecer" type="2d" file="nclub/cuadro_atardecer.png"/>
+    <texture name="cuadro_campos" type="2d" file="nclub/cuadro_campos.png"/>
+    <texture name="cuadro_geometrico" type="2d" file="nclub/cuadro_geometrico.png"/>
+    <texture name="letrero_1" type="2d" file="nclub/letrero_1.png"/>
+    <texture name="letrero_2" type="2d" file="nclub/letrero_2.png"/>
+    <texture name="letrero_3" type="2d" file="nclub/letrero_3.png"/>
+    <texture name="letrero_4" type="2d" file="nclub/letrero_4.png"/>
+    <texture name="letrero_5" type="2d" file="nclub/letrero_5.png"/>
+    <texture name="letrero_6" type="2d" file="nclub/letrero_6.png"/>
+    <texture name="letrero_7" type="2d" file="nclub/letrero_7.png"/>
+    <texture name="letrero_8" type="2d" file="nclub/letrero_8.png"/>
+    <material name="marmol_piso_9_2x10_9" texture="marmol" texrepeat="9.2 10.9" rgba="1 1 1 1" specular="0.75" shininess="0.8"/>
+    <material name="puesto" texture="puesto" texrepeat="1 1" rgba="1 1 1 1" specular="0.6" shininess="0.7"/>
+    <material name="pared_11_3x2_5" texture="pared" texrepeat="11.3 2.5" rgba="0.97 0.95 0.91 1" specular="0.05" shininess="0.05"/>
+    <material name="listones_nogal_18_8x1_6" texture="listones" texrepeat="18.8 1.6" rgba="0.62 0.47 0.37 1" specular="0.3" shininess="0.4"/>
+    <material name="laton" rgba="0.8 0.63 0.34 1" specular="1" shininess="0.8"/>
+    <material name="blanco" rgba="0.95 0.95 0.93 1" specular="0.3" shininess="0.3"/>
+    <material name="pared_4_1x2_5" texture="pared" texrepeat="4.1 2.5" rgba="0.97 0.95 0.91 1" specular="0.05" shininess="0.05"/>
+    <material name="listones_nogal_6_8x1_6" texture="listones" texrepeat="6.8 1.6" rgba="0.62 0.47 0.37 1" specular="0.3" shininess="0.4"/>
+    <material name="pared_5_2x0_9" texture="pared" texrepeat="5.2 0.9" rgba="0.97 0.95 0.91 1" specular="0.05" shininess="0.05"/>
+    <material name="listones_nogal_8_7x1_6" texture="listones" texrepeat="8.7 1.6" rgba="0.62 0.47 0.37 1" specular="0.3" shininess="0.4"/>
+    <material name="pared_5_2x0_3" texture="pared" texrepeat="5.2 0.3" rgba="0.97 0.95 0.91 1" specular="0.05" shininess="0.05"/>
+    <material name="vidrio" rgba="0.72 0.84 0.88 0.16" specular="1" shininess="1"/>
+    <material name="marmol_blanco_0_2x6_6" texture="marmol" texrepeat="0.2 6.6" rgba="1 1 1 1" specular="0.7" shininess="0.8"/>
+    <material name="fachada" rgba="0.17 0.18 0.19 1" specular="0.6" shininess="0.6"/>
+    <material name="cromo" rgba="0.82 0.84 0.87 1" specular="1" shininess="1"/>
+    <material name="logo" texture="logo" texrepeat="1 1" rgba="1 1 1 1" specular="0.4" shininess="0.5" emission="0.12"/>
+    <material name="acero_negro" rgba="0.13 0.13 0.14 1" specular="0.6" shininess="0.6"/>
+    <material name="listones_nogal_2_5x1_5" texture="listones" texrepeat="2.5 1.5" rgba="0.62 0.47 0.37 1" specular="0.3" shininess="0.4"/>
+    <material name="nogal_0_9x1_3" texture="madera" texrepeat="0.9 1.3" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="nogal_2_2x1_3" texture="madera" texrepeat="2.2 1.3" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="marmol_blanco_0_8x2" texture="marmol" texrepeat="0.8 2" rgba="1 1 1 1" specular="0.7" shininess="0.8"/>
+    <material name="luz_calida" rgba="1 0.88 0.66 1" specular="0" shininess="0" emission="1"/>
+    <material name="pantalla" rgba="0.05 0.07 0.1 1" specular="1" shininess="1" emission="0.08"/>
+    <material name="ceramica_blanca" rgba="0.93 0.92 0.89 1" specular="0.7" shininess="0.7"/>
+    <material name="hoja_3" rgba="0.15 0.34 0.17 1" specular="0.35" shininess="0.5"/>
+    <material name="flor_rosa" rgba="0.9 0.52 0.64 1" specular="0.3" shininess="0.3"/>
+    <material name="flor_blanca" rgba="0.98 0.96 0.96 1" specular="0.3" shininess="0.3"/>
+    <material name="hoja_1" rgba="0.2 0.43 0.19 1" specular="0.35" shininess="0.5"/>
+    <material name="alfombra_persa" texture="alfombra_persa" texrepeat="1 1" rgba="1 1 1 1" specular="0" shininess="0"/>
+    <material name="alfombra_moderna" texture="alfombra_moderna" texrepeat="1 1" rgba="1 1 1 1" specular="0" shininess="0"/>
+    <material name="teca_1_2x1_2" texture="tablas" texrepeat="1.2 1.2" rgba="0.86 0.68 0.5 1" specular="0.15" shininess="0.2"/>
+    <material name="parquet_1_6x1_9" texture="tablas" texrepeat="1.6 1.9" rgba="0.66 0.48 0.36 1" specular="0.4" shininess="0.5"/>
+    <material name="caucho_2_5x2_8" texture="caucho" texrepeat="2.5 2.8" rgba="1 1 1 1" specular="0.05" shininess="0.05"/>
+    <material name="piedra_spa_2_1x2_3" texture="piedra" texrepeat="2.1 2.3" rgba="0.88 0.94 0.93 1" specular="0.3" shininess="0.4"/>
+    <material name="concreto_1_7x1_5" texture="concreto" texrepeat="1.7 1.5" rgba="1 1 1 1" specular="0.1" shininess="0.1"/>
+    <material name="peligro_0_2x3_2" texture="peligro" texrepeat="0.2 3.2" rgba="1 1 1 1" specular="0.1" shininess="0.1"/>
+    <material name="piedra_gris_2x2_1" texture="piedra" texrepeat="2 2.1" rgba="0.78 0.79 0.82 1" specular="0.3" shininess="0.4"/>
+    <material name="wengue_0_1x0_1" texture="madera" texrepeat="0.1 0.1" rgba="0.4 0.31 0.26 1" specular="0.4" shininess="0.5"/>
+    <material name="tela_vino_2_7x2_7" texture="tela" texrepeat="2.7 2.7" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_vino_2_2x1_9" texture="tela" texrepeat="2.2 1.9" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_vino_2_7x1_8" texture="tela" texrepeat="2.7 1.8" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_vino_2_5x0_4" texture="tela" texrepeat="2.5 0.4" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_vino_0_4x0_4" texture="tela" texrepeat="0.4 0.4" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_mostaza_1_4x1" texture="tela" texrepeat="1.4 1" rgba="0.86 0.64 0.24 1" specular="0.1" shininess="0.1"/>
+    <material name="nogal_0_1x0_1" texture="madera" texrepeat="0.1 0.1" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="tela_salvia_3x7_2" texture="tela" texrepeat="3 7.2" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_salvia_0_5x7_2" texture="tela" texrepeat="0.5 7.2" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_salvia_2_3x2" texture="tela" texrepeat="2.3 2" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_salvia_1_9x1_3" texture="tela" texrepeat="1.9 1.3" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_salvia_3x0_5" texture="tela" texrepeat="3 0.5" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_salvia_0_5x0_5" texture="tela" texrepeat="0.5 0.5" rgba="0.58 0.66 0.57 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_mostaza_1_3x1_3" texture="tela" texrepeat="1.3 1.3" rgba="0.86 0.64 0.24 1" specular="0.1" shininess="0.1"/>
+    <material name="teca_0_4x0_4" texture="tablas" texrepeat="0.4 0.4" rgba="0.86 0.68 0.5 1" specular="0.15" shininess="0.2"/>
+    <material name="lona_lisa" rgba="0.95 0.92 0.84 1" specular="0.1" shininess="0.1"/>
+    <material name="mantel" rgba="0.97 0.96 0.93 1" specular="0.05" shininess="0.05"/>
+    <material name="porcelana" rgba="0.97 0.97 0.96 1" specular="0.9" shininess="0.9"/>
+    <material name="copa" rgba="0.9 0.95 1 0.35" specular="1" shininess="1"/>
+    <material name="hoja_2" rgba="0.29 0.53 0.24 1" specular="0.35" shininess="0.5"/>
+    <material name="vela" rgba="0.96 0.93 0.85 1" specular="0.1" shininess="0.1" emission="0.25"/>
+    <material name="llama" rgba="1 0.74 0.32 1" specular="0" shininess="0" emission="1"/>
+    <material name="banda" rgba="0.09 0.09 0.1 1" specular="0.1" shininess="0.1"/>
+    <material name="acero" rgba="0.56 0.58 0.61 1" specular="0.8" shininess="0.7"/>
+    <material name="cuero_crema_1_8x4_6" texture="cuero" texrepeat="1.8 4.6" rgba="0.95 0.91 0.83 1" specular="0.3" shininess="0.4"/>
+    <material name="roble_0_9x2_5" texture="madera" texrepeat="0.9 2.5" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="roble_0_1x0_1" texture="madera" texrepeat="0.1 0.1" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="cuero_crema_0_7x0_5" texture="cuero" texrepeat="0.7 0.5" rgba="0.95 0.91 0.83 1" specular="0.3" shininess="0.4"/>
+    <material name="toalla_teal" rgba="0.48 0.72 0.7 1" specular="0" shininess="0"/>
+    <material name="caucho_negro" rgba="0.1 0.1 0.11 1" specular="0.3" shininess="0.3"/>
+    <material name="roble_0_2x2_3" texture="madera" texrepeat="0.2 2.3" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="nogal_0_7x1_4" texture="madera" texrepeat="0.7 1.4" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="libro_1" rgba="0.52 0.16 0.18 1" specular="0.2" shininess="0.2"/>
+    <material name="libro_2" rgba="0.18 0.3 0.42 1" specular="0.2" shininess="0.2"/>
+    <material name="libro_3" rgba="0.85 0.8 0.68 1" specular="0.2" shininess="0.2"/>
+    <material name="ceramica_negra" rgba="0.16 0.16 0.17 1" specular="0.7" shininess="0.7"/>
+    <material name="roble_0_6x0_6" texture="madera" texrepeat="0.6 0.6" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="lona_0_8x0_8" texture="tela" texrepeat="0.8 0.8" rgba="0.96 0.94 0.88 1" specular="0.05" shininess="0.05"/>
+    <material name="roble_0_6x0_4" texture="madera" texrepeat="0.6 0.4" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="nogal_0_6x0_6" texture="madera" texrepeat="0.6 0.6" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="cuero_cognac_1x1" texture="cuero" texrepeat="1 1" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="nogal_0_6x0_4" texture="madera" texrepeat="0.6 0.4" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="cuero_negro_2_8x0_7" texture="cuero" texrepeat="2.8 0.7" rgba="0.15 0.15 0.16 1" specular="0.45" shininess="0.5"/>
+    <material name="listones_roble_0_8x2_8" texture="listones" texrepeat="0.8 2.8" rgba="1 0.95 0.88 1" specular="0.2" shininess="0.3"/>
+    <material name="nogal_0_7x0_1" texture="madera" texrepeat="0.7 0.1" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="carton_1x0_8" texture="carton" texrepeat="1 0.8" rgba="1 1 1 1" specular="0" shininess="0"/>
+    <material name="carton_0_8x0_7" texture="carton" texrepeat="0.8 0.7" rgba="1 1 1 1" specular="0" shininess="0"/>
+    <material name="carton_0_7x0_7" texture="carton" texrepeat="0.7 0.7" rgba="1 1 1 1" specular="0" shininess="0"/>
+    <material name="nogal_0_5x0_5" texture="madera" texrepeat="0.5 0.5" rgba="0.6 0.45 0.36 1" specular="0.35" shininess="0.45"/>
+    <material name="toalla_blanca" rgba="0.97 0.97 0.95 1" specular="0" shininess="0"/>
+    <material name="tela_vino_0_1x0_1" texture="tela" texrepeat="0.1 0.1" rgba="0.56 0.13 0.17 1" specular="0.15" shininess="0.15"/>
+    <material name="tela_crema_2_7x2_7" texture="tela" texrepeat="2.7 2.7" rgba="0.96 0.93 0.86 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_crema_2_2x1_9" texture="tela" texrepeat="2.2 1.9" rgba="0.96 0.93 0.86 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_crema_2_7x1_8" texture="tela" texrepeat="2.7 1.8" rgba="0.96 0.93 0.86 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_crema_2_5x0_4" texture="tela" texrepeat="2.5 0.4" rgba="0.96 0.93 0.86 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_crema_0_4x0_4" texture="tela" texrepeat="0.4 0.4" rgba="0.96 0.93 0.86 1" specular="0.1" shininess="0.1"/>
+    <material name="tela_terracota_1_4x1" texture="tela" texrepeat="1.4 1" rgba="0.74 0.38 0.27 1" specular="0.1" shininess="0.1"/>
+    <material name="roble_0_7x0_6" texture="madera" texrepeat="0.7 0.6" rgba="1 0.96 0.9 1" specular="0.3" shininess="0.3"/>
+    <material name="tierra" rgba="0.24 0.17 0.12 1" specular="0" shininess="0"/>
+    <material name="marmol_blanco_0_5x0_5" texture="marmol" texrepeat="0.5 0.5" rgba="1 1 1 1" specular="0.7" shininess="0.8"/>
+    <material name="ceramica_salvia" rgba="0.55 0.64 0.56 1" specular="0.6" shininess="0.6"/>
+    <material name="pantalla_lampara" rgba="0.98 0.92 0.8 0.94" specular="0.1" shininess="0.1" emission="0.6"/>
+    <material name="pelota" rgba="0.24 0.4 0.74 1" specular="0.6" shininess="0.6"/>
+    <material name="piedra_clara" rgba="0.74 0.72 0.68 1" specular="0.3" shininess="0.3"/>
+    <material name="piedra_zen" rgba="0.32 0.33 0.34 1" specular="0.6" shininess="0.6"/>
+    <material name="terracota" rgba="0.68 0.38 0.25 1" specular="0.15" shininess="0.2"/>
+    <material name="tronco" rgba="0.36 0.27 0.2 1" specular="0.1" shininess="0.1"/>
+    <material name="teca_0_2x0_6" texture="tablas" texrepeat="0.2 0.6" rgba="0.86 0.68 0.5 1" specular="0.15" shininess="0.2"/>
+    <material name="seto_0_4x1_2" texture="seto" texrepeat="0.4 1.2" rgba="1 1 1 1" specular="0.1" shininess="0.2"/>
+    <material name="hoja_olivo" rgba="0.43 0.52 0.38 1" specular="0.2" shininess="0.3"/>
+    <material name="bambu" rgba="0.62 0.68 0.36 1" specular="0.4" shininess="0.5"/>
+    <material name="letrero_1" texture="letrero_1" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_2" texture="letrero_2" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_3" texture="letrero_3" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_4" texture="letrero_4" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_5" texture="letrero_5" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_6" texture="letrero_6" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_7" texture="letrero_7" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="letrero_8" texture="letrero_8" texrepeat="1 1" rgba="1 1 1 1" specular="0.3" shininess="0.3" emission="0.18"/>
+    <material name="vidrio_oscuro" rgba="0.12 0.16 0.2 0.85" specular="1" shininess="1"/>
+    <material name="salida" rgba="0.15 0.7 0.35 1" specular="0.2" shininess="0.2" emission="0.8"/>
+    <material name="casillero" texture="casillero" texrepeat="1 1" rgba="0.8 0.78 0.94 1" specular="0.7" shininess="0.6"/>
+    <material name="tapete_1_6x4_2" texture="tela" texrepeat="1.6 4.2" rgba="0.2 0.21 0.23 1" specular="0" shininess="0"/>
+    <material name="medallon" texture="medallon" texrepeat="1 1" rgba="1 1 1 1" specular="0.6" shininess="0.7"/>
+    <material name="cuero_cognac_2x2" texture="cuero" texrepeat="2 2" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="cuero_cognac_1_6x1_4" texture="cuero" texrepeat="1.6 1.4" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="cuero_cognac_2x1_4" texture="cuero" texrepeat="2 1.4" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="cuero_cognac_1_9x0_3" texture="cuero" texrepeat="1.9 0.3" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="cuero_cognac_0_3x0_3" texture="cuero" texrepeat="0.3 0.3" rgba="0.66 0.38 0.2 1" specular="0.45" shininess="0.55"/>
+    <material name="cuadro_atardecer" texture="cuadro_atardecer" texrepeat="1 1" rgba="1 1 1 1" specular="0.1" shininess="0.1" emission="0.05"/>
+    <material name="cuadro_campos" texture="cuadro_campos" texrepeat="1 1" rgba="1 1 1 1" specular="0.1" shininess="0.1" emission="0.05"/>
+    <material name="cuadro_geometrico" texture="cuadro_geometrico" texrepeat="1 1" rgba="1 1 1 1" specular="0.1" shininess="0.1" emission="0.05"/>
+    <material name="adoquin_4_2x6_3" texture="adoquin" texrepeat="4.2 6.3" rgba="1 1 1 1" specular="0.1" shininess="0.1"/>
+    <material name="adoquin_9_7x2_2" texture="adoquin" texrepeat="9.7 2.2" rgba="1 1 1 1" specular="0.1" shininess="0.1"/>
+    <material name="seto_12_7x0_7" texture="seto" texrepeat="12.7 0.7" rgba="1 1 1 1" specular="0.1" shininess="0.2"/>
+    <material name="seto_0_7x16_5" texture="seto" texrepeat="0.7 16.5" rgba="1 1 1 1" specular="0.1" shininess="0.2"/>
+    <material name="concreto_0_3x3_3" texture="concreto" texrepeat="0.3 3.3" rgba="1 1 1 1" specular="0.1" shininess="0.1"/>
+    <material name="seto_0_5x5_4" texture="seto" texrepeat="0.5 5.4" rgba="1 1 1 1" specular="0.1" shininess="0.2"/>
+    <material name="teca_0_1x0_8" texture="tablas" texrepeat="0.1 0.8" rgba="0.86 0.68 0.5 1" specular="0.15" shininess="0.2"/>
+    <mesh name="nclub_tronco_24_45_60_60" vertex="0.045 0 -0.06 0.0435 0.0116 -0.06 0.039 0.0225 -0.06 0.0318 0.0318 -0.06 0.0225 0.039 -0.06 0.0116 0.0435 -0.06 0 0.045 -0.06 -0.0116 0.0435 -0.06 -0.0225 0.039 -0.06 -0.0318 0.0318 -0.06 -0.039 0.0225 -0.06 -0.0435 0.0116 -0.06 -0.045 0 -0.06 -0.0435 -0.0116 -0.06 -0.039 -0.0225 -0.06 -0.0318 -0.0318 -0.06 -0.0225 -0.039 -0.06 -0.0116 -0.0435 -0.06 0 -0.045 -0.06 0.0116 -0.0435 -0.06 0.0225 -0.039 -0.06 0.0318 -0.0318 -0.06 0.039 -0.0225 -0.06 0.0435 -0.0116 -0.06 0.06 0 0.06 0.058 0.0155 0.06 0.052 0.03 0.06 0.0424 0.0424 0.06 0.03 0.052 0.06 0.0155 0.058 0.06 0 0.06 0.06 -0.0155 0.058 0.06 -0.03 0.052 0.06 -0.0424 0.0424 0.06 -0.052 0.03 0.06 -0.058 0.0155 0.06 -0.06 0 0.06 -0.058 -0.0155 0.06 -0.052 -0.03 0.06 -0.0424 -0.0424 0.06 -0.03 -0.052 0.06 -0.0155 -0.058 0.06 0 -0.06 0.06 0.0155 -0.058 0.06 0.03 -0.052 0.06 0.0424 -0.0424 0.06 0.052 -0.03 0.06 0.058 -0.0155 0.06"/>
+    <mesh name="nclub_tronco_8_1100_30_160" vertex="1.1 0 -0.16 0.7778 0.7778 -0.16 0 1.1 -0.16 -0.7778 0.7778 -0.16 -1.1 0 -0.16 -0.7778 -0.7778 -0.16 0 -1.1 -0.16 0.7778 -0.7778 -0.16 0.03 0 0.16 0.0212 0.0212 0.16 0 0.03 0.16 -0.0212 0.0212 0.16 -0.03 0 0.16 -0.0212 -0.0212 0.16 0 -0.03 0.16 0.0212 -0.0212 0.16"/>
+    <mesh name="nclub_tronco_12_160_200_240" vertex="0.16 0 -0.24 0.1386 0.08 -0.24 0.08 0.1386 -0.24 0 0.16 -0.24 -0.08 0.1386 -0.24 -0.1386 0.08 -0.24 -0.16 0 -0.24 -0.1386 -0.08 -0.24 -0.08 -0.1386 -0.24 0 -0.16 -0.24 0.08 -0.1386 -0.24 0.1386 -0.08 -0.24 0.2 0 0.24 0.1732 0.1 0.24 0.1 0.1732 0.24 0 0.2 0.24 -0.1 0.1732 0.24 -0.1732 0.1 0.24 -0.2 0 0.24 -0.1732 -0.1 0.24 -0.1 -0.1732 0.24 0 -0.2 0.24 0.1 -0.1732 0.24 0.1732 -0.1 0.24"/>
+    <mesh name="nclub_tronco_24_122_170_180" vertex="0.1224 0 -0.18 0.1182 0.0317 -0.18 0.106 0.0612 -0.18 0.0865 0.0865 -0.18 0.0612 0.106 -0.18 0.0317 0.1182 -0.18 0 0.1224 -0.18 -0.0317 0.1182 -0.18 -0.0612 0.106 -0.18 -0.0865 0.0865 -0.18 -0.106 0.0612 -0.18 -0.1182 0.0317 -0.18 -0.1224 0 -0.18 -0.1182 -0.0317 -0.18 -0.106 -0.0612 -0.18 -0.0865 -0.0865 -0.18 -0.0612 -0.106 -0.18 -0.0317 -0.1182 -0.18 0 -0.1224 -0.18 0.0317 -0.1182 -0.18 0.0612 -0.106 -0.18 0.0865 -0.0865 -0.18 0.106 -0.0612 -0.18 0.1182 -0.0317 -0.18 0.17 0 0.18 0.1642 0.044 0.18 0.1472 0.085 0.18 0.1202 0.1202 0.18 0.085 0.1472 0.18 0.044 0.1642 0.18 0 0.17 0.18 -0.044 0.1642 0.18 -0.085 0.1472 0.18 -0.1202 0.1202 0.18 -0.1472 0.085 0.18 -0.1642 0.044 0.18 -0.17 0 0.18 -0.1642 -0.044 0.18 -0.1472 -0.085 0.18 -0.1202 -0.1202 0.18 -0.085 -0.1472 0.18 -0.044 -0.1642 0.18 0 -0.17 0.18 0.044 -0.1642 0.18 0.085 -0.1472 0.18 0.1202 -0.1202 0.18 0.1472 -0.085 0.18 0.1642 -0.044 0.18"/>
+    <mesh name="nclub_tronco_24_150_100_90" vertex="0.15 0 -0.09 0.1449 0.0388 -0.09 0.1299 0.075 -0.09 0.1061 0.1061 -0.09 0.075 0.1299 -0.09 0.0388 0.1449 -0.09 0 0.15 -0.09 -0.0388 0.1449 -0.09 -0.075 0.1299 -0.09 -0.1061 0.1061 -0.09 -0.1299 0.075 -0.09 -0.1449 0.0388 -0.09 -0.15 0 -0.09 -0.1449 -0.0388 -0.09 -0.1299 -0.075 -0.09 -0.1061 -0.1061 -0.09 -0.075 -0.1299 -0.09 -0.0388 -0.1449 -0.09 0 -0.15 -0.09 0.0388 -0.1449 -0.09 0.075 -0.1299 -0.09 0.1061 -0.1061 -0.09 0.1299 -0.075 -0.09 0.1449 -0.0388 -0.09 0.1 0 0.09 0.0966 0.0259 0.09 0.0866 0.05 0.09 0.0707 0.0707 0.09 0.05 0.0866 0.09 0.0259 0.0966 0.09 0 0.1 0.09 -0.0259 0.0966 0.09 -0.05 0.0866 0.09 -0.0707 0.0707 0.09 -0.0866 0.05 0.09 -0.0966 0.0259 0.09 -0.1 0 0.09 -0.0966 -0.0259 0.09 -0.0866 -0.05 0.09 -0.0707 -0.0707 0.09 -0.05 -0.0866 0.09 -0.0259 -0.0966 0.09 0 -0.1 0.09 0.0259 -0.0966 0.09 0.05 -0.0866 0.09 0.0707 -0.0707 0.09 0.0866 -0.05 0.09 0.0966 -0.0259 0.09"/>
+    <mesh name="nclub_tronco_24_210_150_130" vertex="0.21 0 -0.13 0.2028 0.0544 -0.13 0.1819 0.105 -0.13 0.1485 0.1485 -0.13 0.105 0.1819 -0.13 0.0544 0.2028 -0.13 0 0.21 -0.13 -0.0544 0.2028 -0.13 -0.105 0.1819 -0.13 -0.1485 0.1485 -0.13 -0.1819 0.105 -0.13 -0.2028 0.0544 -0.13 -0.21 0 -0.13 -0.2028 -0.0544 -0.13 -0.1819 -0.105 -0.13 -0.1485 -0.1485 -0.13 -0.105 -0.1819 -0.13 -0.0544 -0.2028 -0.13 0 -0.21 -0.13 0.0544 -0.2028 -0.13 0.105 -0.1819 -0.13 0.1485 -0.1485 -0.13 0.1819 -0.105 -0.13 0.2028 -0.0544 -0.13 0.15 0 0.13 0.1449 0.0388 0.13 0.1299 0.075 0.13 0.1061 0.1061 0.13 0.075 0.1299 0.13 0.0388 0.1449 0.13 0 0.15 0.13 -0.0388 0.1449 0.13 -0.075 0.1299 0.13 -0.1061 0.1061 0.13 -0.1299 0.075 0.13 -0.1449 0.0388 0.13 -0.15 0 0.13 -0.1449 -0.0388 0.13 -0.1299 -0.075 0.13 -0.1061 -0.1061 0.13 -0.075 -0.1299 0.13 -0.0388 -0.1449 0.13 0 -0.15 0.13 0.0388 -0.1449 0.13 0.075 -0.1299 0.13 0.1061 -0.1061 0.13 0.1299 -0.075 0.13 0.1449 -0.0388 0.13"/>
+    <mesh name="nclub_tronco_24_144_200_210" vertex="0.144 0 -0.21 0.1391 0.0373 -0.21 0.1247 0.072 -0.21 0.1018 0.1018 -0.21 0.072 0.1247 -0.21 0.0373 0.1391 -0.21 0 0.144 -0.21 -0.0373 0.1391 -0.21 -0.072 0.1247 -0.21 -0.1018 0.1018 -0.21 -0.1247 0.072 -0.21 -0.1391 0.0373 -0.21 -0.144 0 -0.21 -0.1391 -0.0373 -0.21 -0.1247 -0.072 -0.21 -0.1018 -0.1018 -0.21 -0.072 -0.1247 -0.21 -0.0373 -0.1391 -0.21 0 -0.144 -0.21 0.0373 -0.1391 -0.21 0.072 -0.1247 -0.21 0.1018 -0.1018 -0.21 0.1247 -0.072 -0.21 0.1391 -0.0373 -0.21 0.2 0 0.21 0.1932 0.0518 0.21 0.1732 0.1 0.21 0.1414 0.1414 0.21 0.1 0.1732 0.21 0.0518 0.1932 0.21 0 0.2 0.21 -0.0518 0.1932 0.21 -0.1 0.1732 0.21 -0.1414 0.1414 0.21 -0.1732 0.1 0.21 -0.1932 0.0518 0.21 -0.2 0 0.21 -0.1932 -0.0518 0.21 -0.1732 -0.1 0.21 -0.1414 -0.1414 0.21 -0.1 -0.1732 0.21 -0.0518 -0.1932 0.21 0 -0.2 0.21 0.0518 -0.1932 0.21 0.1 -0.1732 0.21 0.1414 -0.1414 0.21 0.1732 -0.1 0.21 0.1932 -0.0518 0.21"/>
+    <mesh name="nclub_tronco_6_100_70_200" vertex="0.1 0 -0.2 0.05 0.0866 -0.2 -0.05 0.0866 -0.2 -0.1 0 -0.2 -0.05 -0.0866 -0.2 0.05 -0.0866 -0.2 0.07 0 0.2 0.035 0.0606 0.2 -0.035 0.0606 0.2 -0.07 0 0.2 -0.035 -0.0606 0.2 0.035 -0.0606 0.2"/>
+    <mesh name="nclub_tronco_24_80_55_90" vertex="0.08 0 -0.09 0.0773 0.0207 -0.09 0.0693 0.04 -0.09 0.0566 0.0566 -0.09 0.04 0.0693 -0.09 0.0207 0.0773 -0.09 0 0.08 -0.09 -0.0207 0.0773 -0.09 -0.04 0.0693 -0.09 -0.0566 0.0566 -0.09 -0.0693 0.04 -0.09 -0.0773 0.0207 -0.09 -0.08 0 -0.09 -0.0773 -0.0207 -0.09 -0.0693 -0.04 -0.09 -0.0566 -0.0566 -0.09 -0.04 -0.0693 -0.09 -0.0207 -0.0773 -0.09 0 -0.08 -0.09 0.0207 -0.0773 -0.09 0.04 -0.0693 -0.09 0.0566 -0.0566 -0.09 0.0693 -0.04 -0.09 0.0773 -0.0207 -0.09 0.055 0 0.09 0.0531 0.0142 0.09 0.0476 0.0275 0.09 0.0389 0.0389 0.09 0.0275 0.0476 0.09 0.0142 0.0531 0.09 0 0.055 0.09 -0.0142 0.0531 0.09 -0.0275 0.0476 0.09 -0.0389 0.0389 0.09 -0.0476 0.0275 0.09 -0.0531 0.0142 0.09 -0.055 0 0.09 -0.0531 -0.0142 0.09 -0.0476 -0.0275 0.09 -0.0389 -0.0389 0.09 -0.0275 -0.0476 0.09 -0.0142 -0.0531 0.09 0 -0.055 0.09 0.0142 -0.0531 0.09 0.0275 -0.0476 0.09 0.0389 -0.0389 0.09 0.0476 -0.0275 0.09 0.0531 -0.0142 0.09"/>
+    <mesh name="nclub_tronco_24_100_160_100" vertex="0.1 0 -0.1 0.0966 0.0259 -0.1 0.0866 0.05 -0.1 0.0707 0.0707 -0.1 0.05 0.0866 -0.1 0.0259 0.0966 -0.1 0 0.1 -0.1 -0.0259 0.0966 -0.1 -0.05 0.0866 -0.1 -0.0707 0.0707 -0.1 -0.0866 0.05 -0.1 -0.0966 0.0259 -0.1 -0.1 0 -0.1 -0.0966 -0.0259 -0.1 -0.0866 -0.05 -0.1 -0.0707 -0.0707 -0.1 -0.05 -0.0866 -0.1 -0.0259 -0.0966 -0.1 0 -0.1 -0.1 0.0259 -0.0966 -0.1 0.05 -0.0866 -0.1 0.0707 -0.0707 -0.1 0.0866 -0.05 -0.1 0.0966 -0.0259 -0.1 0.16 0 0.1 0.1545 0.0414 0.1 0.1386 0.08 0.1 0.1131 0.1131 0.1 0.08 0.1386 0.1 0.0414 0.1545 0.1 0 0.16 0.1 -0.0414 0.1545 0.1 -0.08 0.1386 0.1 -0.1131 0.1131 0.1 -0.1386 0.08 0.1 -0.1545 0.0414 0.1 -0.16 0 0.1 -0.1545 -0.0414 0.1 -0.1386 -0.08 0.1 -0.1131 -0.1131 0.1 -0.08 -0.1386 0.1 -0.0414 -0.1545 0.1 0 -0.16 0.1 0.0414 -0.1545 0.1 0.08 -0.1386 0.1 0.1131 -0.1131 0.1 0.1386 -0.08 0.1 0.1545 -0.0414 0.1"/>
+  </asset>
+  <!-- fin texturas -->
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.3 0.52 0.63" rgb2="0.3 0.52 0.63" markrgb="1 1 1" width="300" height="300"/>
+    <material name="groundplane" texture="cesped" texuniform="true" texrepeat="0.62 0.62" reflectance="0"/>
+  </asset>
+
+  <worldbody>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- inicio destinos (generado por scripts/pibot/escena.py desde destinos.json; no editar a mano) -->
+    <light name="nclub_sol" pos="7.6484 6.9241 15" dir="-9 -7 -15" cutoff="34" exponent="1" castshadow="true" diffuse="0.6 0.56 0.5" specular="0.3 0.3 0.28"/>
+    <light name="nclub_cielo" directional="true" castshadow="false" dir="0.3 -0.45 -1" diffuse="0.22 0.24 0.28" specular="0 0 0"/>
+    <camera name="nclub_lobby" pos="9.6454 -4.5 6.2" xyaxes="0.3822 0.9241 0 -0.414 0.1712 0.8941" fovy="50"/>
+    <camera name="nclub_recepcion" pos="2.6 -1.9 1.75" xyaxes="0.6247 0.7809 0 -0.1781 0.1425 0.9736" fovy="50"/>
+    <geom type="box" size="5.4971 6.5589 0.002" pos="-1.3516 -0.0759 0.002" material="marmol_piso_9_2x10_9" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.55 0.0005" pos="0 0 0.0045" material="puesto" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 1.25 0.075" pos="-1.3516 6.558 1.25" xyaxes="1 0 0 0 0 1" material="pared_11_3x2_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.475 0.012" pos="-1.3516 6.471 0.475" xyaxes="1 0 0 0 0 1" material="listones_nogal_18_8x1_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.012 0.012" pos="-1.3516 6.453 0.96" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.04 0.02" pos="-1.3516 6.463 2.46" xyaxes="1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 1.25 0.075" pos="-1.3516 -6.7098 1.25" xyaxes="-1 0 0 0 0 1" material="pared_11_3x2_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.475 0.012" pos="-1.3516 -6.6228 0.475" xyaxes="-1 0 0 0 0 1" material="listones_nogal_18_8x1_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.012 0.012" pos="-1.3516 -6.6048 0.96" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6471 0.04 0.02" pos="-1.3516 -6.6148 2.46" xyaxes="-1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 1.25 0.075" pos="-6.9237 -4.7303 1.25" xyaxes="0 1 0 0 0 1" material="pared_4_1x2_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.475 0.012" pos="-6.8367 -4.7303 0.475" xyaxes="0 1 0 0 0 1" material="listones_nogal_6_8x1_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.012 0.012" pos="-6.8187 -4.7303 0.96" xyaxes="0 1 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.04 0.02" pos="-6.8287 -4.7303 2.46" xyaxes="0 1 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 1.25 0.075" pos="-6.9237 4.5786 1.25" xyaxes="0 1 0 0 0 1" material="pared_4_1x2_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.475 0.012" pos="-6.8367 4.5786 0.475" xyaxes="0 1 0 0 0 1" material="listones_nogal_6_8x1_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.012 0.012" pos="-6.8187 4.5786 0.96" xyaxes="0 1 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.0544 0.04 0.02" pos="-6.8287 4.5786 2.46" xyaxes="0 1 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.45 0.075" pos="-6.9237 -0.0759 0.45" xyaxes="0 1 0 0 0 1" material="pared_5_2x0_9" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.475 0.012" pos="-6.8367 -0.0759 0.475" xyaxes="0 1 0 0 0 1" material="listones_nogal_8_7x1_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.012 0.012" pos="-6.8187 -0.0759 0.96" xyaxes="0 1 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.15 0.075" pos="-6.9237 -0.0759 2.35" xyaxes="0 1 0 0 0 1" material="pared_5_2x0_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.04 0.02" pos="-6.8287 -0.0759 2.46" xyaxes="0 1 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.6 0.65 0.008" pos="-6.9237 -0.0759 1.55" xyaxes="0 1 0 0 0 1" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.08 2.64 0.025" pos="-6.8087 -0.0759 0.92" material="marmol_blanco_0_2x6_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 -2.6759 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 -1.6359 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 -0.5959 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 0.4441 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 1.4841 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.04 0.025 0.67" pos="-6.9237 2.5241 1.55" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 2.6 0.025" pos="-6.9237 -0.0759 0.91" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 2.6 0.025" pos="-6.9237 -0.0759 2.2" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="6.7089 0.06 0.06" pos="4.1854 -0.0759 2.45" xyaxes="0 -1 0 0 0 1" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.8424 0.06 0.04" pos="4.1854 -3.9424 0.06" xyaxes="0 -1 0 0 0 1" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.8424 1.18 0.008" pos="4.1854 -3.9424 1.27" xyaxes="0 -1 0 0 0 1" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -6.7848 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -5.6478 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -4.5109 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -3.3739 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -2.237 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 -1.1 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.7665 0.06 0.04" pos="4.1854 3.8665 0.06" xyaxes="0 -1 0 0 0 1" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.7665 1.18 0.008" pos="4.1854 3.8665 1.27" xyaxes="0 -1 0 0 0 1" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 1.1 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 2.2066 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 3.3132 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 4.4198 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 5.5264 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.045 0.03 1.25" pos="4.1854 6.633 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.06 1.25" pos="4.1854 -1.13 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.06 1.25" pos="4.1854 1.13 1.25" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 1.1 0.06" pos="4.1854 0 2.36" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.5 1.14 0.008" pos="4.0954 -1.6 1.18" xyaxes="0 -1 0 0 0 1" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.02 0.025 1.14" pos="4.0954 -1.12 1.18" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.5 1.14 0.008" pos="4.0954 1.6 1.18" xyaxes="0 -1 0 0 0 1" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.02 0.025 1.14" pos="4.0954 1.12 1.18" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.85 1.6 0.012" pos="5.0954 0 2.62" material="vidrio" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.02 1.6 0.03" pos="5.9454 0 2.62" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.75 0.2 0.04" pos="4.2454 0 2.71" xyaxes="0 1 0 0 0 1" material="fachada" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.36 0.18 0.003" pos="4.2874 0 2.71" xyaxes="0 1 0 0 0 1" material="logo" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.27 0.72 0.05" pos="0.55 1.55 0.05" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.76 0.46 0.02" pos="0.84 1.55 0.56" xyaxes="0 1 0 0 0 1" material="listones_nogal_2_5x1_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.46 0.02" pos="0.55 2.3 0.56" xyaxes="-1 0 0 0 0 1" material="nogal_0_9x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.46 0.02" pos="0.55 0.8 0.56" xyaxes="1 0 0 0 0 1" material="nogal_0_9x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.76 0.46 0.01" pos="0.26 1.55 0.56" xyaxes="0 -1 0 0 0 1" material="nogal_2_2x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.34 0.8 0.03" pos="0.56 1.55 1.05" material="marmol_blanco_0_8x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.46 0.23 0.003" pos="0.862 1.55 0.6" xyaxes="0 1 0 0 0 1" material="logo" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.006 0.76 0.006" pos="0.885 1.55 1.008" material="luz_calida" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.06 0.01" pos="0.47 1.9 1.09" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.012 0.08" pos="0.47 1.9 1.17" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.24 0.15 0.012" pos="0.47 1.9 1.32" xyaxes="0 -1 0 0.0799 0 0.9968" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.225 0.135 0.002" pos="0.457 1.9 1.32" xyaxes="0 -1 0 0.0799 0 0.9968" material="pantalla" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.04 0.007" pos="0.73 1.6 1.087" material="laton" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="0.73 1.6 1.1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_45_60_60" pos="0.6 1.05 1.14" material="ceramica_blanca" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.004 0.0802" pos="0.605 1.05 1.28" zaxis="0.0624 0 0.9981" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.004 0.0447" pos="0.63 1.05 1.4" zaxis="0.4472 0 0.8944" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.004 0.0354" pos="0.685 1.05 1.445" zaxis="0.9899 0 0.1414" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.004 0.032" pos="0.745 1.05 1.43" zaxis="0.7809 0 -0.6247" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.024" pos="0.65 1.062 1.42" material="flor_rosa" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.024" pos="0.72 1.038 1.43" material="flor_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.024" pos="0.77 1.062 1.39" material="flor_rosa" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.024" pos="0.685 1.038 1.435" material="flor_blanca" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.08 0.035 0.008" pos="0.53 1.05 1.215" xyaxes="0.9211 -0.3894 0 0.3894 0.9211 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.08 0.035 0.008" pos="0.67 1.05 1.215" xyaxes="0.9211 0.3894 0 -0.3894 0.9211 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.95 0.8 0.0025" pos="-3.8245 3.1651 0.0065" xyaxes="-0.7704 0.6376 0 -0.6376 -0.7704 0" material="alfombra_persa" contype="0" conaffinity="0"/>
+    <geom type="box" size="1 1.15 0.0025" pos="-1.6443 4.5217 0.0077" xyaxes="-0.3417 0.9398 0 -0.9398 -0.3417 0" material="alfombra_moderna" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.25 1.2 0.008" pos="-4.8075 1.2362 0.0144" xyaxes="-0.9685 0.249 0 -0.249 -0.9685 0" material="teca_1_2x1_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.25 1.55 0.0025" pos="-4.7051 -1.2455 0.0101" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="parquet_1_6x1_9" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.25 1.4 0.0035" pos="-3.4192 -3.4192 0.0123" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="caucho_2_5x2_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.25 1.35 0.0025" pos="-1.6272 -4.4747 0.0125" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="piedra_spa_2_1x2_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.3 1.15 0.0025" pos="0.8259 -4.6802 0.0065" xyaxes="0.1738 -0.9848 0 0.9848 0.1738 0" material="concreto_1_7x1_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.8 0.0005" pos="0.7182 -4.0697 0.0095" xyaxes="0.1738 -0.9848 0 0.9848 0.1738 0" material="peligro_0_2x3_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="1.2 1.25 0.0025" pos="2.3163 -4.0875 0.0077" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="piedra_gris_2x2_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-4.8843 2.8256 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-4.5823 3.3899 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-4.32 2.5237 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-4.018 3.088 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.4 0.12" pos="-4.4511 2.9568 0.24" xyaxes="0.8817 -0.4718 0 0.4718 0.8817 0" material="tela_vino_2_7x2_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.33 0.28 0.06" pos="-4.4159 2.9379 0.42" xyaxes="0.8817 -0.4718 0 0.4718 0.8817 0" material="tela_vino_2_2x1_9" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.27 0.09" pos="-4.7245 3.1031 0.62" xyaxes="0.4718 0.8817 0 -0.1579 0.0845 0.9838" material="tela_vino_2_7x1_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-4.6116 2.657 0.47" xyaxes="0.8817 -0.4718 0 0.4718 0.8817 0" material="tela_vino_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-4.6116 2.657 0.58" zaxis="0.8817 -0.4718 0" material="tela_vino_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-4.2907 3.2566 0.47" xyaxes="0.8817 -0.4718 0 0.4718 0.8817 0" material="tela_vino_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-4.2907 3.2566 0.58" zaxis="0.8817 -0.4718 0" material="tela_vino_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.21 0.15 0.055" pos="-4.6187 3.0465 0.62" xyaxes="0.3347 0.9423 0 -0.2785 0.0989 0.9553" material="tela_mostaza_1_4x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-2.9625 5.1915 0.06" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-1.0642 5.8819 0.06" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-2.7028 4.4773 0.06" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-0.8044 5.1676 0.06" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.45 1.08 0.13" pos="-1.8835 5.1796 0.25" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_3x7_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.07 1.08 0.26" pos="-2.0133 5.5367 0.6" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_0_5x7_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.3 0.065" pos="-2.4491 4.9207 0.44" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_2_3x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.29 0.2 0.08" pos="-2.5584 5.2215 0.68" xyaxes="0.9398 0.3417 0 -0.0679 0.1867 0.9801" material="tela_salvia_1_9x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.3 0.065" pos="-1.8664 5.1326 0.44" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_2_3x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.29 0.2 0.08" pos="-1.9758 5.4333 0.68" xyaxes="0.9398 0.3417 0 -0.0679 0.1867 0.9801" material="tela_salvia_1_9x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.3 0.065" pos="-1.2837 5.3445 0.44" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_2_3x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.29 0.2 0.08" pos="-1.3931 5.6452 0.68" xyaxes="0.9398 0.3417 0 -0.0679 0.1867 0.9801" material="tela_salvia_1_9x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.45 0.08 0.12" pos="-2.8233 4.8378 0.48" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_3x0_5" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.08 0.37" pos="-2.8233 4.8378 0.6" zaxis="0.3417 -0.9398 0" material="tela_salvia_0_5x0_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.19 0.19 0.055" pos="-2.596 5.0907 0.64" xyaxes="0.7968 0.6042 0 -0.2072 0.2732 0.9394" material="tela_mostaza_1_3x1_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.45 0.08 0.12" pos="-0.9437 5.5213 0.48" xyaxes="0.3417 -0.9398 0 0.9398 0.3417 0" material="tela_salvia_3x0_5" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.08 0.37" pos="-0.9437 5.5213 0.6" zaxis="0.3417 -0.9398 0" material="tela_salvia_0_5x0_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.19 0.19 0.055" pos="-1.2803 5.5692 0.64" xyaxes="0.9988 0.0488 0 -0.0167 0.3425 0.9394" material="tela_mostaza_1_3x1_3" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.231 0.012" pos="-4.9527 1.2736 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.035 0.37" pos="-4.9527 1.2736 0.37" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.42 0.015" pos="-4.9527 1.2736 0.725" material="teca_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.022 1.12" pos="-4.9527 1.2736 1.12" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_8_1100_30_160" pos="-4.9527 1.2736 2.28" material="lona_lisa" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="1.1 0.006" pos="-4.9527 1.2736 2.115" material="lona_lisa" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.035" pos="-4.9527 1.2736 2.47" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.26 0.012" pos="-4.9211 -0.7027 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.04 0.24" pos="-4.9211 -0.7027 0.25" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.46 0.15" pos="-4.9211 -0.7027 0.615" material="mantel" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.47 0.006" pos="-4.9211 -0.7027 0.765" material="mantel" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.12 0.003" pos="-5.2015 -0.7769 0.774" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.075 0.003" pos="-5.2015 -0.7769 0.779" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.028 0.055" pos="-5.1283 -0.9197 0.83" material="copa" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.12 0.003" pos="-4.6408 -0.6285 0.774" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.075 0.003" pos="-4.6408 -0.6285 0.779" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.028 0.055" pos="-4.714 -0.4856 0.83" material="copa" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.035 0.05" pos="-4.9211 -0.7027 0.82" material="ceramica_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.9129 -0.724 0.89" material="flor_rosa" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.8973 -0.6829 0.91" material="flor_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.9454 -0.7193 0.93" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.022 0.03" pos="-5.0576 -0.656 0.8" material="vela" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.01" pos="-5.0576 -0.656 0.84" material="llama" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.85 0.38 0.06" pos="-3.2778 -3.9142 0.1" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.72 0.25 0.008" pos="-3.2425 -3.8789 0.165" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="banda" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.13 0.37 0.08" pos="-3.8152 -4.4516 0.21" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.72 0.06 0.012" pos="-3.4617 -3.6597 0.172" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.72 0.06 0.012" pos="-3.0233 -4.0981 0.172" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.03 0.4554" pos="-4.0274 -4.1971 0.7" zaxis="0.1087 0.1087 0.9881" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.03 0.4554" pos="-3.5607 -4.6637 0.7" zaxis="0.1087 0.1087 0.9881" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.34 0.15 0.03" pos="-3.7304 -4.3668 1.22" xyaxes="-0.7071 0.7071 0 -0.339 -0.339 0.8776" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.19 0.085 0.004" pos="-3.7106 -4.347 1.235" xyaxes="-0.7071 0.7071 0 -0.339 -0.339 0.8776" material="pantalla" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.022 0.33" pos="-3.6738 -4.3102 1.05" zaxis="0.7071 -0.7071 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.36 0.92 0.06" pos="-1.6784 -4.6157 0.72" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="cuero_crema_1_8x4_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.86 0.025" pos="-1.6784 -4.6157 0.635" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="roble_0_9x2_5" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.03 0.3" pos="-2.3192 -4.0954 0.3" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.03 0.3" pos="-0.8531 -4.6285 0.3" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.03 0.3" pos="-2.5037 -4.6029 0.3" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.03 0.3" pos="-1.0377 -5.136 0.3" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.15 0.1 0.045" pos="-0.7105 -4.9677 0.71" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="cuero_crema_0_7x0_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.22 0.012" pos="-2.1953 -4.4278 0.792" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="toalla_teal" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.1 0.02" pos="0.2497 -4.7997 0.1" zaxis="-0.8989 0.4382 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.1 0.02" pos="-0.1098 -4.6244 0.1" zaxis="-0.8989 0.4382 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.016 0.5197" pos="0.2008 -4.8315 0.635" zaxis="-0.059 -0.1211 0.9909" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.016 0.5197" pos="-0.1048 -4.6825 0.635" zaxis="-0.059 -0.1211 0.9909" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.1 0.2 0.01" pos="0.1138 -4.6222 0.02" xyaxes="0.4382 0.8989 0 -0.8989 0.4382 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.016 0.17" pos="0.0174 -4.8199 1.15" zaxis="-0.8989 0.4382 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.055 0.8 0.015" pos="2.3688 -3.9773 0.44" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="roble_0_2x2_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.055 0.8 0.015" pos="2.4279 -4.0817 0.44" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="roble_0_2x2_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.055 0.8 0.015" pos="2.4871 -4.1861 0.44" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="roble_0_2x2_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.17 0.022 0.215" pos="1.8189 -4.4268 0.215" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.17 0.022 0.215" pos="3.0369 -3.7366 0.215" xyaxes="0.493 -0.87 0 0.87 0.493 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-4.1871 3.8675 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-3.6892 4.2697 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-3.7849 3.3696 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-3.2871 3.7718 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.4 0.12" pos="-3.7371 3.8197 0.24" xyaxes="0.6284 -0.7779 0 0.7779 0.6284 0" material="tela_vino_2_7x2_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.33 0.28 0.06" pos="-3.7119 3.7885 0.42" xyaxes="0.6284 -0.7779 0 0.7779 0.6284 0" material="tela_vino_2_2x1_9" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.27 0.09" pos="-3.9319 4.0608 0.62" xyaxes="0.7779 0.6284 0 -0.1125 0.1393 0.9838" material="tela_vino_2_7x1_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-4.0016 3.606 0.47" xyaxes="0.6284 -0.7779 0 0.7779 0.6284 0" material="tela_vino_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-4.0016 3.606 0.58" zaxis="0.6284 -0.7779 0" material="tela_vino_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-3.4726 4.0333 0.47" xyaxes="0.6284 -0.7779 0 0.7779 0.6284 0" material="tela_vino_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-3.4726 4.0333 0.58" zaxis="0.6284 -0.7779 0" material="tela_vino_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.21 0.15 0.055" pos="-3.8565 3.9675 0.62" xyaxes="0.6753 0.7376 0 -0.218 0.1996 0.9553" material="tela_mostaza_1_4x1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.26 0.48 0.025" pos="-1.6272 4.4747 0.395" xyaxes="-0.3417 0.9398 0 -0.9398 -0.3417 0" material="nogal_0_7x1_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.185" pos="-1.1641 4.4303 0.185" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.185" pos="-1.9535 4.1433 0.185" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.185" pos="-1.3008 4.8062 0.185" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.185" pos="-2.0902 4.5192 0.185" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.12 0.16 0.017" pos="-1.7676 4.2992 0.438" xyaxes="-0.583 0.8125 0 -0.8125 -0.583 0" material="libro_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.11 0.145 0.017" pos="-1.7676 4.2992 0.472" xyaxes="-0.579 0.8153 0 -0.8153 -0.579 0" material="libro_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.1 0.13 0.017" pos="-1.7676 4.2992 0.506" xyaxes="-0.0826 0.9966 0 -0.9966 -0.0826 0" material="libro_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.13 0.13 0.035" pos="-1.5681 4.5931 0.45" xyaxes="-0.3417 0.9398 0 -0.9398 -0.3417 0" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.035" pos="-1.5819 4.5527 0.49" material="flor_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.035" pos="-1.5873 4.6062 0.49" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.862 1.3112 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.7674 1.6792 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.494 1.2166 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.3994 1.5846 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-5.6307 1.4479 0.445" xyaxes="0.9685 -0.249 0 0.249 0.9685 0" material="roble_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-5.621 1.4454 0.485" xyaxes="0.9685 -0.249 0 0.249 0.9685 0" material="lona_0_8x0_8" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.862 1.3112 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.7674 1.6792 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-5.8292 1.4989 0.74" xyaxes="0.249 0.9685 0 -0.1159 0.0298 0.9928" material="roble_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.1156 -0.1895 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.0184 -0.5568 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.483 -0.2867 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.3858 -0.6541 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-4.2507 -0.4218 0.445" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="nogal_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-4.2604 -0.4243 0.485" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="cuero_cognac_1x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.1156 -0.1895 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.0184 -0.5568 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-4.0525 -0.3693 0.74" xyaxes="0.2559 -0.9667 0 0.1157 0.0306 0.9928" material="nogal_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.55 0.15 0.04" pos="-4.1263 -3.5607 0.45" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="cuero_negro_2_8x0_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.45 0.04 0.03" pos="-4.1263 -3.5607 0.36" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.2 0.2" pos="-3.8294 -3.2637 0.2" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.2 0.2" pos="-4.4233 -3.8576 0.2" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.03 0.6" pos="-3.9566 -2.8536 0.6" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.03 0.6" pos="-3.4192 -3.391 0.6" xyaxes="-0.7071 -0.7071 0 0.7071 -0.7071 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.015 0.78" pos="-3.7021 -3.1364 1.05" zaxis="0.7071 -0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.22 0.022" pos="-4.0698 -2.7687 1.05" zaxis="0.7071 -0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.022" pos="-4.1051 -2.7333 1.05" zaxis="0.7071 -0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.22 0.022" pos="-3.3344 -3.5041 1.05" zaxis="0.7071 -0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.022" pos="-3.299 -3.5394 1.05" zaxis="0.7071 -0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.24 0.84 0.015" pos="-1.5614 -5.6691 0.92" xyaxes="-0.7846 0.62 0 0 0 1" material="listones_roble_0_8x2_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.015 0.02" pos="-1.5614 -5.6691 1.77" xyaxes="-0.7846 0.62 0 0 0 1" material="nogal_0_7x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.24 0.84 0.015" pos="-2.0031 -5.5085 0.92" xyaxes="-0.9996 0.0288 0 0 0 1" material="listones_roble_0_8x2_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.015 0.02" pos="-2.0031 -5.5085 1.77" xyaxes="-0.9996 0.0288 0 0 0 1" material="nogal_0_7x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.24 0.84 0.015" pos="-2.4448 -5.3479 0.92" xyaxes="-0.7846 0.62 0 0 0 1" material="listones_roble_0_8x2_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.015 0.02" pos="-2.4448 -5.3479 1.77" xyaxes="-0.7846 0.62 0 0 0 1" material="nogal_0_7x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.2 0.2" pos="0.8838 -4.7208 0.2" xyaxes="0.4254 -0.905 0 0.905 0.4254 0" material="carton_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.17 0.15" pos="0.9197 -4.7248 0.55" xyaxes="0.581 -0.8139 0 0.8139 0.581 0" material="carton_0_8x0_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.18 0.15" pos="1.3247 -4.5504 0.15" xyaxes="0.3288 -0.9444 0 0.9444 0.3288 0" material="carton_0_7x0_7" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_12_160_200_240" pos="3.1442 -3.2161 0.24" material="roble_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.19 0.012" pos="3.1442 -3.2161 0.47" material="nogal_0_5x0_5" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.09" pos="3.1738 -3.2683 0.5" material="toalla_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.09" pos="3.1744 -3.1642 0.5" material="toalla_teal" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.09" pos="3.0842 -3.2162 0.5" material="toalla_blanca" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.15 0.012" pos="-2.9622 3.3601 0.012" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.475" pos="-2.9622 3.3601 0.475" material="laton" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.045" pos="-2.9622 3.3601 0.99" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.15 0.012" pos="-3.8548 2.2815 0.012" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.475" pos="-3.8548 2.2815 0.475" material="laton" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.045" pos="-3.8548 2.2815 0.99" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.017 0.3569" pos="-3.1853 3.0904 0.81" zaxis="-0.6252 -0.7554 -0.1961" material="tela_vino_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.017 0.3569" pos="-3.6316 2.5512 0.81" zaxis="-0.6252 -0.7554 0.1961" material="tela_vino_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-0.4567 5.06 0.06" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-0.238 4.4585 0.06" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-1.0582 4.8413 0.06" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="-0.8395 4.2398 0.06" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.4 0.12" pos="-0.6481 4.6499 0.24" xyaxes="-0.9398 -0.3417 0 0.3417 -0.9398 0" material="tela_crema_2_7x2_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.33 0.28 0.06" pos="-0.6857 4.6362 0.42" xyaxes="-0.9398 -0.3417 0 0.3417 -0.9398 0" material="tela_crema_2_2x1_9" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.27 0.09" pos="-0.3567 4.7558 0.62" xyaxes="0.3417 -0.9398 0 0.1683 0.0612 0.9838" material="tela_crema_2_7x1_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-0.7643 4.9694 0.47" xyaxes="-0.9398 -0.3417 0 0.3417 -0.9398 0" material="tela_crema_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-0.7643 4.9694 0.58" zaxis="-0.9398 -0.3417 0" material="tela_crema_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="-0.5319 4.3304 0.47" xyaxes="-0.9398 -0.3417 0 0.3417 -0.9398 0" material="tela_crema_2_5x0_4" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="-0.5319 4.3304 0.58" zaxis="-0.9398 -0.3417 0" material="tela_crema_0_4x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.21 0.15 0.055" pos="-0.4695 4.7148 0.62" xyaxes="0.4783 -0.8782 0 0.2595 0.1414 0.9553" material="tela_terracota_1_4x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.4481 0.5163 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.8013 0.3762 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.5881 0.8695 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.9414 0.7294 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-4.6947 0.6229 0.445" xyaxes="-0.3686 0.9296 0 -0.9296 -0.3686 0" material="roble_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-4.6984 0.6321 0.485" xyaxes="-0.3686 0.9296 0 -0.9296 -0.3686 0" material="lona_0_8x0_8" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.4481 0.5163 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.8013 0.3762 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-4.6191 0.4323 0.74" xyaxes="-0.9296 -0.3686 0 0.0441 -0.1113 0.9928" material="roble_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.7778 -1.0225 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.875 -0.6552 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.4105 -0.9253 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.5077 -0.558 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-5.6428 -0.7903 0.445" xyaxes="0.9667 0.2559 0 -0.2559 0.9667 0" material="nogal_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-5.6331 -0.7877 0.485" xyaxes="0.9667 0.2559 0 -0.2559 0.9667 0" material="cuero_cognac_1x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.7778 -1.0225 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.875 -0.6552 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-5.8409 -0.8427 0.74" xyaxes="-0.2559 0.9667 0 -0.1157 -0.0306 0.9928" material="nogal_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.33" pos="-4.3314 -4.487 0.33" xyaxes="0.7071 0.7071 0 -0.7071 0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.33" pos="-5.1234 -3.695 0.33" xyaxes="0.7071 0.7071 0 -0.7071 0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.56 0.015" pos="-4.6991 -4.0627 0.3" xyaxes="0.7071 0.7071 0 -0.7071 0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.15 0.56 0.015" pos="-4.7698 -4.1334 0.6" xyaxes="0.7071 0.7071 0 -0.7071 0.7071 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-4.4445 -4.3173 0.385" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.07 0.03" pos="-4.5153 -4.388 0.385" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.07 0.03" pos="-4.3738 -4.2466 0.385" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-4.6991 -4.0627 0.393" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.078 0.03" pos="-4.7698 -4.1334 0.393" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.078 0.03" pos="-4.6284 -3.992 0.393" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-4.9537 -3.8081 0.401" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.086 0.03" pos="-5.0244 -3.8789 0.401" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.086 0.03" pos="-4.8829 -3.7374 0.401" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-4.5153 -4.388 0.67" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.055 0.03" pos="-4.586 -4.4587 0.67" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.055 0.03" pos="-4.4445 -4.3173 0.67" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-4.7698 -4.1334 0.678" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.063 0.03" pos="-4.8405 -4.2041 0.678" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.063 0.03" pos="-4.6991 -4.0627 0.678" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.085" pos="-5.0244 -3.8789 0.686" zaxis="0.7071 0.7071 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.071 0.03" pos="-5.0951 -3.9496 0.686" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.071 0.03" pos="-4.9537 -3.8081 0.686" zaxis="0.7071 0.7071 0" material="caucho_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.24 0.2 0.02" pos="-0.8668 -5.6025 0.22" xyaxes="-0.9398 0.3417 0 -0.3417 -0.9398 0" material="roble_0_7x0_6" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.02 0.1" pos="-0.6242 -5.5205 0.1" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.02 0.1" pos="-0.7335 -5.8212 0.1" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.02 0.1" pos="-1.0001 -5.3838 0.1" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.02 0.1" pos="-1.1094 -5.6845 0.1" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.058 0.17" pos="-0.8258 -5.4897 0.3" zaxis="-0.9398 0.3417 0" material="toalla_blanca" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.058 0.17" pos="-0.8668 -5.6025 0.3" zaxis="-0.9398 0.3417 0" material="toalla_teal" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.058 0.17" pos="-0.9078 -5.7153 0.3" zaxis="-0.9398 0.3417 0" material="toalla_blanca" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.058 0.17" pos="-0.8463 -5.5461 0.4" zaxis="-0.9398 0.3417 0" material="toalla_teal" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.058 0.17" pos="-0.8873 -5.6589 0.4" zaxis="-0.9398 0.3417 0" material="toalla_blanca" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_122_170_180" pos="3.6561 -4.0179 0.18" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.182 0.014" pos="3.6561 -4.0179 0.36" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.158 0.01" pos="3.6561 -4.0179 0.363" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1877 0.169 0.1502" pos="3.6768 -4.0743 0.4979" xyaxes="0.3444 -0.9388 0 0.9388 0.3444 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1351 0.1216 0.1081" pos="3.6674 -3.9085 0.5342" xyaxes="0.103 0.9947 0 -0.9947 0.103 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1426 0.1283 0.1141" pos="3.557 -4.1435 0.6526" xyaxes="-0.6195 -0.785 0 0.785 -0.6195 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1572 0.1415 0.1258" pos="3.7153 -4.0277 0.6085" xyaxes="0.9868 -0.1622 0 0.1622 0.9868 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1798 0.1618 0.1439" pos="3.6028 -3.9217 0.4869" xyaxes="-0.4848 0.8746 0 -0.8746 -0.4848 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1312 0.1181 0.105" pos="3.6227 -4.1744 0.54" xyaxes="-0.2088 -0.978 0 0.978 -0.2088 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1841 0.1657 0.1473" pos="3.7011 -3.9782 0.5737" xyaxes="0.7498 0.6616 0 -0.6616 0.7498 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.121 0.012" pos="-4.7104 3.8983 0.012" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.035 0.28" pos="-4.7104 3.8983 0.28" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.22 0.015" pos="-4.7104 3.8983 0.545" material="marmol_blanco_0_5x0_5" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.09" pos="-4.7104 3.8983 0.65" material="ceramica_salvia" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.01 0.07" pos="-4.7104 3.8983 0.8" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_150_100_90" pos="-4.7104 3.8983 0.9" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.3872 1.9866 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.1453 1.6935 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.6803 1.7447 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.4384 1.4516 0.215" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-4.4128 1.7191 0.445" xyaxes="-0.7713 -0.6365 0 0.6365 -0.7713 0" material="roble_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-4.4205 1.7127 0.485" xyaxes="-0.7713 -0.6365 0 0.6365 -0.7713 0" material="lona_0_8x0_8" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.3872 1.9866 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-4.1453 1.6935 0.67" material="roble_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-4.2547 1.8496 0.74" xyaxes="0.6365 -0.7713 0 0.0923 0.0762 0.9928" material="roble_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.26 0.012" pos="-4.6115 -1.8724 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.04 0.24" pos="-4.6115 -1.8724 0.25" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.46 0.15" pos="-4.6115 -1.8724 0.615" material="mantel" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.47 0.006" pos="-4.6115 -1.8724 0.765" material="mantel" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.12 0.003" pos="-4.8919 -1.9466 0.774" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.075 0.003" pos="-4.8919 -1.9466 0.779" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.028 0.055" pos="-4.8186 -2.0894 0.83" material="copa" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.12 0.003" pos="-4.3312 -1.7982 0.774" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.075 0.003" pos="-4.3312 -1.7982 0.779" material="porcelana" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.028 0.055" pos="-4.4044 -1.6554 0.83" material="copa" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.035 0.05" pos="-4.6115 -1.8724 0.82" material="ceramica_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.6087 -1.8549 0.89" material="flor_rosa" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.5858 -1.8913 0.91" material="flor_blanca" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-4.6131 -1.8846 0.93" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.022 0.03" pos="-4.748 -1.8258 0.8" material="vela" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.01" pos="-4.748 -1.8258 0.84" material="llama" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.3" pos="-4.0203 -5.0809 0.3" material="pelota" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.15" pos="-2.6823 -4.8891 0.15" xyaxes="-0.3417 -0.9398 0 0.9398 -0.3417 0" material="piedra_clara" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.14 0.12 0.05" pos="-2.6823 -4.8891 0.35" xyaxes="0.7903 -0.6128 0 0.6128 0.7903 0" material="piedra_zen" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.11 0.09 0.042" pos="-2.6823 -4.8891 0.434" xyaxes="0.5982 -0.8014 0 0.8014 0.5982 0" material="piedra_zen" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.08 0.07 0.036" pos="-2.6823 -4.8891 0.504" xyaxes="0.3628 -0.9319 0 0.9319 0.3628 0" material="piedra_zen" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.055 0.048 0.03" pos="-2.6823 -4.8891 0.562" xyaxes="0.1457 -0.9893 0 0.9893 0.1457 0" material="piedra_zen" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.16 0.012" pos="-5.1886 3.3205 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.012 0.775" pos="-5.1886 3.3205 0.775" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_210_150_130" pos="-5.1886 3.3205 1.55" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.05" pos="-5.1886 3.3205 1.49" material="luz_calida" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-0.666 5.7819 0.21" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-0.666 5.7819 0.42" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-0.666 5.7819 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.42" pos="-0.666 5.7819 0.84" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.271 0.2303 0.1897" pos="-0.7452 5.9996 1.2283" xyaxes="-0.3417 0.9398 0 -0.9398 -0.3417 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2602 0.2212 0.1821" pos="-0.703 5.7271 1.568" xyaxes="-0.5587 -0.8294 0 0.8294 -0.5587 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2096 0.1781 0.1467" pos="-0.4889 5.7884 1.503" xyaxes="0.9993 0.0364 0 -0.0364 0.9993 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2358 0.2004 0.1651" pos="-0.7681 5.9119 1.2792" xyaxes="-0.6175 0.7866 0 -0.7866 -0.6175 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2178 0.1851 0.1524" pos="-0.702 5.6551 1.5615" xyaxes="-0.2725 -0.9622 0 0.9622 -0.2725 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2711 0.2305 0.1898" pos="-0.4418 5.8646 1.4721" xyaxes="0.9383 0.3459 0 -0.3459 0.9383 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2058 0.1749 0.144" pos="-0.7779 5.8566 1.218" xyaxes="-0.8318 0.555 0 -0.555 -0.8318 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2246 0.1909 0.1572" pos="-0.6638 5.7267 1.3592" xyaxes="0.0408 -0.9992 0 0.9992 0.0408 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2656 0.2258 0.1859" pos="-0.5702 5.8578 1.4629" xyaxes="0.7838 0.621 0 -0.621 0.7838 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2027 0.1723 0.1419" pos="-0.8168 5.8239 1.2119" xyaxes="-0.9633 0.2683 0 -0.2683 -0.9633 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.55 0.28" pos="-6.1634 1.5849 0.28" xyaxes="0.9685 -0.249 0 0.249 0.9685 0" material="teca_0_2x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.52 0.08" pos="-6.1634 1.5849 0.62" xyaxes="0.9685 -0.249 0 0.249 0.9685 0" material="seto_0_4x1_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.18 0.2 0.16" pos="-6.243 1.2749 0.72" xyaxes="0.841 -0.5411 0 0.5411 0.841 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.18 0.2 0.16" pos="-6.1509 1.6333 0.72" xyaxes="0.9797 -0.2003 0 0.2003 0.9797 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.18 0.2 0.16" pos="-6.0737 1.9335 0.72" xyaxes="0.9941 0.1081 0 -0.1081 0.9941 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-3.7676 -1.5042 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-3.6704 -1.8715 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.135 -1.6014 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-4.0377 -1.9688 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-3.9027 -1.7365 0.445" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="nogal_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-3.9124 -1.739 0.485" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="cuero_cognac_1x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-3.7676 -1.5042 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-3.6704 -1.8715 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-3.7045 -1.684 0.74" xyaxes="0.2559 -0.9667 0 0.1157 0.0306 0.9928" material="nogal_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-3.0283 -5.4017 0.012" material="piedra_zen" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.036 0.07" pos="-2.9984 -5.4658 0.094" material="vela" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.012" pos="-2.9984 -5.4658 0.182" material="llama" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.036 0.11" pos="-2.9796 -5.3556 0.134" material="vela" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.012" pos="-2.9796 -5.3556 0.262" material="llama" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.036 0.05" pos="-3.0941 -5.3778 0.074" material="vela" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.012" pos="-3.0941 -5.3778 0.142" material="llama" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_122_170_180" pos="-4.2841 4.6488 0.18" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.182 0.014" pos="-4.2841 4.6488 0.36" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.158 0.01" pos="-4.2841 4.6488 0.363" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.434" pos="-4.4854 4.8723 0.7127" zaxis="-0.464 0.5152 0.7206" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3887" pos="-4.4896 4.6943 0.7267" zaxis="-0.5289 0.1172 0.8406" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3375" pos="-4.4811 4.5381 0.6507" zaxis="-0.5839 -0.3279 0.7426" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3863" pos="-4.4629 4.4518 0.6801" zaxis="-0.4629 -0.5099 0.7251" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3881" pos="-4.2694 4.5346 0.7707" zaxis="0.0377 -0.2942 0.955" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.4601" pos="-4.1642 4.5013 0.819" zaxis="0.2605 -0.3205 0.9107" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3277" pos="-4.185 4.624 0.7114" zaxis="0.3022 -0.0756 0.9502" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3789" pos="-4.0125 4.6987 0.6594" zaxis="0.7167 0.1319 0.6848" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3282" pos="-4.1488 4.746 0.6828" zaxis="0.412 0.2962 0.8617" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3954" pos="-4.2096 4.8382 0.739" zaxis="0.1882 0.4792 0.8573" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.3555" pos="-4.3135 4.793 0.7236" zaxis="-0.0829 0.4057 0.9102" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.16 0.012" pos="-3.0796 4.9575 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.012 0.8" pos="-3.0796 4.9575 0.8" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_210_150_130" pos="-3.0796 4.9575 1.6" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.05" pos="-3.0796 4.9575 1.54" material="luz_calida" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-5.6611 2.3334 0.21" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-5.6611 2.3334 0.42" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-5.6611 2.3334 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.483" pos="-5.6611 2.3334 0.903" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2439 0.2073 0.1707" pos="-5.7533 2.3571 1.5297" xyaxes="-0.9685 0.249 0 -0.249 -0.9685 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2521 0.2143 0.1765" pos="-5.6004 2.1802 1.3547" xyaxes="0.3686 -0.9296 0 0.9296 0.3686 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2734 0.2324 0.1914" pos="-5.6331 2.3777 1.4661" xyaxes="0.5346 0.8451 0 -0.8451 0.5346 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2894 0.246 0.2026" pos="-5.7554 2.3272 1.5874" xyaxes="-0.9979 -0.0651 0 0.0651 -0.9979 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.237 0.2015 0.1659" pos="-5.5274 2.1728 1.6845" xyaxes="0.6399 -0.7685 0 0.7685 0.6399 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.253 0.215 0.1771" pos="-5.6419 2.4096 1.8161" xyaxes="0.2448 0.9696 0 -0.9696 0.2448 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2637 0.2242 0.1846" pos="-5.7998 2.2777 1.7031" xyaxes="-0.9279 -0.3727 0 0.3727 -0.9279 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2654 0.2256 0.1858" pos="-5.6084 2.3004 1.6569" xyaxes="0.8474 -0.5309 0 0.5309 0.8474 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1921 0.1633 0.1345" pos="-5.6686 2.4404 1.8147" xyaxes="-0.0695 0.9976 0 -0.9976 -0.0695 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2615 0.2222 0.183" pos="-5.7682 2.2434 1.8223" xyaxes="-0.7656 -0.6433 0 0.6433 -0.7656 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.4298 -2.3373 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.527 -1.9699 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.0624 -2.24 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.215" pos="-5.1597 -1.8727 0.215" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.22 0.22 0.02" pos="-5.2947 -2.105 0.445" xyaxes="0.9667 0.2559 0 -0.2559 0.9667 0" material="nogal_0_6x0_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.2 0.022" pos="-5.2851 -2.1024 0.485" xyaxes="0.9667 0.2559 0 -0.2559 0.9667 0" material="cuero_cognac_1x1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.4298 -2.3373 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.016 0.22" pos="-5.527 -1.9699 0.67" material="nogal_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.13 0.016" pos="-5.4929 -2.1574 0.74" xyaxes="-0.2559 0.9667 0 -0.1157 -0.0306 0.9928" material="nogal_0_6x0_4" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_122_170_180" pos="-1.0249 -6.1835 0.18" material="ceramica_salvia" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.182 0.014" pos="-1.0249 -6.1835 0.36" material="ceramica_salvia" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.158 0.01" pos="-1.0249 -6.1835 0.363" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.8762" pos="-1.0595 -6.2788 1.2362" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0258 -6.2062 1.4615" zaxis="0.3369 0.7256 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.9824 -6.3002 1.7682" zaxis="0.7707 -0.2144 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0866 -6.354 2.0749" zaxis="-0.2713 -0.7526 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.7602" pos="-0.9552 -6.1271 1.1202" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0322 -6.1053 1.3222" zaxis="-0.77 0.2171 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.8825 -6.0936 1.5883" zaxis="0.7267 0.3345 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0334 -6.1104 1.8543" zaxis="-0.7825 0.1662 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.8696" pos="-1.0789 -6.191 1.2296" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.1504 -6.1553 1.4536" zaxis="-0.7157 0.3575 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0171 -6.1402 1.7579" zaxis="0.6177 0.5084 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.071 -6.1114 2.0623" zaxis="0.0791 0.7961 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.6687" pos="-0.9408 -6.2193 1.0287" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.9406 -6.1393 1.2124" zaxis="0.0021 0.8 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0208 -6.2202 1.4465" zaxis="-0.8 -0.0089 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.8632 -6.2388 1.6805" zaxis="0.7758 -0.1954 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.8313" pos="-1.0848 -6.1006 1.1913" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.1622 -6.121 1.4075" zaxis="-0.7736 -0.204 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0063 -6.0851 1.6985" zaxis="0.7849 0.1547 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.066 -6.1783 1.9894" zaxis="0.1886 -0.7775 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.8706" pos="-1.0162 -6.2851 1.2306" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.9656 -6.2232 1.4547" zaxis="0.5065 0.6193 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.997 -6.3628 1.7594" zaxis="0.1918 -0.7767 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.9539 -6.3353 2.0641" zaxis="0.6233 -0.5014 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.014 0.7011" pos="-0.9864 -6.1052 1.0611" zaxis="0 0 1" material="bambu" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0341 -6.1695 1.2513" zaxis="-0.4767 -0.6425 0.6" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-1.0037 -6.0271 1.4967" zaxis="-0.1727 0.7811 0.6" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.012 0.035 0.12" pos="-0.9229 -6.1539 1.7421" zaxis="0.6349 -0.4867 0.6" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_6_100_70_200" pos="-6.1578 0.6025 0.2" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.06 0.08" pos="-6.1578 0.6025 0.29" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.03" pos="-6.1578 0.6025 0.29" material="luz_calida" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-5.632 -2.6287 0.21" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-5.632 -2.6287 0.42" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-5.632 -2.6287 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.462" pos="-5.632 -2.6287 0.882" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1962 0.1668 0.1374" pos="-5.7236 -2.653 1.4958" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1926 0.1637 0.1348" pos="-5.5703 -2.6788 1.4989" xyaxes="0.7758 -0.631 0 0.631 0.7758 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2654 0.2256 0.1858" pos="-5.6199 -2.4046 1.6988" xyaxes="0.0536 0.9986 0 -0.9986 0.0536 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2392 0.2034 0.1675" pos="-5.7093 -2.6789 1.4302" xyaxes="-0.8389 -0.5443 0 0.5443 -0.8389 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1965 0.1671 0.1376" pos="-5.5546 -2.6583 1.3959" xyaxes="0.9338 -0.3579 0 0.3579 0.9338 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2682 0.228 0.1878" pos="-5.6908 -2.4103 1.7217" xyaxes="-0.2602 0.9656 0 -0.9656 -0.2602 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2052 0.1744 0.1436" pos="-5.7588 -2.786 1.4484" xyaxes="-0.6275 -0.7786 0 0.7786 -0.6275 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2586 0.2198 0.181" pos="-5.463 -2.637 1.7481" xyaxes="0.9988 -0.0492 0 0.0492 0.9988 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1946 0.1654 0.1362" pos="-5.751 -2.447 1.6112" xyaxes="-0.548 0.8365 0 -0.8365 -0.548 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2362 0.2008 0.1653" pos="-5.6948 -2.7948 1.3758" xyaxes="-0.3538 -0.9353 0 0.9353 -0.3538 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-6.1949 -0.5019 0.21" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-6.1949 -0.5019 0.42" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-6.1949 -0.5019 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.462" pos="-6.1949 -0.5019 0.882" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2596 0.2206 0.1817" pos="-6.3577 -0.545 1.7154" xyaxes="-0.9667 -0.2559 0 0.2559 -0.9667 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2594 0.2205 0.1816" pos="-6.0172 -0.6465 1.7853" xyaxes="0.7758 -0.631 0 0.631 0.7758 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2322 0.1974 0.1625" pos="-6.1919 -0.4465 1.7968" xyaxes="0.0536 0.9986 0 -0.9986 0.0536 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2754 0.2341 0.1928" pos="-6.3403 -0.5963 1.3403" xyaxes="-0.8389 -0.5443 0 0.5443 -0.8389 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2105 0.1789 0.1473" pos="-6.065 -0.5517 1.5771" xyaxes="0.9338 -0.3579 0 0.3579 0.9338 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1873 0.1592 0.1311" pos="-6.2363 -0.3484 1.3972" xyaxes="-0.2602 0.9656 0 -0.9656 -0.2602 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2769 0.2354 0.1938" pos="-6.2596 -0.5822 1.6991" xyaxes="-0.6275 -0.7786 0 0.7786 -0.6275 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2651 0.2253 0.1856" pos="-6.1147 -0.5059 1.3543" xyaxes="0.9988 -0.0492 0 0.0492 0.9988 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1986 0.1688 0.139" pos="-6.2866 -0.362 1.279" xyaxes="-0.548 0.8365 0 -0.8365 -0.548 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2068 0.1758 0.1447" pos="-6.2712 -0.7036 1.3965" xyaxes="-0.3538 -0.9353 0 0.9353 -0.3538 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-2.9797 3.2448 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="-2.9797 3.2448 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="-2.9797 3.2448 1.42" xyaxes="0.8534 0.5213 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-2.9714 3.2311 1.42" xyaxes="0.8534 0.5213 0 0 0 1" material="letrero_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-2.988 3.2584 1.42" xyaxes="-0.8534 -0.5213 0 0 0 1" material="letrero_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="0.0046 4.3765 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="0.0046 4.3765 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="0.0046 4.3765 1.42" xyaxes="1 -0.0011 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="0.0046 4.3605 1.42" xyaxes="1 -0.0011 0 0 0 1" material="letrero_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="0.0047 4.3925 1.42" xyaxes="-1 0.0011 0 0 0 1" material="letrero_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-4.243 0.4199 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="-4.243 0.4199 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="-4.243 0.4199 1.42" xyaxes="-0.0902 0.9959 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-4.227 0.4213 1.42" xyaxes="-0.0902 0.9959 0 0 0 1" material="letrero_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-4.2589 0.4185 1.42" xyaxes="0.0902 -0.9959 0 0 0 1" material="letrero_3" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-3.8777 -1.4402 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="-3.8777 -1.4402 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="-3.8777 -1.4402 1.42" xyaxes="-0.5714 0.8207 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-3.8645 -1.4311 1.42" xyaxes="-0.5714 0.8207 0 0 0 1" material="letrero_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-3.8908 -1.4494 1.42" xyaxes="0.5714 -0.8207 0 0 0 1" material="letrero_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-3.3839 -2.4646 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="-3.3839 -2.4646 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="-3.3839 -2.4646 1.42" xyaxes="-0.4236 0.9058 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-3.3694 -2.4579 1.42" xyaxes="-0.4236 0.9058 0 0 0 1" material="letrero_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-3.3984 -2.4714 1.42" xyaxes="0.4236 -0.9058 0 0 0 1" material="letrero_5" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="-0.7942 -4.086 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="-0.7942 -4.086 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="-0.7942 -4.086 1.42" xyaxes="-1 -0.0011 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-0.7942 -4.07 1.42" xyaxes="-1 -0.0011 0 0 0 1" material="letrero_6" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="-0.7942 -4.102 1.42" xyaxes="1 0.0011 0 0 0 1" material="letrero_6" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="0.1134 -4.0951 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="0.1134 -4.0951 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="0.1134 -4.0951 1.42" xyaxes="-0.9839 0.1789 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="0.1163 -4.0794 1.42" xyaxes="-0.9839 0.1789 0 0 0 1" material="letrero_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="0.1105 -4.1109 1.42" xyaxes="0.9839 -0.1789 0 0 0 1" material="letrero_7" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.17 0.012" pos="3.3008 -2.7825 0.012" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.018 0.64" pos="3.3008 -2.7825 0.66" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.23 0.014" pos="3.3008 -2.7825 1.42" xyaxes="-0.6445 -0.7646 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="3.2886 -2.7722 1.42" xyaxes="-0.6445 -0.7646 0 0 0 1" material="letrero_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.2 0.003" pos="3.3131 -2.7928 1.42" xyaxes="0.6445 0.7646 0 0 0 1" material="letrero_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.04 1.1" pos="1.6908 -6.6048 1.1" xyaxes="0 1 0 -1 0 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.04 1.1" pos="0.6508 -6.6048 1.1" xyaxes="0 1 0 -1 0 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.03 0.56 0.05" pos="1.1708 -6.6048 2.17" xyaxes="0 1 0 -1 0 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.48 1.04 0.02" pos="1.1708 -6.6148 1.06" xyaxes="-1 0 0 0 0 1" material="acero" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.018 0.38" pos="1.1708 -6.5598 1" zaxis="-1 0 0" material="cromo" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.08 0.22 0.002" pos="0.9908 -6.5928 1.55" xyaxes="-1 0 0 0 0 1" material="vidrio_oscuro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.44 0.1 0.002" pos="1.1708 -6.5928 0.14" xyaxes="-1 0 0 0 0 1" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.06 0.02" pos="1.1708 -6.5948 2.34" xyaxes="-1 0 0 0 0 1" material="salida" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.26 0.8 0.04" pos="3.1354 -6.3648 0.04" xyaxes="0 1 0 -1 0 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.27 0.81 0.012" pos="3.1354 -6.3648 1.91" xyaxes="0 1 0 -1 0 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.196 0.9" pos="3.7354 -6.3648 0.98" xyaxes="0 1 0 -1 0 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.88 0.003" pos="3.7354 -6.1128 0.98" xyaxes="-1 0 0 0 0 1" material="casillero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.196 0.9" pos="3.3354 -6.3648 0.98" xyaxes="0 1 0 -1 0 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.88 0.003" pos="3.3354 -6.1128 0.98" xyaxes="-1 0 0 0 0 1" material="casillero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.196 0.9" pos="2.9354 -6.3648 0.98" xyaxes="0 1 0 -1 0 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.88 0.003" pos="2.9354 -6.1128 0.98" xyaxes="-1 0 0 0 0 1" material="casillero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 0.196 0.9" pos="2.5354 -6.3648 0.98" xyaxes="0 1 0 -1 0 0" material="acero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.18 0.88 0.003" pos="2.5354 -6.1128 0.98" xyaxes="-1 0 0 0 0 1" material="casillero" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.85 0.0025" pos="3.6954 0 0.0065" material="tapete_1_6x4_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.72 0.0006" pos="1.75 0 0.0047" material="medallon" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="3.7254 -1.55 0.21" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="3.7254 -1.55 0.42" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="3.7254 -1.55 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.483" pos="3.7254 -1.55 0.903" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1987 0.1689 0.1391" pos="3.9054 -1.55 1.413" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2221 0.1888 0.1554" pos="3.6283 -1.4166 1.8429" xyaxes="-0.5885 0.8085 0 -0.8085 -0.5885 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2762 0.2347 0.1933" pos="3.664 -1.7401 1.5554" xyaxes="-0.3073 -0.9516 0 0.9516 -0.3073 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2462 0.2092 0.1723" pos="3.9226 -1.4854 1.7946" xyaxes="0.9502 0.3115 0 -0.3115 0.9502 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2443 0.2076 0.171" pos="3.6354 -1.4851 1.5702" xyaxes="-0.8111 0.5849 0 -0.5849 -0.8111 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2285 0.1942 0.16" pos="3.726 -1.6783 1.5552" xyaxes="0.0044 -1 0 1 0.0044 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2034 0.1729 0.1424" pos="3.7882 -1.5038 1.4953" xyaxes="0.8059 0.5921 0 -0.5921 0.8059 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2556 0.2173 0.1789" pos="3.5522 -1.4949 1.7511" xyaxes="-0.953 0.3031 0 -0.3031 -0.953 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2713 0.2306 0.1899" pos="3.7847 -1.7282 1.3764" xyaxes="0.3157 -0.9488 0 0.9488 0.3157 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2517 0.2139 0.1762" pos="3.7973 -1.4494 1.3546" xyaxes="0.5813 0.8137 0 -0.8137 0.5813 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="3.7254 1.55 0.21" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="3.7254 1.55 0.42" material="ceramica_negra" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="3.7254 1.55 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.483" pos="3.7254 1.55 0.903" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2515 0.2138 0.176" pos="3.8369 1.55 1.3219" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2719 0.2311 0.1903" pos="3.5861 1.7414 1.8914" xyaxes="-0.5885 0.8085 0 -0.8085 -0.5885 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2091 0.1777 0.1464" pos="3.6947 1.4548 1.3485" xyaxes="-0.3073 -0.9516 0 0.9516 -0.3073 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1914 0.1627 0.134" pos="3.8079 1.577 1.7147" xyaxes="0.9502 0.3115 0 -0.3115 0.9502 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2712 0.2305 0.1898" pos="3.6285 1.6199 1.7544" xyaxes="-0.8111 0.5849 0 -0.5849 -0.8111 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2058 0.1749 0.1441" pos="3.7259 1.4336 1.5169" xyaxes="0.0044 -1 0 1 0.0044 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2544 0.2162 0.178" pos="3.7703 1.583 1.4261" xyaxes="0.8059 0.5921 0 -0.5921 0.8059 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2786 0.2368 0.195" pos="3.6508 1.5737 1.5683" xyaxes="-0.953 0.3031 0 -0.3031 -0.953 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2878 0.2446 0.2015" pos="3.798 1.332 1.6988" xyaxes="0.3157 -0.9488 0 0.9488 0.3157 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2039 0.1733 0.1427" pos="3.7821 1.6293 1.4588" xyaxes="0.5813 0.8137 0 -0.8137 0.5813 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="3.1154 3.92 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="3.1154 3.28 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="2.4754 3.92 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="2.4754 3.28 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.4 0.12" pos="2.7954 3.6 0.24" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_2x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.33 0.28 0.06" pos="2.7554 3.6 0.42" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_6x1_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.27 0.09" pos="3.1054 3.6 0.62" xyaxes="0 -1 0 0.179 0 0.9838" material="cuero_cognac_2x1_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="2.7954 3.94 0.47" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_9x0_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="2.7954 3.94 0.58" zaxis="-1 0 0" material="cuero_cognac_0_3x0_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="2.7954 3.26 0.47" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_9x0_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="2.7954 3.26 0.58" zaxis="-1 0 0" material="cuero_cognac_0_3x0_3" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="3.1154 5.02 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="3.1154 4.38 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="2.4754 5.02 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.025 0.06" pos="2.4754 4.38 0.06" material="wengue_0_1x0_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.4 0.12" pos="2.7954 4.7 0.24" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_2x2" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.33 0.28 0.06" pos="2.7554 4.7 0.42" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_6x1_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.27 0.09" pos="3.1054 4.7 0.62" xyaxes="0 -1 0 0.179 0 0.9838" material="cuero_cognac_2x1_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="2.7954 5.04 0.47" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_9x0_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="2.7954 5.04 0.58" zaxis="-1 0 0" material="cuero_cognac_0_3x0_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.06 0.11" pos="2.7954 4.36 0.47" xyaxes="-1 0 0 0 -1 0" material="cuero_cognac_1_9x0_3" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.065 0.33" pos="2.7954 4.36 0.58" zaxis="-1 0 0" material="cuero_cognac_0_3x0_3" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.121 0.012" pos="2.7454 4.15 0.012" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.035 0.26" pos="2.7454 4.15 0.26" material="laton" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.22 0.015" pos="2.7454 4.15 0.505" material="marmol_blanco_0_5x0_5" contype="0" conaffinity="0"/>
+    <geom type="sphere" size="0.09" pos="2.7454 4.15 0.61" material="ceramica_salvia" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.01 0.07" pos="2.7454 4.15 0.76" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_150_100_90" pos="2.7454 4.15 0.86" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_122_170_180" pos="3.6954 6.033 0.18" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.182 0.014" pos="3.6954 6.033 0.36" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.158 0.01" pos="3.6954 6.033 0.363" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.5391" pos="3.9769 6.0337 0.8598" zaxis="0.5221 0.0012 0.8529" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.4626" pos="3.9709 6.1925 0.7356" zaxis="0.5955 0.3449 0.7255" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.5484" pos="3.8521 6.3587 0.8124" zaxis="0.2857 0.594 0.7521" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.5007" pos="3.6288 6.2445 0.8489" zaxis="-0.133 0.4224 0.8966" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.4465" pos="3.5988 6.1638 0.8158" zaxis="-0.2163 0.293 0.9313" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.5433" pos="3.4618 6.1002 0.8859" zaxis="-0.43 0.1237 0.8943" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.5815" pos="3.3069 5.8357 0.785" zaxis="-0.6681 -0.3394 0.6622" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.6045" pos="3.4871 5.8231 0.9273" zaxis="-0.3446 -0.3472 0.8722" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.4791" pos="3.6146 5.7154 0.7495" zaxis="-0.1687 -0.6628 0.7295" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.6163" pos="3.8347 5.7105 0.9063" zaxis="0.226 -0.5234 0.8216" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.018 0.09 0.4991" pos="4.0012 5.8744 0.7612" zaxis="0.6126 -0.3178 0.7237" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-6.3987 -6.1848 0.21" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-6.3987 -6.1848 0.42" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-6.3987 -6.1848 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.504" pos="-6.3987 -6.1848 0.924" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2015 0.1713 0.141" pos="-6.31 -6.1848 1.7517" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.257 0.2184 0.1799" pos="-6.4937 -6.0543 1.5689" xyaxes="-0.5885 0.8085 0 -0.8085 -0.5885 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.283 0.2405 0.1981" pos="-6.4404 -6.3139 1.8468" xyaxes="-0.3073 -0.9516 0 0.9516 -0.3073 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2199 0.1869 0.154" pos="-6.3034 -6.1535 1.4006" xyaxes="0.9502 0.3115 0 -0.3115 0.9502 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.1962 0.1668 0.1373" pos="-6.552 -6.0742 1.7634" xyaxes="-0.8111 0.5849 0 -0.5849 -0.8111 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2787 0.2369 0.1951" pos="-6.3977 -6.4156 1.5796" xyaxes="0.0044 -1 0 1 0.0044 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2055 0.1746 0.1438" pos="-6.2345 -6.0641 1.8178" xyaxes="0.8059 0.5921 0 -0.5921 0.8059 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2616 0.2223 0.1831" pos="-6.4791 -6.1592 1.3708" xyaxes="-0.953 0.3031 0 -0.3031 -0.953 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.287 0.2439 0.2009" pos="-6.3526 -6.3232 1.4837" xyaxes="0.3157 -0.9488 0 0.9488 0.3157 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2354 0.2001 0.1648" pos="-6.3583 -6.1282 1.3608" xyaxes="0.5813 0.8137 0 -0.8137 0.5813 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_144_200_210" pos="-6.3987 6.033 0.21" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.212 0.014" pos="-6.3987 6.033 0.42" material="terracota" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.188 0.01" pos="-6.3987 6.033 0.423" material="tierra" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.028 0.504" pos="-6.3987 6.033 0.924" zaxis="0 0 1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2097 0.1782 0.1468" pos="-6.3328 6.033 1.7663" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2892 0.2458 0.2024" pos="-6.4462 6.0982 1.8626" xyaxes="-0.5885 0.8085 0 -0.8085 -0.5885 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2397 0.2037 0.1678" pos="-6.4574 5.8512 1.8522" xyaxes="-0.3073 -0.9516 0 0.9516 -0.3073 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2538 0.2157 0.1776" pos="-6.3072 6.063 1.5783" xyaxes="0.9502 0.3115 0 -0.3115 0.9502 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2907 0.2471 0.2035" pos="-6.5148 6.1168 1.486" xyaxes="-0.8111 0.5849 0 -0.5849 -0.8111 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2705 0.2299 0.1893" pos="-6.3978 5.8396 1.4085" xyaxes="0.0044 -1 0 1 0.0044 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2379 0.2022 0.1666" pos="-6.2064 6.1743 1.6821" xyaxes="0.8059 0.5921 0 -0.5921 0.8059 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2491 0.2117 0.1743" pos="-6.501 6.0656 1.932" xyaxes="-0.953 0.3031 0 -0.3031 -0.953 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2671 0.227 0.1869" pos="-6.362 5.9226 1.8266" xyaxes="0.3157 -0.9488 0 0.9488 0.3157 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.2628 0.2233 0.1839" pos="-6.2737 6.208 1.6152" xyaxes="0.5813 0.8137 0 -0.8137 0.5813 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.43 0.02" pos="-5.6487 6.473 1.7" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.4 0.002" pos="-5.6487 6.452 1.7" xyaxes="1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.38 0.002" pos="-5.6487 6.449 1.7" xyaxes="1 0 0 0 0 1" material="cuadro_atardecer" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="-4.4487 6.473 1.75" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="-4.4487 6.403 1.75" zaxis="0 -1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="-4.4487 6.343 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.43 0.02" pos="-3.2487 6.473 1.7" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.4 0.002" pos="-3.2487 6.452 1.7" xyaxes="1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.38 0.002" pos="-3.2487 6.449 1.7" xyaxes="1 0 0 0 0 1" material="cuadro_campos" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="-2.0487 6.473 1.75" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="-2.0487 6.403 1.75" zaxis="0 -1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="-2.0487 6.343 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="0.3513 6.473 1.75" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="0.3513 6.403 1.75" zaxis="0 -1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="0.3513 6.343 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.43 0.02" pos="1.5513 6.473 1.7" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.4 0.002" pos="1.5513 6.452 1.7" xyaxes="1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.38 0.002" pos="1.5513 6.449 1.7" xyaxes="1 0 0 0 0 1" material="cuadro_atardecer" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="2.7513 6.473 1.75" xyaxes="1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="2.7513 6.403 1.75" zaxis="0 -1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="2.7513 6.343 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.43 0.02" pos="-5.6487 -6.6248 1.7" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.4 0.002" pos="-5.6487 -6.6038 1.7" xyaxes="-1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.38 0.002" pos="-5.6487 -6.6008 1.7" xyaxes="-1 0 0 0 0 1" material="cuadro_campos" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="-4.4487 -6.6248 1.75" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="-4.4487 -6.5548 1.75" zaxis="0 1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="-4.4487 -6.4948 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.35 0.43 0.02" pos="-3.2487 -6.6248 1.7" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.32 0.4 0.002" pos="-3.2487 -6.6038 1.7" xyaxes="-1 0 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 0.38 0.002" pos="-3.2487 -6.6008 1.7" xyaxes="-1 0 0 0 0 1" material="cuadro_geometrico" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="-2.0487 -6.6248 1.75" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="-2.0487 -6.5548 1.75" zaxis="0 1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="-2.0487 -6.4948 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.05 0.09 0.01" pos="0.3513 -6.6248 1.75" xyaxes="-1 0 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="capsule" size="0.01 0.06" pos="0.3513 -6.5548 1.75" zaxis="0 1 0" material="laton" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_80_55_90" pos="0.3513 -6.4948 1.79" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.43 0.35 0.02" pos="-6.8387 -4.6553 1.7" xyaxes="0 1 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.32 0.002" pos="-6.8177 -4.6553 1.7" xyaxes="0 1 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.3 0.002" pos="-6.8147 -4.6553 1.7" xyaxes="0 1 0 0 0 1" material="cuadro_geometrico" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.43 0.35 0.02" pos="-6.8387 4.5036 1.7" xyaxes="0 1 0 0 0 1" material="laton" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.4 0.32 0.002" pos="-6.8177 4.5036 1.7" xyaxes="0 1 0 0 0 1" material="blanco" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.38 0.3 0.002" pos="-6.8147 4.5036 1.7" xyaxes="0 1 0 0 0 1" material="cuadro_atardecer" contype="0" conaffinity="0"/>
+    <geom type="box" size="2.55 3.8 0.001" pos="6.8454 0 0.0025" material="adoquin_4_2x6_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.8 1.3 0.001" pos="15.1454 0 0.0025" material="adoquin_9_7x2_2" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6971 0.3 0.4" pos="-1.3516 7.033 0.4" material="seto_12_7x0_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="5.6971 0.3 0.4" pos="-1.3516 -7.1848 0.4" material="seto_12_7x0_7" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.3 7.4089 0.3" pos="-7.3987 -0.0759 0.3" material="seto_0_7x16_5" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 2.4794 0.22" pos="4.5954 -4.2294 0.22" material="concreto_0_3x3_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.21 2.4394 0.08" pos="4.5954 -4.2294 0.5" material="seto_0_5x5_4" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.25 2.4794 0.22" pos="4.5954 4.2294 0.22" material="concreto_0_3x3_3" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.21 2.4394 0.08" pos="4.5954 4.2294 0.5" material="seto_0_5x5_4" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.1" pos="8.0454 5.4 1.1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.761 0.6849 0.5708" pos="8.2682 5.4 3.2673" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.958 0.8622 0.7185" pos="7.9084 5.6343 2.9134" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.832 0.7488 0.624" pos="7.9445 5.2207 2.8338" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7834 0.7051 0.5876" pos="8.2535 5.4035 3.0678" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9558 0.8603 0.7169" pos="7.8915 5.6533 2.94" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8053 0.7248 0.604" pos="7.7837 4.9158 2.7808" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.21" pos="8.0454 -5.4 1.21" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8774 0.7897 0.6581" pos="8.279 -5.4 2.9732" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0184 0.9165 0.7638" pos="7.8731 -5.1053 3.5806" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0187 0.9168 0.764" pos="7.8322 -5.7791 3.3669" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9713 0.8742 0.7285" pos="8.6777 -5.3894 3.0929" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9273 0.8346 0.6955" pos="7.7944 -4.9869 3.4415" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9994 0.8995 0.7496" pos="7.8992 -5.6705 3.1362" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.32" pos="-9.0487 8.083 1.32" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0721 0.9649 0.8041" pos="-8.4668 8.083 3.6331" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0836 0.9753 0.8127" pos="-9.1997 8.3411 4.1705" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.1463 1.0317 0.8597" pos="-9.2516 7.7223 3.2746" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9126 0.8213 0.6844" pos="-8.5849 8.0908 3.7145" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.1481 1.0333 0.8611" pos="-9.3113 8.5151 3.742" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9576 0.8619 0.7182" pos="-9.3504 7.5249 3.3633" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.1" pos="-9.2487 -0.6759 1.1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9526 0.8574 0.7145" pos="-9.0033 -0.6759 3.1804" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9339 0.8405 0.7004" pos="-9.4033 -0.4115 3.1757" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8835 0.7952 0.6626" pos="-9.5497 -1.211 3.2786" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8032 0.7229 0.6024" pos="-8.6613 -0.666 2.7767" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7352 0.6617 0.5514" pos="-9.5857 -0.1213 3.1455" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8052 0.7246 0.6039" pos="-9.5795 -1.2878 2.9092" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.21" pos="-8.6487 -8.4348 1.21" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7982 0.7184 0.5987" pos="-8.2503 -8.4348 3.4838" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9291 0.8362 0.6968" pos="-8.7832 -8.2048 3.2623" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8221 0.7399 0.6166" pos="-8.9174 -8.9125 3.8212" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7924 0.7132 0.5943" pos="-8.4125 -8.4308 3.5634" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0543 0.9489 0.7907" pos="-9.0081 -7.8434 3.6954" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8354 0.7519 0.6265" pos="-8.7798 -8.6772 3.2287" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.32" pos="-1.3516 8.883 1.32" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.1008 0.9908 0.8256" pos="-0.9344 8.883 3.7548" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.1383 1.0245 0.8537" pos="-1.578 9.2701 3.456" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.0265 0.9239 0.7699" pos="-1.6889 8.2835 3.3349" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9222 0.83 0.6917" pos="-0.7827 8.8926 4.1741" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9131 0.8218 0.6848" pos="-1.633 9.346 4.1643" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="1.1832 1.0649 0.8874" pos="-1.5233 8.5655 3.2459" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.13 1.1" pos="-2.3516 -9.2348 1.1" material="tronco" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7915 0.7124 0.5936" pos="-2.1473 -9.2348 3.2888" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9687 0.8719 0.7266" pos="-2.6652 -8.6987 3.4777" xyaxes="-0.5048 0.8632 0 -0.8632 -0.5048 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.778 0.7002 0.5835" pos="-2.495 -9.4897 3.1216" xyaxes="-0.4903 -0.8716 0 0.8716 -0.4903 0" material="hoja_3" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.7579 0.6821 0.5684" pos="-1.8266 -9.2259 3.2934" xyaxes="0.9999 0.0168 0 -0.0168 0.9999 0" material="hoja_olivo" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.9037 0.8134 0.6778" pos="-2.5268 -8.9466 3.2154" xyaxes="-0.5193 0.8546 0 -0.8546 -0.5193 0" material="hoja_1" contype="0" conaffinity="0"/>
+    <geom type="ellipsoid" size="0.8274 0.7446 0.6205" pos="-2.5193 -9.5449 3.2476" xyaxes="-0.4755 -0.8797 0 0.8797 -0.4755 0" material="hoja_2" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.16 0.02" pos="8.8454 -2.3 0.02" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.045 1.6" pos="8.8454 -2.3 1.6" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_100_160_100" pos="8.8454 -2.3 3.26" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.2 0.025" pos="8.8454 -2.3 3.39" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.4754 -3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.3454 -3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.2154 -3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.02 0.85 0.12" pos="7.5454 -3.3 0.7" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.22" pos="7.3454 -2.58 0.22" xyaxes="-1 0 0 0 -1 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.22" pos="7.3454 -4.02 0.22" xyaxes="-1 0 0 0 -1 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.16 0.02" pos="8.8454 2.3 0.02" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.045 1.6" pos="8.8454 2.3 1.6" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="mesh" mesh="nclub_tronco_24_100_160_100" pos="8.8454 2.3 3.26" material="pantalla_lampara" contype="0" conaffinity="0"/>
+    <geom type="cylinder" size="0.2 0.025" pos="8.8454 2.3 3.39" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.4754 3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.3454 3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.06 0.85 0.02" pos="7.2154 3.3 0.44" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.02 0.85 0.12" pos="7.5454 3.3 0.7" xyaxes="-1 0 0 0 -1 0" material="teca_0_1x0_8" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.22" pos="7.3454 4.02 0.22" xyaxes="-1 0 0 0 -1 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <geom type="box" size="0.2 0.03 0.22" pos="7.3454 2.58 0.22" xyaxes="-1 0 0 0 -1 0" material="acero_negro" contype="0" conaffinity="0"/>
+    <!-- fin destinos -->
+
+    <!-- stairs scene -->
+    <!-- <geom type="box" size="0.15 3. 0.025" euler="0 0 0" pos="0.5 0.0 0.025" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.050" euler="0 0 0" pos="0.8 0.0 0.050" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.075" euler="0 0 0" pos="1.1 0.0 0.075" rgba="0.39 1 2 1" conaffinity="15" condim="3"/> -->
+    <!-- <geom type="box" size="0.15 3. 0.045" euler="0 0 0" pos="1.4 0.0 0.075" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.045" euler="0 0 0" pos="1.7 0.0 0.075" rgba="0.39 1 2 1" conaffinity="15" condim="3"/> -->
+
+    <!-- <geom type="box" size="0.15 3. 0.075" euler="0 0 0" pos="0.0 0.0 0.075" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.050" euler="0 0 0" pos="0.3 0.0 0.050" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.025" euler="0 0 0" pos="0.6 0.0 0.025" rgba="0.39 1 2 1" conaffinity="15" condim="3"/> -->
+
+    <!-- <geom type="box" size="0.15 3. 0.050" euler="0 0 0" pos="1.4 0.0 0.050" rgba="0.39 1 2 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.15 3. 0.025" euler="0 0 0" pos="1.7 0.0 0.025" rgba="0.39 1 2 1" conaffinity="15" condim="3"/> -->
+
+  </worldbody>
+</mujoco>

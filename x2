@@ -1,0 +1,390 @@
+#!/usr/bin/env bash
+# Simulación del AgiBot X2 Ultra (MuJoCo + MC oficial + AimDK) en Docker.
+# Uso: ./x2 <comando>   (./x2 help para ver la lista)
+set -euo pipefail
+
+ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+IMAGE_NAME=x2-simulation:latest
+CONTAINER_NAME=x2-sim
+
+# LLM local para lenguaje natural (servidor llama.cpp, API compatible con OpenAI)
+LLM_IMAGE=ghcr.io/ggml-org/llama.cpp@sha256:8c74db29f1a2bef3f0a331b52c4d6214601dfceed4bee0b94cc48b3b23ff257d
+LLM_CONTAINER=x2-llm
+LLM_PORT=8095
+LLM_URL="http://127.0.0.1:${LLM_PORT}/v1"
+# Hilos y CPUs limitados para que el LLM no le quite tiempo al control de movimiento (MC)
+LLM_THREADS=6
+# Reconocimiento facial (FaceRecognition Lite de Fermín + personas de Supabase), en ../FaceRecognition_lite
+ROSTRO_IMAGE=x2-rostro:latest
+ROSTRO_CONTAINER=x2-rostro
+ROSTRO_PORT=8096
+ROSTRO_DIR="${ROOT_DIR}/scripts/rostro"
+# Voz a texto (faster-whisper) para lo que oye el micrófono del robot
+VOZ_IMAGE=x2-voz:latest
+VOZ_CONTAINER=x2-voz
+VOZ_PORT=8097
+VOZ_DIR="${ROOT_DIR}/scripts/voz"
+FACE_LITE_DIR="${FACE_LITE_DIR:-$(cd "${ROOT_DIR}/.." && pwd)/FaceRecognition_lite}"
+declare -A LLM_MODELOS=(
+  [1.5b]="qwen2.5-1.5b-instruct-q4_k_m.gguf|https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+  [3b]="qwen2.5-3b-instruct-q4_k_m.gguf|https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf"
+)
+
+in_container() {
+  local tty=(-i)
+  if [[ -t 0 ]]; then tty=(-it); fi
+  docker exec "${tty[@]}" "${CONTAINER_NAME}" bash -c "source /etc/x2_env.sh && $*"
+}
+
+require_running() {
+  if [[ "$(docker inspect -f '{{.State.Running}}' "${CONTAINER_NAME}" 2>/dev/null)" != "true" ]]; then
+    echo "El contenedor no está corriendo. Ejecuta primero: ./x2 up" >&2
+    exit 1
+  fi
+}
+
+cmd_build() {
+  docker build -t "${IMAGE_NAME}" "${ROOT_DIR}"
+}
+
+cmd_up() {
+  for dir in aimdk sim_mujoco mc; do
+    test -d "${ROOT_DIR}/${dir}" || { echo "Falta la carpeta: ${ROOT_DIR}/${dir}" >&2; exit 1; }
+  done
+  # MC necesita /agibot/data/var; se monta desde el proyecto para no usar sudo
+  mkdir -p "${ROOT_DIR}/agibot_data/data/var"
+  docker rm -f "${CONTAINER_NAME}" >/dev/null 2>&1 || true
+  local args=(
+    run -d
+    --name "${CONTAINER_NAME}"
+    --network host
+    --ipc host
+    -e "DISPLAY=${DISPLAY:-:0}"
+    -e QT_X11_NO_MITSHM=1
+    -e RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+    -v "${ROOT_DIR}/aimdk:/workspace/aimdk:rw"
+    -v "${ROOT_DIR}/sim_mujoco:/workspace/sim_mujoco:rw"
+    -v "${ROOT_DIR}/mc:/workspace/mc:rw"
+    -v "${ROOT_DIR}/scripts:/workspace/scripts:rw"
+    -v "${ROOT_DIR}/agibot_data:/agibot:rw"
+    -v /etc/localtime:/etc/localtime:ro
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw
+    -w /workspace
+  )
+  if [[ -d /dev/dri ]]; then
+    args+=(--device /dev/dri)
+  fi
+  docker "${args[@]}" "${IMAGE_NAME}" >/dev/null
+  x_access +
+  echo "Contenedor ${CONTAINER_NAME} corriendo."
+}
+
+# Permite (+) o quita (-) el acceso de root del contenedor a la pantalla para la ventana de MuJoCo.
+# Si el host no tiene xhost, se usa el del contenedor ejecutándolo con el usuario del host.
+x_access() {
+  if command -v xhost >/dev/null 2>&1; then
+    xhost "$1si:localuser:root" >/dev/null 2>&1 || true
+  else
+    docker exec --user "$(id -u):$(id -g)" -e "DISPLAY=${DISPLAY:-:0}" "${CONTAINER_NAME}" \
+      xhost "$1si:localuser:root" >/dev/null 2>&1 || true
+  fi
+}
+
+cmd_sdk() {
+  require_running
+  in_container "cd /workspace/aimdk && colcon build"
+}
+
+cmd_sim() {
+  require_running
+  # Los scripts piden elegir el robot; la única opción (0) es lx2501_3_t2d5, el X2 Ultra.
+  # Se usa exec porque start_sim.sh se niega a arrancar si otro proceso lleva su nombre en la línea de comandos.
+  in_container "cd /workspace/sim_mujoco/bin && exec ./start_sim.sh -s <<< 0"
+}
+
+cmd_mc() {
+  require_running
+  in_container "cd /workspace/mc/bin && unset AGIBOT_SOFTWARE_HOME && exec ./em_run.sh <<< 0"
+}
+
+cmd_shell() {
+  require_running
+  docker exec -it "${CONTAINER_NAME}" bash
+}
+
+cmd_ex() {
+  require_running
+  in_container "ros2 run py_examples $*"
+}
+
+# El simulador arranca con la física corriendo y, sin control, el robot cae al suelo.
+# Con MC en STAND_DEFAULT, reiniciar MuJoCo (Backspace) lo pone de pie y MC lo mantiene en equilibrio.
+cmd_pie() {
+  require_running
+  in_container "ros2 run py_examples set_mc_action SD"
+  if command -v hyprctl >/dev/null 2>&1 && hyprctl clients -j | grep -q '"class": "MuJoCo"'; then
+    hyprctl dispatch 'hl.dsp.send_shortcut({ mods = "", key = "BackSpace", window = "class:^(MuJoCo)$" })' >/dev/null
+  else
+    echo "Haz clic en la ventana de MuJoCo y presiona Backspace para reiniciar al robot de pie."
+    read -r -p "Presiona Enter cuando lo hayas hecho... "
+  fi
+  sleep 3
+  local z
+  z=$(in_container "timeout 5 ros2 topic echo --once /aima/hal/odom/state" 2>/dev/null \
+    | grep -A3 -m1 'position:' | awk '/z:/ {print $2}')
+  if [[ -n "${z}" ]] && awk -v z="${z}" 'BEGIN { exit !(z > 0.5) }'; then
+    echo "Robot de pie (altura de la pelvis: ${z} m)."
+  else
+    echo "El robot no parece estar de pie (altura: ${z:-desconocida} m). Si la ventana dice PAUSE, presiona Espacio en MuJoCo y vuelve a correr ./x2 pie" >&2
+    exit 1
+  fi
+}
+
+cmd_demo() {
+  require_running
+  in_container "python3 /workspace/scripts/demo_basico.py"
+}
+
+cmd_pibot() {
+  require_running
+  local extra=""
+  # Si el LLM local está corriendo, PIBOT acepta respuestas con palabras propias
+  if [[ "$(docker inspect -f '{{.State.Running}}' "${LLM_CONTAINER}" 2>/dev/null)" == "true" && " $* " != *" --llm "* ]]; then
+    extra="--llm ${LLM_URL}"
+  fi
+  # En la simulación, si el robot se cae y nadie lo está usando, se levanta solo (con las rutinas de MC)
+  in_container "python3 /workspace/scripts/pibot/puente.py --levantar-solo ${extra} $*"
+}
+
+# ---- Robot real: el PC conectado por cable al puerto de desarrollo del X2 (IP fija 10.0.1.2) ----
+# real/robot.env trae ROS_DOMAIN_ID (el del robot) y, si existe, real/ros_dds_configuration.xml es la configuración DDS
+# copiada del robot (/home/agi/.aima/env/). Así el contenedor ve los tópicos del robot en vez de los de la simulación.
+real_env() {
+  local exports=""
+  if [[ -f "${ROOT_DIR}/real/robot.env" ]]; then
+    exports+="set -a; source /workspace/real/robot.env; set +a; "
+  fi
+  if [[ -f "${ROOT_DIR}/real/ros_dds_configuration.xml" ]]; then
+    exports+="export FASTRTPS_DEFAULT_PROFILES_FILE=/workspace/real/ros_dds_configuration.xml; "
+  fi
+  echo "${exports}"
+}
+
+sin_simulacion() {
+  if docker exec "${CONTAINER_NAME}" pgrep -f 'aima-sim-app|aima-mc-app' >/dev/null 2>&1; then
+    echo "La simulación (./x2 sim o ./x2 mc) está corriendo: ciérrala primero con Ctrl+C en sus terminales." >&2
+    echo "Conectado al robot, el MC simulado y el real publicarían los mismos tópicos y se confundirían." >&2
+    exit 1
+  fi
+}
+
+cmd_real_check() {
+  require_running
+  sin_simulacion
+  echo "1. Red: el PC debe tener la IP 10.0.1.2 en el cable conectado al puerto de desarrollo del robot."
+  ip -4 addr | grep -q "10\.0\.1\.2/" && echo "   IP 10.0.1.2: sí" || echo "   IP 10.0.1.2: NO (configúrala; ver README)"
+  for ip in 10.0.1.41 10.0.1.40; do
+    ping -c 1 -W 1 "${ip}" >/dev/null 2>&1 && echo "   ${ip} responde" || echo "   ${ip} no responde"
+  done
+  [[ -f "${ROOT_DIR}/real/robot.env" ]] && echo "   real/robot.env: $(grep -o 'ROS_DOMAIN_ID=[0-9]*' "${ROOT_DIR}/real/robot.env" || echo 'sin ROS_DOMAIN_ID')" \
+    || echo "   real/robot.env no existe: se usa ROS_DOMAIN_ID 0"
+  echo "2. ROS: preguntar el modo de MC (solo lectura, no mueve el robot)"
+  in_container "$(real_env) timeout 20 ros2 run py_examples get_mc_action" || echo "   Sin respuesta de MC: revisa la red y ROS_DOMAIN_ID." >&2
+}
+
+cmd_pibot_real() {
+  require_running
+  sin_simulacion
+  local extra=""
+  if [[ "$(docker inspect -f '{{.State.Running}}' "${LLM_CONTAINER}" 2>/dev/null)" == "true" && " $* " != *" --llm "* ]]; then
+    extra="--llm ${LLM_URL}"
+  fi
+  in_container "$(real_env) python3 /workspace/scripts/pibot/puente.py --real ${extra} $*"
+}
+
+cmd_escena() {
+  python3 "${ROOT_DIR}/scripts/pibot/escena.py"
+}
+
+cmd_llm() {
+  # 3b por defecto: 30/30 en evaluar_lenguaje.py frente a 24/30 del 1.5b (2026-10-23)
+  local tamano="${1:-3b}"
+  local entrada="${LLM_MODELOS[$tamano]:-}"
+  if [[ -z "${entrada}" ]]; then
+    echo "Modelo desconocido: ${tamano}. Opciones: ${!LLM_MODELOS[*]}" >&2
+    exit 1
+  fi
+  local archivo="${entrada%%|*}" url="${entrada#*|}"
+  mkdir -p "${ROOT_DIR}/modelos"
+  if [[ ! -s "${ROOT_DIR}/modelos/${archivo}" ]]; then
+    echo "Descargando ${archivo}..."
+    curl -fL -C - --retry 3 -o "${ROOT_DIR}/modelos/${archivo}" "${url}"
+  fi
+  docker rm -f "${LLM_CONTAINER}" >/dev/null 2>&1 || true
+  # El chequeo de salud de la imagen mira el puerto 8080; aquí el servidor escucha en LLM_PORT
+  docker run -d --name "${LLM_CONTAINER}" --network host --cpus "${LLM_THREADS}" --cpu-shares 256 \
+    --health-cmd "curl -fs http://127.0.0.1:${LLM_PORT}/health || exit 1" \
+    -v "${ROOT_DIR}/modelos:/models:ro" "${LLM_IMAGE}" \
+    -m "/models/${archivo}" --host 127.0.0.1 --port "${LLM_PORT}" -t "${LLM_THREADS}" -c 4096 --jinja >/dev/null
+  echo -n "Cargando ${archivo}"
+  for _ in $(seq 1 60); do
+    if curl -sf "http://127.0.0.1:${LLM_PORT}/health" >/dev/null; then
+      echo " listo: ${LLM_URL}"
+      return
+    fi
+    echo -n "."
+    sleep 1
+  done
+  echo
+  echo "El LLM no arrancó; revisa: docker logs ${LLM_CONTAINER}" >&2
+  exit 1
+}
+
+cmd_llm_down() {
+  docker rm -f "${LLM_CONTAINER}" >/dev/null 2>&1 || true
+  echo "LLM detenido."
+}
+
+cmd_rostro() {
+  if [[ ! -d "${FACE_LITE_DIR}/src/face_lite" ]]; then
+    echo "No encuentro FaceRecognition Lite en ${FACE_LITE_DIR}." >&2
+    echo "Clónalo al lado de x2_simulation: git clone https://github.com/FerminEscalona/FaceRecognition_lite.git" >&2
+    exit 1
+  fi
+  if [[ ! -f "${ROSTRO_DIR}/.env" ]]; then
+    echo "Falta ${ROSTRO_DIR}/.env con los datos de Supabase (copia .env.example y complétalo)." >&2
+    exit 1
+  fi
+  docker image inspect "${ROSTRO_IMAGE}" >/dev/null 2>&1 || docker build -t "${ROSTRO_IMAGE}" "${ROSTRO_DIR}"
+  local correr=(docker run --rm --user "$(id -u):$(id -g)" -v "${FACE_LITE_DIR}:/face:ro" -v "${ROSTRO_DIR}:/rostro" "${ROSTRO_IMAGE}")
+  # Una sola vez: los modelos oficiales (verificados con SHA-256) y la calibración preliminar con ORL
+  if [[ ! -s "${ROSTRO_DIR}/modelos/face_recognition_sface_2021dec.onnx" ]]; then
+    echo "Descargando los modelos YuNet y SFace (unos 39 MB)..."
+    "${correr[@]}" python -m face_lite download-models --models modelos --variants fp32
+  fi
+  if [[ ! -s "${ROSTRO_DIR}/datos/orl-fp32/calibration.json" ]]; then
+    echo "Calibrando con la base pública ORL (una sola vez)..."
+    "${correr[@]}" sh -c 'python -m face_lite prepare-orl --directory datos/orl && python -m face_lite experiment --manifest datos/orl/manifest.json --models modelos --output datos/orl-fp32'
+  fi
+  docker rm -f "${ROSTRO_CONTAINER}" >/dev/null 2>&1 || true
+  # 2 CPU como máximo y poca prioridad: el control de movimiento (MC) va primero
+  docker run -d --name "${ROSTRO_CONTAINER}" --user "$(id -u):$(id -g)" --cpus 2 --cpu-shares 256 \
+    -p "127.0.0.1:${ROSTRO_PORT}:${ROSTRO_PORT}" --env-file "${ROSTRO_DIR}/.env" \
+    -v "${FACE_LITE_DIR}:/face:ro" -v "${ROSTRO_DIR}:/rostro" "${ROSTRO_IMAGE}" python servicio.py >/dev/null
+  echo -n "Cargando el reconocimiento facial"
+  for _ in $(seq 1 30); do
+    if curl -sf "http://127.0.0.1:${ROSTRO_PORT}/estado" >/dev/null; then
+      echo " listo: http://127.0.0.1:${ROSTRO_PORT}"
+      curl -s "http://127.0.0.1:${ROSTRO_PORT}/estado" | python3 -c 'import json, sys
+e = json.load(sys.stdin)
+print("  %s personas registradas en Supabase" % e["personas"] if e.get("listo") else "  sin galería: %s" % e.get("error"))'
+      return
+    fi
+    echo -n "."
+    sleep 1
+  done
+  echo
+  echo "No arrancó; revisa: docker logs ${ROSTRO_CONTAINER}" >&2
+  exit 1
+}
+
+cmd_voz() {
+  # small por defecto; base es más rápido y algo menos preciso (./x2 voz base)
+  local modelo="${1:-small}"
+  docker image inspect "${VOZ_IMAGE}" >/dev/null 2>&1 || docker build -t "${VOZ_IMAGE}" "${VOZ_DIR}"
+  docker rm -f "${VOZ_CONTAINER}" >/dev/null 2>&1 || true
+  # Como el LLM: CPU limitada y poca prioridad, para no quitarle tiempo a MC
+  docker run -d --name "${VOZ_CONTAINER}" --user "$(id -u):$(id -g)" -e HOME=/tmp --cpus 4 --cpu-shares 256 \
+    -e VOZ_MODELO="${modelo}" -p "127.0.0.1:${VOZ_PORT}:${VOZ_PORT}" \
+    -v "${VOZ_DIR}:/voz" "${VOZ_IMAGE}" python voz.py >/dev/null
+  echo -n "Cargando Whisper ${modelo} (la primera vez se descarga)"
+  for _ in $(seq 1 300); do
+    [[ "$(docker inspect -f '{{.State.Running}}' "${VOZ_CONTAINER}" 2>/dev/null)" == "true" ]] || break
+    if curl -sf "http://127.0.0.1:${VOZ_PORT}/estado" >/dev/null; then
+      echo " listo: http://127.0.0.1:${VOZ_PORT}"
+      return
+    fi
+    echo -n "."
+    sleep 1
+  done
+  echo
+  echo "No arrancó; revisa: docker logs ${VOZ_CONTAINER}" >&2
+  exit 1
+}
+
+cmd_rostro_down() {
+  docker rm -f "${ROSTRO_CONTAINER}" >/dev/null 2>&1 || true
+  echo "Reconocimiento facial detenido."
+}
+
+cmd_down() {
+  x_access -
+  docker rm -f "${CONTAINER_NAME}" >/dev/null 2>&1 || true
+  echo "Contenedor detenido."
+}
+
+cmd_help() {
+  cat <<'EOF'
+Uso: ./x2 <comando>
+
+Preparación (una sola vez):
+  build          Construye la imagen Docker (ROS 2 Humble + dependencias)
+  up             Arranca el contenedor en segundo plano
+  sdk            Compila el SDK AimDK dentro del contenedor (colcon build)
+
+Simulación (cada uno en su propia terminal, en este orden):
+  sim            Terminal 1: abre MuJoCo con el X2 Ultra (sin control, el robot cae al suelo)
+  mc             Terminal 2: arranca el control de movimiento oficial (MC)
+  pie            Terminal 3: modo de pie + reinicio de MuJoCo (Backspace) para que quede parado
+
+PIBOT (la plataforma: editor de flujos sin código, en la carpeta PIBOT/):
+  llm [3b|1.5b]  Opcional, antes de pibot: LLM local para entender respuestas con palabras propias
+  pibot          Terminal 3: puente ws://127.0.0.1:8765 para que PIBOT mueva al X2 en MuJoCo
+                 (en PIBOT, elegir "AgiBot X2 en MuJoCo", arriba a la derecha)
+  escena         Redibuja en MuJoCo los lugares de scripts/pibot/destinos.json (reiniciar ./x2 sim)
+  llm-down       Detiene el LLM
+  rostro         Reconocimiento facial real (cámara del portátil en PIBOT + personas de Supabase)
+  rostro-down    Detiene el reconocimiento facial
+  voz [small|base] Voz a texto (Whisper) para lo que oye el micrófono del robot
+
+Robot X2 real (PC por cable al puerto de desarrollo, IP 10.0.1.2; sin ./x2 sim ni ./x2 mc; ver real/README.md):
+  real-check     Revisa la red y le pregunta su modo a MC (no mueve el robot)
+  pibot-real     El puente de PIBOT con el robot real: habla por su parlante y camina a 0.2 m/s
+
+Pruebas del robot (terminal 3):
+  demo           caminar, girar, detenerse (scripts/demo_basico.py)
+  ex <ejemplo>   corre un ejemplo de py_examples. Por ejemplo:
+                   ./x2 ex get_mc_action          ver el modo actual
+                   ./x2 ex set_mc_action SD       ponerse de pie (Stable Standing)
+                   ./x2 ex mc_locomotion_velocity caminar 5 s (pide avance, lateral, giro);
+                                                  no termina solo: sal con Ctrl+C
+
+Otros:
+  shell          Abre una terminal dentro del contenedor
+  down           Detiene y borra el contenedor
+EOF
+}
+
+case "${1:-help}" in
+  build) cmd_build ;;
+  up) cmd_up ;;
+  sdk) cmd_sdk ;;
+  sim) cmd_sim ;;
+  mc) cmd_mc ;;
+  ex) shift; cmd_ex "$@" ;;
+  pie) cmd_pie ;;
+  demo) cmd_demo ;;
+  pibot) shift; cmd_pibot "$@" ;;
+  escena) cmd_escena ;;
+  llm) shift; cmd_llm "$@" ;;
+  llm-down) cmd_llm_down ;;
+  rostro) cmd_rostro ;;
+  voz) shift; cmd_voz "$@" ;;
+  real-check) cmd_real_check ;;
+  pibot-real) shift; cmd_pibot_real "$@" ;;
+  rostro-down) cmd_rostro_down ;;
+  shell) cmd_shell ;;
+  down) cmd_down ;;
+  help|-h|--help) cmd_help ;;
+  *) echo "Comando desconocido: $1" >&2; cmd_help; exit 1 ;;
+esac

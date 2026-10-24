@@ -1,0 +1,27 @@
+# SDK AimDK, control de movimiento (MC) y simulador MuJoCo de AgiBot: se bajan aparte (ver README)
+/aimdk/
+/mc/
+/agibot_data/
+# Del simulador solo va la escena con el lobby del club (la arma scripts/pibot/escena.py) y sus texturas
+/sim_mujoco/*
+!/sim_mujoco/configuration/
+/sim_mujoco/configuration/*
+!/sim_mujoco/configuration/robot/
+/sim_mujoco/configuration/robot/*
+!/sim_mujoco/configuration/robot/lx2501_3_t2d5/
+/sim_mujoco/configuration/robot/lx2501_3_t2d5/*
+!/sim_mujoco/configuration/robot/lx2501_3_t2d5/model_info/
+/sim_mujoco/configuration/robot/lx2501_3_t2d5/model_info/*
+!/sim_mujoco/configuration/robot/lx2501_3_t2d5/model_info/scene.xml
+!/sim_mujoco/configuration/robot/lx2501_3_t2d5/model_info/nclub/
+
+# Modelos (LLM, Whisper, reconocimiento facial): se descargan con ./x2 llm, ./x2 voz y ./x2 rostro
+/modelos/
+# Credenciales y datos de personas: nunca al repositorio
+.env
+scripts/rostro/datos/
+scripts/pibot/destinos_real.json
+# Registros, caché de Python
+logs/
+__pycache__/
+*.pyc
