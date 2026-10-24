@@ -31,51 +31,69 @@ La guía del SDK (4.4, *Develop in a Container*) pide correr todo en contenedore
 - **El puente corre directo en el Orin:** usa el ROS del robot y los mensajes del SDK ya compilados para ARM (`~/pibot_nclub/aimdk_msgs`, copiados del SDK del robot; coinciden 121 de 121 con los nuestros). La v1.1.0 lo permite (modo *Quick Start*), pero hay que pasarlo a contenedor antes de la v1.2.0.
 - **Sin límite de CPU:** podman sin root no tiene el controlador de CPU en este Orin, así que Whisper se limita a 3 hilos.
 
-## Instalar o actualizar (desde el portátil, por el cable)
+## Instalar, encender y limpiar
+
+**Desde el portátil**, con el cable al puerto de desarrollo y el alias `x2` de arriba:
 
 ```bash
-docker buildx build --platform linux/arm64 -t nclub-rostro:arm64 --load scripts/rostro
-docker buildx build --platform linux/arm64 -t nclub-voz:arm64 --load scripts/voz
-docker save nclub-rostro:arm64 | gzip -1 | ssh x2 podman load
-docker save nclub-voz:arm64 | gzip -1 | ssh x2 podman load
-rsync -a scripts/pibot scripts/rostro scripts/voz robot/nclub.sh x2:pibot_nclub/   # sin .env ni datos/orl
-rsync -a ../PIBOT/ x2:pibot_nclub/PIBOT/
-rsync -a ../FaceRecognition_lite/src/ x2:pibot_nclub/face_lite/src/
+./x2 robot-instalar   # imágenes, código, SDK, modelos y Node en ~/pibot_nclub (sin credenciales ni caras)
+./x2 robot-caras      # las caras: se bajan de Supabase aquí y al robot va solo esa copia (permisos 600)
+./x2 robot-llm        # opcional: le presta al robot el LLM de este portátil (déjelo abierto en otra terminal)
 ```
 
-Si el robot no tiene internet, las caras van en una copia local. Se baja en el portátil y se pasa al robot (son datos biométricos: el archivo queda con permisos 600):
+- **`robot-instalar`** se puede repetir para actualizar: solo copia lo que cambió.
+- **Imágenes:** las de ARM se construyen la primera vez (`docker buildx`).
+- **Node:** lo baja el robot si tiene internet; si no, lo baja el portátil y se lo pasa.
+- **Requisitos:** el SDK descomprimido en `aimdk/` y los modelos (corran antes `./x2 voz base` y `./x2 rostro`).
+- **Robot compartido:** si encuentra corriendo el agente de otro equipo, `robot-instalar` avisa y no lo toca.
+
+**En el robot** (`ssh x2`, `cd ~/pibot_nclub`):
 
 ```bash
-docker run --rm --env-file scripts/rostro/.env -v ../FaceRecognition_lite:/face:ro -v $PWD/scripts/rostro:/rostro x2-rostro python servicio.py --exportar datos/galeria.json
-rsync -a scripts/rostro/datos/galeria.json x2:pibot_nclub/rostro/datos/
-```
-
-## Encender (en el Orin)
-
-```bash
-cd ~/pibot_nclub
-./nclub.sh servicios   # caras, voz y PIBOT: no mueven el robot
-./nclub.sh puente      # pide confirmación: desde aquí un flujo puede hacer caminar al robot
+./nclub.sh demo                 # todo para la demostración (abajo)
+NCLUB_LLM=http://127.0.0.1:8095/v1 ./nclub.sh demo   # lo mismo, con el LLM del túnel
 ./nclub.sh estado
 ./nclub.sh detener
 ```
 
-Antes del puente, una sola vez, hay que hacer que el micrófono le llegue a PIBOT. Por defecto lo ocupa el asistente de voz de fábrica, así que se pasa a `only_voice` (sección 8.1 del SDK):
-1. `ros2 service call /aimdk_5Fmsgs/srv/SetAgentPropertiesRequest ...` con el valor `'only_voice'`.
-2. `aima em stop-app agent && aima em start-app agent`.
-3. Decir la palabra de activación una vez.
+`demo` hace, en orden:
+1. **`servicios`:** caras, voz y PIBOT. No mueven el robot.
+2. **`asistente propio`:** pasa el asistente de fábrica (Lumi) a `only_voice`, según la sección 8.1 del SDK. Después hay que decir **«Hello, lumi» una vez** frente al robot. Si no, Lumi contesta por su cuenta y se queda con el micrófono, y a PIBOT no le llega nada.
+3. **`puente`:** sin caminar. Al guiar, el robot lo dice pero no se mueve; con `NCLUB_CAMINAR=1` camina.
+4. **`publicar`:** publica en PIBOT la demostración (`PIBOT/flows/demostracion.json`) y los datos del club.
+5. **`llegadas si`:** el robot recibe solo a quien se acerque a su cámara.
 
-Se revierte con el valor `'normal'`. Esto cambia la voz del robot para cualquiera que lo use.
+Cada paso también se puede correr suelto, por ejemplo `./nclub.sh publicar recepcion-conversacional.json` o `./nclub.sh llegadas no`.
+
+**Al terminar** (robot compartido), desde el portátil:
+
+```bash
+./x2 robot-limpiar
+```
+
+Guarda los registros del robot en `logs/robot-<fecha>` (fuera de git: tienen nombres de visitantes). En el robot corre `./nclub.sh limpiar`, que:
+- apaga todo;
+- devuelve el asistente a `normal`;
+- borra nuestras fuentes de control en MC y nuestras imágenes.
+
+Después borra `~/pibot_nclub`. No toca nada de otros equipos.
+
+**Las caras y las categorías:**
+- **Quién es lo dice la cara** (las personas de Supabase).
+- **La categoría la decide la lista de miembros del club** (`PIBOT/data/club.json`, «Membresías»), no la de Supabase. Allí hoy Adriana figura como invitada y Fermín como VIP.
+- **Quien no está en Membresías** sigue con su segunda señal: carné, o código del evento u obra. El robot ya sabe su nombre.
+- **Si hay varias personas delante,** atiende a la cara más grande.
+- **`PIBOT/test/robot-caras.test.mjs`** recorre la demostración con las cinco personas de la demo.
 
 ## Usar
 
-1. En un celular o portátil en la Wi-Fi del robot, abra `http://192.168.88.184:8000`. Arriba a la derecha aparece **Este robot**.
+1. Abra PIBOT del robot: `./nclub.sh servicios` muestra sus direcciones, por la Wi-Fi y por el cable (por ejemplo `http://10.0.200.41:8000`). Arriba a la derecha aparece **Este robot**.
 2. En **Diseñar**, arme o cambie el flujo y pulse **Publicar en el robot**.
 3. En **En vivo** se ve lo que pasa:
    - cuando alguien se acerca a la cámara, el robot lo recibe solo;
    - las aprobaciones de ingreso se deciden ahí;
    - si el robot no entiende una respuesta, se puede tocar la opción o escribir el código por el visitante.
-4. Los códigos se pueden dictar («fiesta siete K dos») o mostrar como QR a la cámara.
+4. Los códigos se pueden dictar («fiesta veintisiete») o mostrar como QR a la cámara. El carné del personal, también como QR.
 
 ## Estado (2026-10-24)
 

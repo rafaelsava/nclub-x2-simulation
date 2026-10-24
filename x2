@@ -332,6 +332,92 @@ cmd_down() {
   echo "Contenedor detenido."
 }
 
+# ---- El X2 real con todo dentro (Orin): instalar, caras, LLM y limpiar desde el portátil, por SSH ----
+# El robot es el alias de ~/.ssh/config (ver robot/README.md), o el que se pase: ./x2 robot-instalar otro-robot
+ROBOT_DIR=pibot_nclub   # en el home del robot: ~/nclub era de otro equipo
+NODE_VERSION=v22.20.0
+PIBOT_DIR="$(cd "${ROOT_DIR}/.." && pwd)/PIBOT"
+robot_host() { echo "${1:-${ROBOT_HOST:-x2}}"; }
+robot_ssh() { ssh -o BatchMode=yes -o ConnectTimeout=8 "$@"; }
+
+cmd_robot_instalar() {
+  local h sdk; h=$(robot_host "${1:-}"); sdk="${ROOT_DIR}/aimdk/src/aimdk_msgs/prebuilt_aarch64"
+  [[ -d "${sdk}" ]] || { echo "Falta el SDK de AgiBot en aimdk/ (los mensajes ya compilados para ARM): ver README" >&2; exit 1; }
+  [[ -d "${PIBOT_DIR}/runtime" ]] || { echo "No encuentro PIBOT en ${PIBOT_DIR}" >&2; exit 1; }
+  [[ -s "${VOZ_DIR}/modelos/faster-whisper-base/model.bin" && -s "${ROSTRO_DIR}/modelos/face_recognition_sface_2021dec.onnx" ]] \
+    || { echo "Faltan los modelos: corran una vez ./x2 voz base y ./x2 rostro" >&2; exit 1; }
+  robot_ssh "${h}" true || { echo "No entro a ${h} sin contraseña. Una vez: ssh-copy-id -i ~/.ssh/id_ed25519.pub ${h}" >&2; exit 1; }
+  robot_ssh "${h}" "ps -eo args | grep -q '[n]club_agent'" && echo "Ojo: en ${h} corre el agente de otro equipo (~/nclub). No se toca; no enciendan el puente a la vez."
+  local img
+  for img in rostro voz; do
+    docker image inspect "nclub-${img}:arm64" >/dev/null 2>&1 \
+      || docker buildx build --platform linux/arm64 -t "nclub-${img}:arm64" --load "${ROOT_DIR}/scripts/${img}"
+    if ! robot_ssh "${h}" "podman image exists nclub-${img}:arm64"; then
+      echo "Cargando la imagen nclub-${img} en el robot..."
+      docker save "nclub-${img}:arm64" | gzip -1 | robot_ssh "${h}" podman load >/dev/null
+    fi
+  done
+  robot_ssh "${h}" "mkdir -p ~/${ROBOT_DIR}/rostro/datos ~/${ROBOT_DIR}/voz ~/${ROBOT_DIR}/face_lite ~/${ROBOT_DIR}/logs"
+  echo "Copiando el código, el SDK y los modelos (sin credenciales ni caras)..."
+  rsync -a --exclude __pycache__ --exclude destinos_real.json "${ROOT_DIR}/scripts/pibot" "${h}:${ROBOT_DIR}/"
+  rsync -a --exclude .env --exclude datos/galeria.json --exclude datos/orl/ --exclude __pycache__ "${ROSTRO_DIR}/" "${h}:${ROBOT_DIR}/rostro/"
+  rsync -a --exclude pruebas --exclude modelos/faster-whisper-small --exclude 'modelos/models--*' --exclude modelos/piper \
+    --exclude __pycache__ "${VOZ_DIR}/" "${h}:${ROBOT_DIR}/voz/"
+  rsync -a "${ROOT_DIR}/robot/nclub.sh" "${ROOT_DIR}/robot/entorno.sh" "${h}:${ROBOT_DIR}/"
+  rsync -a --delete "${sdk}/" "${h}:${ROBOT_DIR}/aimdk_msgs/"
+  rsync -a --delete --exclude .git --exclude robot-data --exclude node_modules "${PIBOT_DIR}/" "${h}:${ROBOT_DIR}/PIBOT/"
+  rsync -a --delete "${FACE_LITE_DIR}/src/" "${h}:${ROBOT_DIR}/face_lite/src/"
+  # Node para PIBOT: el robot lo baja si tiene internet; si no, lo baja este portátil y se lo pasa
+  local f="node-${NODE_VERSION}-linux-arm64.tar.xz" base="https://nodejs.org/dist/${NODE_VERSION}"
+  if ! robot_ssh "${h}" "[ -x ~/${ROBOT_DIR}/node/bin/node ]"; then
+    if ! robot_ssh "${h}" "cd ~/${ROBOT_DIR} && curl -fsSLO --retry 3 ${base}/${f}"; then
+      mkdir -p "${ROOT_DIR}/modelos"
+      [[ -s "${ROOT_DIR}/modelos/${f}" ]] || curl -fL --retry 3 -o "${ROOT_DIR}/modelos/${f}" "${base}/${f}"
+      rsync -a "${ROOT_DIR}/modelos/${f}" "${h}:${ROBOT_DIR}/"
+    fi
+    curl -fsSL "${base}/SHASUMS256.txt" | grep " ${f}\$" \
+      | robot_ssh "${h}" "cd ~/${ROBOT_DIR} && sha256sum -c - && tar xf ${f} && rm -rf node && mv node-${NODE_VERSION}-linux-arm64 node && rm ${f}"
+  fi
+  echo "Node en el robot: $(robot_ssh "${h}" "~/${ROBOT_DIR}/node/bin/node --version")"
+  echo "Instalado en ${h}:~/${ROBOT_DIR}. Siguen:"
+  echo "  ./x2 robot-caras ${1:-}      las caras de Supabase (sin la contraseña en el robot)"
+  echo "  ./x2 robot-llm ${1:-}        opcional: el LLM de este portátil para el robot (déjelo abierto)"
+  echo "  ssh ${h}, cd ${ROBOT_DIR} y ./nclub.sh demo"
+}
+
+# Las caras: se bajan de Supabase en este portátil y al robot va solo esa copia (la contraseña no sale de aquí)
+cmd_robot_caras() {
+  local h; h=$(robot_host "${1:-}")
+  [[ -f "${ROSTRO_DIR}/.env" ]] || { echo "Falta ${ROSTRO_DIR}/.env con los datos de Supabase." >&2; exit 1; }
+  docker image inspect "${ROSTRO_IMAGE}" >/dev/null 2>&1 || docker build -t "${ROSTRO_IMAGE}" "${ROSTRO_DIR}"
+  docker run --rm --user "$(id -u):$(id -g)" --env-file "${ROSTRO_DIR}/.env" -v "${FACE_LITE_DIR}:/face:ro" -v "${ROSTRO_DIR}:/rostro" \
+    "${ROSTRO_IMAGE}" python servicio.py --exportar datos/galeria.json
+  robot_ssh "${h}" "mkdir -p ~/${ROBOT_DIR}/rostro/datos"
+  rsync -a --chmod=F600 "${ROSTRO_DIR}/datos/galeria.json" "${h}:${ROBOT_DIR}/rostro/datos/"
+  robot_ssh "${h}" "cd ~/${ROBOT_DIR} && podman rm -f nclub-rostro >/dev/null 2>&1; ./nclub.sh servicios >/dev/null; sleep 6; ./nclub.sh estado | grep caras"
+}
+
+# El LLM de este portátil para el robot, por un túnel SSH: mientras esté abierto, el robot lo ve en su 127.0.0.1
+cmd_robot_llm() {
+  local h; h=$(robot_host "${1:-}")
+  curl -sf "http://127.0.0.1:${LLM_PORT}/v1/models" >/dev/null || { echo "El LLM no está corriendo: ./x2 llm" >&2; exit 1; }
+  echo "Túnel abierto: el robot usa el LLM de este portátil. Déjelo abierto; Ctrl+C lo cierra."
+  echo "En el robot: NCLUB_LLM=http://127.0.0.1:${LLM_PORT}/v1 ./nclub.sh demo"
+  exec ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -N -R "127.0.0.1:${LLM_PORT}:127.0.0.1:${LLM_PORT}" "${h}"
+}
+
+# Al irse del robot: guarda los registros aquí (logs/, fuera de git) y no deja nada nuestro allá
+cmd_robot_limpiar() {
+  local h destino; h=$(robot_host "${1:-}"); destino="${ROOT_DIR}/logs/robot-$(date +%Y-%m-%d-%H%M)"
+  if robot_ssh "${h}" "[ -d ~/${ROBOT_DIR} ]"; then
+    mkdir -p "${destino}" && chmod 700 "${destino}"
+    rsync -a "${h}:${ROBOT_DIR}/logs" "${h}:${ROBOT_DIR}/datos_pibot" "${destino}/" 2>/dev/null && echo "registros guardados en ${destino}"
+    robot_ssh "${h}" "cd ~/${ROBOT_DIR} && ./nclub.sh limpiar"
+  fi
+  robot_ssh "${h}" "rm -rf ~/${ROBOT_DIR} && echo '~/${ROBOT_DIR}: borrado'"
+  echo "Si no van a volver, quiten también la llave de este portátil del ~/.ssh/authorized_keys del robot."
+}
+
 cmd_help() {
   cat <<'EOF'
 Uso: ./x2 <comando>
@@ -357,7 +443,14 @@ PIBOT (la plataforma: editor de flujos sin código, en la carpeta PIBOT/):
   voz [small|base] La voz del robot: Whisper entiende lo que oye y Piper le da voz. En la simulación, PIBOT
                  lo usa con el micrófono y el parlante del portátil ("Voz" y "Micrófono" en el robot)
 
-Robot X2 real (PC por cable al puerto de desarrollo, IP 10.0.1.2; sin ./x2 sim ni ./x2 mc; ver real/README.md):
+Robot X2 real con todo dentro (el Orin, por SSH; ver robot/README.md). [robot] es el alias de ~/.ssh/config (x2):
+  robot-instalar [robot]  Copia todo a ~/pibot_nclub: imágenes, código, SDK, modelos y Node (sin credenciales ni caras)
+  robot-caras [robot]     Baja las caras de Supabase aquí y le pasa al robot solo esa copia
+  robot-llm [robot]       Le presta al robot el LLM de este portátil por un túnel SSH (déjelo abierto)
+  robot-limpiar [robot]   Guarda sus registros en logs/ y borra todo lo nuestro del robot
+  (En el robot: cd ~/pibot_nclub && ./nclub.sh demo; al terminar, ./x2 robot-limpiar desde aquí.)
+
+Robot X2 real con el PC (PC por cable al puerto de desarrollo, IP 10.0.1.2; sin ./x2 sim ni ./x2 mc; ver real/README.md):
   real-check     Revisa la red y le pregunta su modo a MC (no mueve el robot)
   pibot-real     El puente de PIBOT con el robot real: habla por su parlante y camina a 0.2 m/s
 
@@ -392,6 +485,10 @@ case "${1:-help}" in
   voz) shift; cmd_voz "$@" ;;
   real-check) cmd_real_check ;;
   pibot-real) shift; cmd_pibot_real "$@" ;;
+  robot-instalar) shift; cmd_robot_instalar "$@" ;;
+  robot-caras) shift; cmd_robot_caras "$@" ;;
+  robot-llm) shift; cmd_robot_llm "$@" ;;
+  robot-limpiar) shift; cmd_robot_limpiar "$@" ;;
   rostro-down) cmd_rostro_down ;;
   shell) cmd_shell ;;
   down) cmd_down ;;

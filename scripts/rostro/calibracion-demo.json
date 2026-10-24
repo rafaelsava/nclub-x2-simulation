@@ -1,0 +1,9 @@
+{
+  "model_version": "sface-fp32-f6ae35223478f49a5818",
+  "threshold": 0.5,
+  "margin": 0.1,
+  "validation_digest": "ajuste-manual-2026-10-24 (umbral 0.50, margen 0.10) sobre ORL 7196200ee78ff3e2",
+  "enrollment_min_similarity": 0.3,
+  "scoring": "mean-top2-of3-cosine-v1",
+  "scope": "demo-manual"
+}
